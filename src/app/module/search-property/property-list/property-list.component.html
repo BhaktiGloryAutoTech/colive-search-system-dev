@@ -1,0 +1,595 @@
+<ngx-loading [show]="loading" [config]="{
+  primaryColour: '#ED0C6D', secondaryColour: '#ED0C6D', tertiaryColour: '#ED0C6D'}">
+</ngx-loading>
+<div>
+  <div class="row col-md-12 search-header"></div>
+  <div class="d-flex">
+    <!-- filter Part -->
+    <div class="filter">
+      <div class="filter-text-div">
+        <span>FILTERS</span>
+      </div>
+      <div class="filter-search-div">
+        <input type="text" id=search name="search" class="form-control">
+        <span class="material-icons">search</span>
+      </div>
+      <div class="filter-clear-div">
+        <span>Clear All</span>
+      </div>
+      <!-- offer filter -->
+      <div class="filter-type-div">
+        <span class="filter-title">Offers</span>
+        <div class="mt-2">
+          <div *ngFor="let offer of offers; let i=index" class="mb-10">
+            <input type="checkbox" id="{{i}}" name="{{i}}" [checked]="offer.value">
+            <span class="filter-value">{{offer.name}}</span>
+          </div>
+        </div>
+        <div class="filter-hr-div">
+          <hr>
+        </div>
+      </div>
+
+      <!-- customer ratings -->
+      <div class="filter-customer-div filter-type-div">
+        <span class="filter-title">
+          Customer Ratings
+        </span>
+        <div class="mt-2">
+          <div *ngFor="let ratings of customterRatings;let i=index">
+            <input type="checkbox" id="{{i}}" name="{{i}}" [checked]="ratings.value">
+            <ngb-rating class="rating" [rate]="ratings.name">
+              <ng-template let-fill="fill">
+                <span class="star" [class.filled]="fill === 100">&#9733;</span>
+              </ng-template>
+            </ngb-rating>
+            <span class="ratings-name filter-value">&
+              up</span>
+          </div>
+        </div>
+        <div class="filter-hr-div">
+          <hr>
+        </div>
+      </div>
+
+      <!-- Monthly Rent -->
+      <div class="filter-type-div">
+        <span class="filter-title">
+          Monthly Rent
+        </span>
+        <div class="mt-2">
+          <div *ngFor="let rent of monthlyRent; let i=index" class="mb-10">
+            <input type="checkbox" id="{{i}}" name="{{i}}" [checked]="rent.value">
+            <span class="filter-value">{{rent.name}}</span>
+          </div>
+        </div>
+        <div class="filter-hr-div">
+          <hr>
+        </div>
+      </div>
+
+      <!-- sharing type -->
+      <div class="filter-type-div">
+        <span class="filter-title">
+          Sharing Type
+        </span>
+        <div class="mt-2">
+          <div *ngFor="let type of sharingType; let i=index" class="mb-10">
+            <input type="checkbox" id="{{i}}" name="{{i}}" [checked]="type.value">
+            <span class="filter-value">{{type.name}}</span>
+          </div>
+        </div>
+        <div class="filter-hr-div">
+          <hr>
+        </div>
+      </div>
+
+      <!-- city -->
+      <div class="filter-type-div">
+        <span class="filter-title">
+          City
+        </span>
+        <div class="mt-2">
+          <div *ngFor="let city of city; let i=index" class="mb-10">
+            <input type="checkbox" id="{{i}}" name="{{i}}" [checked]="city.value">
+            <span class="filter-value">{{city.name}}</span>
+          </div>
+        </div>
+        <div class="filter-hr-div">
+          <hr>
+        </div>
+      </div>
+
+      <!-- location -->
+      <div class="filter-type-div">
+        <div class="d-flex justify-content-between">
+          <span class="filter-title">
+            Location
+          </span>
+          <span class="material-icons search-icon">search</span>
+        </div>
+        <div class="mt-2">
+          <div *ngFor="let loc of location; let i=index" class="mb-10">
+            <input type="checkbox" id="{{i}}" name="{{i}}" [checked]="loc.value">
+            <span class="filter-value">{{loc.name}}</span>
+          </div>
+        </div>
+        <div class="d-flex">
+          <span class="material-icons-outlined down-icon">keyboard_arrow_down</span>
+          <span class="more">30 more</span>
+        </div>
+        <div class="filter-hr-div">
+          <hr>
+        </div>
+      </div>
+
+      <!-- Amenities -->
+      <div class="filter-type-div">
+        <div class="d-flex justify-content-between">
+          <span class="filter-title">
+            Amenities
+          </span>
+          <span class="material-icons search-icon">search</span>
+        </div>
+        <div class="mt-2">
+          <div *ngFor="let ame of amenities; let i=index" class="mb-10">
+            <input type="checkbox" id="{{i}}" name="{{i}}" [checked]="ame.value">
+            <span class="filter-value">{{ame.name}}</span>
+          </div>
+        </div>
+        <div class="filter-hr-div">
+          <hr>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- main body -->
+    <div class="property-detail m-2" style="background-color: white;">
+      <!-- sort by default -->
+      <div class="row col-md-12 select-filter-row">
+        <label class="sort-by">Sort by:</label>
+        <select name="sort" class="form-control">
+          <option selected [value]="'default'">Default</option>
+        </select>
+      </div>
+      <br>
+      <!-- heading  -->
+      <div class="row col-md-12 searched-title-row">
+        <span class="searched-title">Affordable Premium Rental PG Accommodation in Marathalli Bridge, Lakshminarayana
+          Pura, Chandra Layout, Marathahalli, Bengaluru, Karnataka, India</span>
+      </div>
+      <br>
+      <!-- title 2nd -->
+      <div class="row col-md-12 searched-title2-row">
+        <span class="searched-title2">Get a private, shared or studio room on rent at your budget. Fully- managed rooms
+          with premium amenities and exciting common spaces. For boys, girls and live-in couples!</span>
+      </div>
+      <!-- booking option -->
+      <div class="row col-md-12 booking-option-row">
+        <div class="d-flex">
+          <span class="booking-content">Book in 3 simple steps:</span>
+          <div class="d-flex ml-10">
+            <!-- badge-1 -->
+            <div class="badge badge1 p-1 d-flex">
+              <div class="badge-button">1</div>
+              <div class="badge-text">Select</div>
+            </div>
+            <span class="material-icons-outlined mt-1">keyboard_arrow_right</span>
+            <div class="badge badge2 p-1 d-flex">
+              <div class="badge-button">2</div>
+              <div class="badge-text">Schedule</div>
+            </div>
+            <span class="material-icons-outlined mt-1">keyboard_arrow_right</span>
+            <div class="badge badge3 p-1 d-flex">
+              <div class="badge-button">3</div>
+              <div class="badge-text">Check-in</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!-- nav bar  -->
+      <div class="row mt-37">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-link nav-item active" id="'matchedProerties'" data-toggle="tab" role="tab"
+                aria-controls="matched" aria-selected="true" [class.active]="tab=='matchedProerties'"
+                (click)="tab='matchedProerties'">
+                <span class="tab-title " [ngClass]="{'tab-title-active':tab=='matchedProerties'}">
+                  Matched Properties
+                </span>
+              </a>
+              <a class="nav-link nav-item" id="'tredingProperties'" data-toggle="tab" role="tab" aria-controls="treding"
+                aria-selected="false" [class.active]="tab=='tredingProperties'" (click)="tab='tredingProperties'">
+                <span class="tab-title " [ngClass]="{'tab-title-active':tab=='tredingProperties'}">
+                  Treding Properties
+                </span>
+              </a>
+              <a class="nav-link nav-item" id="'similarProperties'" data-toggle="tab" role="tab" aria-controls="similar"
+                aria-selected="false" [class.active]="tab=='similarProperties'" (click)="tab='similarProperties'">
+                <span class="tab-title " [ngClass]="{'tab-title-active':tab=='similarProperties'}">
+                  Similar Properties
+                </span>
+              </a>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <!-- Matched Properties -->
+            <div class="tab-backgroud tab-pane fade show active" id="matched" role="tabpanel"
+              [class.active]="tab=='matchedProerties'" aria-labelledby="matchedProerties">
+              <div class="row col-md-12 text-center justify-content-center pt-4">
+                <span class="match-title">It's Match</span>
+              </div>
+              <hr>
+              <!-- matched property list -->
+              <div class="container">
+                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}" *ngFor="let property of propertyList">
+                  <!-- image preview -->
+                  <div class="col-md-3">
+                    <div class="featured-badge text-center">
+                      <span>FEATURED</span>
+                    </div>
+                    <img class="img-fluid" src="{{property.ImageName}}"
+                      onerror="this.onerror=null;this.src='./../../../../assets/ColiveLogo2x.png';">
+                  </div>
+                  <!-- content -->
+                  <div class="col-md-7 p-3">
+                    <ul class="m-0 p-0">
+                      <!-- property name -->
+                      <li class="d-flex justify-content-between">
+                        <span class="property-name">{{property.PropertyName}}</span>
+                        <div class="d-flex ">
+                          <b><span class="material-icons-outlined pr-2">remove_red_eye</span>
+                            <span class="material-icons-outlined pr-2">videocam</span>
+                            <span class="material-icons-outlined">share</span></b>
+                        </div>
+                      </li>
+                      <!-- property location -->
+                      <li>
+                        <span class="property-location">{{trimString(property.Area,80)}}</span>
+                      </li>
+                      <!-- ratings distance match -->
+                      <li class="d-flex">
+                        <!-- rating -->
+                        <div class="rating-div">
+                          <span class="distance">{{property.PropertyRating}}</span>
+                          <ngb-rating class="rating" [rate]="property.PropertyRating">
+                            <ng-template let-fill="fill">
+                              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                            </ng-template>
+                          </ngb-rating>
+                        </div>
+                        <!-- distance -->
+                        <div class="d-flex m-1">
+                          <span class="material-icons-outlined location-icon">location_on</span>
+                          <span class="distance ml-1">{{property.propertyDetails.distance[0]}}</span>
+                        </div>
+                        <!-- match progress-bar -->
+                        <div class="d-flex m-1">
+                          <circle-progress class="mt--5" [percent]="property.propertyDetails.totalMatch" [radius]="8" [outerStrokeWidth]="2"
+                            [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true"
+                            [showTitle]="false" [showSubtitle]="false" [showUnits]="false" [imageHeight]="50"
+                            [imageWidth]="50" [animationDuration]="300">
+
+                          </circle-progress>
+                          <!-- <svg style="width:100%;height:100%;">
+                              <line x1="100%" y1="0%" x2="0%" y2="100%" style="stroke: rgb(234, 243, 234);stroke-width: 5;"></line>
+                            </svg> -->
+                          <span class="distance">{{property.propertyDetails.totalMatch | number:'1.2-2'}}</span>
+                        </div>
+                      </li>
+                      <!-- property discription -->
+                      <li>
+                        <span class="property-description">
+                          <!-- {{property.LocationDescription}} -->
+                          <span *ngIf="!property.showMore">
+                            {{trimString(property.LocationDescription,150)}}
+                          </span>
+                          <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
+                          <div *ngIf="property.LocationDescription.length > 150"
+                            (click)="property.showMore = !property.showMore" class="show-more-design">
+                            Show
+                            <span>{{property.showMore ? 'less' : 'More'}}</span>
+                          </div>
+                          <!-- {{trimString(property.LocationDescription,100)}}
+                          <div *ngIf="property.LocationDescription.length > 130"
+                            (click)="property.showMore = !property.showMore" class="show-more-design">
+                            Show
+                            <span>{{property.showMore ? 'less' : 'More'}}</span>
+                          </div> -->
+
+                        </span>
+                      </li>
+                      <li class="d-flex mt-2">
+                        <div class="property-badge m-1 text-center" *ngFor="let badge of property.badgeList">
+                          <span>{{badge}}</span>
+                        </div>
+                      </li>
+                    </ul>
+
+
+                  </div>
+                  <!-- price -->
+                  <div class="col-md-2 price-card text-center">
+                    <div class="price-title">
+                      <span id="p-title">
+                        Starting prize
+                      </span>
+                    </div>
+                    <div>
+                      <span id="price">
+                        ₹ {{property.PricePerMonth}}
+                      </span>
+                    </div>
+                    <div class="price-btn">
+                      <button>
+                        <span>
+                          Schedule a visit
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Treding Properties -->
+            <div class="tab-backgroud tab-pane fade" id="treding" role="tabpanel"
+              [class.active]="tab=='tredingProperties'" [class.show]="tab=='tredingProperties'"
+              aria-labelledby="tredingProperties">
+              <div class="row col-md-12 text-center justify-content-center pt-4">
+                <span class="match-title">Trending Today</span>
+              </div>
+              <hr>
+              <div class="container">
+                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}" *ngFor="let property of propertyList">
+                  <!-- image preview -->
+                  <div class="col-md-3">
+                    <div class="featured-badge text-center">
+                      <span>FEATURED</span>
+                    </div>
+                    <img class="img-fluid" src="{{property.ImageName}}"
+                      onerror="this.onerror=null;this.src='./../../../../assets/ColiveLogo2x.png';">
+                  </div>
+                  <!-- content -->
+                  <div class="col-md-7 p-3">
+                    <ul class="m-0 p-0">
+                      <!-- property name -->
+                      <li class="d-flex justify-content-between">
+                        <span class="property-name">{{property.PropertyName}}</span>
+                        <div class="d-flex ">
+                          <b><span class="material-icons-outlined pr-2">remove_red_eye</span>
+                            <span class="material-icons-outlined pr-2">videocam</span>
+                            <span class="material-icons-outlined">share</span></b>
+                        </div>
+                      </li>
+                      <!-- property location -->
+                      <li>
+                        <span class="property-location">{{trimString(property.Area,80)}}</span>
+                      </li>
+                      <!-- ratings distance match -->
+                      <li class="d-flex">
+                        <!-- rating -->
+                        <div class="rating-div">
+                          <span class="distance">{{property.PropertyRating}}</span>
+                          <ngb-rating class="rating" [rate]="property.PropertyRating">
+                            <ng-template let-fill="fill">
+                              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                            </ng-template>
+                          </ngb-rating>
+                        </div>
+                        <!-- distance -->
+                        <div class="d-flex m-1">
+                          <span class="material-icons-outlined location-icon">location_on</span>
+                          <span class="distance ml-1">{{property.propertyDetails.distance[0]}}</span>
+                        </div>
+                        <!-- match progress-bar -->
+                        <div class="d-flex m-1">
+                          <circle-progress class="mt--5" [percent]="property.propertyDetails.totalMatch" [radius]="8" [outerStrokeWidth]="2"
+                            [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true"
+                            [showTitle]="false" [showSubtitle]="false" [showUnits]="false" [imageHeight]="50"
+                            [imageWidth]="50" [animationDuration]="300">
+
+                          </circle-progress>
+                          <!-- <svg style="width:100%;height:100%;">
+                              <line x1="100%" y1="0%" x2="0%" y2="100%" style="stroke: rgb(234, 243, 234);stroke-width: 5;"></line>
+                            </svg> -->
+                          <span class="distance">{{property.propertyDetails.totalMatch | number:'1.2-2'}}</span>
+                        </div>
+                      </li>
+                      <!-- property discription -->
+                      <li>
+                        <span class="property-description">
+                          <!-- {{property.LocationDescription}} -->
+                          <span *ngIf="!property.showMore">
+                            {{trimString(property.LocationDescription,150)}}
+                          </span>
+                          <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
+                          <div *ngIf="property.LocationDescription.length > 230"
+                            (click)="property.showMore = !property.showMore" class="show-more-design">
+                            Show
+                            <span>{{property.showMore ? 'less' : 'More'}}</span>
+                          </div>
+                          <!-- {{trimString(property.LocationDescription,100)}}
+                          <div *ngIf="property.LocationDescription.length > 130"
+                            (click)="property.showMore = !property.showMore" class="show-more-design">
+                            Show
+                            <span>{{property.showMore ? 'less' : 'More'}}</span>
+                          </div> -->
+
+                        </span>
+                      </li>
+                      <li class="d-flex mt-2">
+                        <div class="property-badge m-1 text-center" *ngFor="let badge of property.badgeList">
+                          <span>{{badge}}</span>
+                        </div>
+                      </li>
+                    </ul>
+
+
+                  </div>
+                  <!-- price -->
+                  <div class="col-md-2 price-card text-center">
+                    <div class="price-title">
+                      <span id="p-title">
+                        Starting prize
+                      </span>
+                    </div>
+                    <div>
+                      <span id="price">
+                        ₹ {{property.PricePerMonth}}
+                      </span>
+                    </div>
+                    <div class="price-btn">
+                      <button>
+                        <span>
+                          Schedule a visit
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Similar Properties -->
+            <div class="tab-backgroud tab-pane fade" id="similar" role="tabpanel" aria-labelledby="similarProperties"
+              [class.show]="tab=='similarProperties'" [class.active]="tab=='similarProperties'">
+              <div class="row col-md-12 text-center justify-content-center pt-4">
+                <span class="match-title">Similar to your preference</span>
+              </div>
+              <hr>
+              <div class="container">
+                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}" *ngFor="let property of propertyList">
+                  <!-- image preview -->
+                  <div class="col-md-3">
+                    <div class="featured-badge text-center">
+                      <span>FEATURED</span>
+                    </div>
+                    <img class="img-fluid" src="{{property.ImageName}}"
+                      onerror="this.onerror=null;this.src='./../../../../assets/ColiveLogo2x.png';">
+                  </div>
+                  <!-- content -->
+                  <div class="col-md-7 p-3">
+                    <ul class="m-0 p-0">
+                      <!-- property name -->
+                      <li class="d-flex justify-content-between">
+                        <span class="property-name">{{property.PropertyName}}</span>
+                        <div class="d-flex ">
+                          <b><span class="material-icons-outlined pr-2">remove_red_eye</span>
+                            <span class="material-icons-outlined pr-2">videocam</span>
+                            <span class="material-icons-outlined">share</span></b>
+                        </div>
+                      </li>
+                      <!-- property location -->
+                      <li>
+                        <span class="property-location">{{trimString(property.Area,80)}}</span>
+                      </li>
+                      <!-- ratings distance match -->
+                      <li class="d-flex">
+                        <!-- rating -->
+                        <div class="rating-div">
+                          <span class="distance">{{property.PropertyRating}}</span>
+                          <ngb-rating class="rating" [rate]="property.PropertyRating">
+                            <ng-template let-fill="fill">
+                              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                            </ng-template>
+                          </ngb-rating>
+                        </div>
+                        <!-- distance -->
+                        <div class="d-flex m-1">
+                          <span class="material-icons-outlined location-icon">location_on</span>
+                          <span class="distance ml-1">{{property.propertyDetails.distance[0]}}</span>
+                        </div>
+                        <!-- match progress-bar -->
+                        <div class="d-flex m-1">
+                          <circle-progress class="mt--5" [percent]="property.propertyDetails.totalMatch" [radius]="8" [outerStrokeWidth]="2"
+                            [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true"
+                            [showTitle]="false" [showSubtitle]="false" [showUnits]="false" [imageHeight]="50"
+                            [imageWidth]="50" [animationDuration]="300">
+
+                          </circle-progress>
+                          <!-- <svg style="width:100%;height:100%;">
+                              <line x1="100%" y1="0%" x2="0%" y2="100%" style="stroke: rgb(234, 243, 234);stroke-width: 5;"></line>
+                            </svg> -->
+                          <span class="distance">{{property.propertyDetails.totalMatch | number:'1.2-2'}}</span>
+                        </div>
+                      </li>
+                      <!-- property discription -->
+                      <li>
+                        <span class="property-description">
+                          <!-- {{property.LocationDescription}} -->
+                          <span *ngIf="!property.showMore">
+                            {{trimString(property.LocationDescription,150)}}
+                          </span>
+                          <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
+                          <div *ngIf="property.LocationDescription.length > 230"
+                            (click)="property.showMore = !property.showMore" class="show-more-design">
+                            Show
+                            <span>{{property.showMore ? 'less' : 'More'}}</span>
+                          </div>
+                          <!-- {{trimString(property.LocationDescription,100)}}
+                          <div *ngIf="property.LocationDescription.length > 130"
+                            (click)="property.showMore = !property.showMore" class="show-more-design">
+                            Show
+                            <span>{{property.showMore ? 'less' : 'More'}}</span>
+                          </div> -->
+
+                        </span>
+                      </li>
+                      <li class="d-flex mt-2">
+                        <div class="property-badge m-1 text-center" *ngFor="let badge of property.badgeList">
+                          <span>{{badge}}</span>
+                        </div>
+                      </li>
+                    </ul>
+
+
+                  </div>
+                  <!-- price -->
+                  <div class="col-md-2 price-card text-center">
+                    <div class="price-title">
+                      <span id="p-title">
+                        Starting prize
+                      </span>
+                    </div>
+                    <div>
+                      <span id="price">
+                        ₹ {{property.PricePerMonth}}
+                      </span>
+                    </div>
+                    <div class="price-btn">
+                      <button>
+                        <span>
+                          Schedule a visit
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div class="row">
+  <div class="col-md-5 col-sm-5 col-5 p-0">
+    <img class="img-fluid" src="./../../../../assets/search-bg.png" alt="colive">
+  </div>
+  <div class="col-md-7 col-sm-7 col-7 p-0 m-0" style="background-color: burlywood;">
+    <div class="row mt-4">
+      <div class="col-md-10">
+        <span>Colive 012 Centre Point</span>
+      </div>
+      <div class="col-md-2">
+        <span>90% match</span>
+      </div>
+    </div>
+  </div>
+</div> -->

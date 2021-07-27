@@ -1,0 +1,195 @@
+.search-header {
+  width: 1440px;
+}
+.img-fluid {
+  width: 222px;
+  height: 101px;
+  padding: 0px;
+}
+.search {
+  margin: 5% 0 0 -3%;
+  width: 523px;
+  height: 60px;
+  input {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 12px #00000029;
+    border-radius: 35px;
+    opacity: 1;
+    padding-right: 30px;
+    padding-left: 40px;
+  }
+  input:focus {
+    border: 2px solid #ed0c6d !important;
+    box-shadow: none !important;
+  }
+  #mic-span {
+    position: relative;
+    float: right;
+    z-index: 1;
+    width: 13px;
+    height: 13px;
+    color: #8f8f8f !important;
+    margin: -31px 20px 0 10px;
+  }
+  #search-span {
+    position: relative;
+    float: left;
+    z-index: 1;
+    color: #ed0c6d !important;
+    width: 20px;
+    height: 20px;
+    margin: -31px 0px 0px 15px;
+  }
+}
+.property-card {
+  width: auto;
+  height: 262px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 12px #00000029;
+  opacity: 1;
+  margin: 21.25px 40px 21.25px 40px;
+  ul {
+    list-style: none;
+    li {
+      div {
+        #sponsered {
+          text-align: left;
+          font: normal normal 600 14px/24px Poppins;
+          letter-spacing: 0px;
+          color: #212544;
+          opacity: 1;
+        }
+        #dot {
+          width: 3px;
+          height: 3px;
+          background: #ed0c6d 0% 0% no-repeat padding-box;
+          opacity: 1;
+          margin: 10px;
+        }
+        #location {
+          text-align: left;
+          font: normal normal normal 14px/21px Poppins;
+          letter-spacing: 0px;
+          color: #949494;
+          opacity: 1;
+        }
+        .location-icon {
+          padding: 1px 0 0 10px;
+          font-size: 22px;
+          line-height: 20px;
+          color: #ed0c6d;
+        }
+        .rating-icon {
+          padding: 1px 0 0 10px;
+          font-size: 22px;
+          line-height: 20px;
+          color: #ed0c6d;
+        }
+        #locationRating {
+          text-align: left;
+          font: normal normal medium Poppins;
+          font-size: 14px;
+          line-height: 21px;
+          letter-spacing: 0px;
+          color: #202020;
+          opacity: 1;
+        }
+        #badge {
+          text-align: left;
+          font: normal normal normal 14px/20px Poppins;
+          letter-spacing: 0px;
+          color: #ed0c6d;
+          opacity: 1;
+        }
+      }
+      #location-margin {
+        margin-left: -1.2%;
+      }
+      #propertyName {
+        text-align: left;
+        font: normal normal 600 20px/30px Poppins;
+        letter-spacing: 0px;
+        color: #ed0c6d;
+        opacity: 1;
+      }
+      #propertyDescription {
+        text-align: left;
+        font: normal normal 300 14px/20px Poppins;
+        letter-spacing: 0px;
+        color: #202020;
+        opacity: 1;
+      }
+      #amenities {
+        text-align: left;
+        font: normal normal medium Poppins;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0px;
+        color: #202020;
+        opacity: 1;
+      }
+      #price {
+        text-align: left;
+        font: normal normal 600 16px/20px Poppins;
+        letter-spacing: 0px;
+        color: #202020;
+      }
+      #onwards {
+        text-align: left;
+        font: normal normal 300 12px/20px Poppins;
+        letter-spacing: 0px;
+        color: #202020;
+        opacity: 1;
+      }
+    }
+  }
+}
+.container-footer {
+  position: relative;
+  margin-top: 5%;
+  .footer {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    div {
+      margin: -10% 0 20% 19%;
+      #pagination-width {
+        display: inline;
+        margin: 4px;
+        #pagination {
+          text-align: center;
+          font: normal normal 300 10px/20px Poppins;
+          letter-spacing: 0px;
+          color: #ed0c6d;
+          opacity: 1;
+          width: 12px;
+          height: 15px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+.search-icon {
+  color: #ed0c6d;
+  font-size: 24px;
+  padding-right: 20px;
+}
+.show-more-design {
+  text-align: left;
+  font: normal normal medium Poppins;
+  letter-spacing: 0px;
+  color: #ed0c6d;
+  opacity: 1;
+  font-size: 12px;
+  line-height: 1px;
+  cursor: pointer;
+  display: contents;
+}
+
+.showMore {
+  height: auto !important;
+}

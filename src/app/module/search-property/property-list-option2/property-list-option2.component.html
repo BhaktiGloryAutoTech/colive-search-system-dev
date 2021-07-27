@@ -1,0 +1,92 @@
+<div>
+  <div class="row col-md-12 search-header"></div>
+  <div class="row ml-2">
+    <div class="col-md-2 m-3">
+      <img class="img-fluid" src="./../../../../assets/Flow2Logo@2x.png">
+    </div>
+    <div class="col-md-8">
+      <div class="search">
+        <input type="text" class="form-control" placeholder="Search property or location" aria-label="Search"
+        aria-describedby="basic-addon1">
+        <span id="search-span" class="material-icons search-icon">search</span>
+        <span id="mic-span" class="material-icons mic-icon">mic_none</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row property-card" [ngClass]="{'showMore':property.showMore}" *ngFor="let property of propertyList">
+    <ul>
+      <li class="d-flex mt-3">
+        <div class="d-flex">
+          <span id="sponsered">Sponsored</span>
+          <span id="dot"></span>
+        </div>
+        <div>
+          <span id="location">{{property.Area}}</span>
+        </div>
+      </li>
+      <li>
+        <span id="propertyName">
+          {{property.PropertyName}}
+        </span>
+      </li>
+      <li class="pr-4">
+        <span id="propertyDescription">
+          <span *ngIf="!property.showMore">
+            {{trimString(property.LocationDescription,300)}}
+          </span>
+          <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
+          <div *ngIf="property.LocationDescription.length > 300" (click)="property.showMore = !property.showMore"
+            class="show-more-design">
+            Show
+            <span>{{property.showMore ? 'less' : 'More'}}</span>
+          </div>
+        </span>
+      </li>
+      <li class="mt-1">
+        <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
+      </li>
+      <li class="d-flex mt-3">
+        <span id="price">₹ {{property.PricePerMonth}}</span>
+        <span id="onwards">onwards</span>
+      </li>
+      <li class="d-flex mt-3">
+        <div class="d-flex" id="location-margin">
+          <span class="material-icons-outlined location-icon">location_on</span>
+          <span id="locationRating">{{property.propertyDetails.totalMatch | number :'1.2-2'}}</span>
+        </div>
+        <div class="d-flex">
+          <span class="material-icons-outlined rating-icon">star_border</span>
+          <span id="locationRating">{{property.PropertyRating}}</span>
+        </div>
+      </li>
+      <li class="d-flex m-0">
+        <div class="m-1 text-center" *ngFor="let badge of property.badgeList">
+          <span id="badge">{{badge}}</span>
+          <span id="dot"></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="row col-md-12 container-footer">
+    <div class="footer">
+      <img src="./../../../../assets/paginator.png" alt="">
+      <div id="page">
+        <ng-container *ngFor="let value of numbers;let i=index">
+          <ng-container *ngIf="i+1<6; else next">
+            <div id="pagination-width">
+              <span id="pagination">{{i+1}}</span>
+            </div>
+          </ng-container>
+          <ng-template #next>
+            <div id="pagination-width">
+              <span id="pagination" (click)="nextPagination(i)">Next</span>
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+</div>
