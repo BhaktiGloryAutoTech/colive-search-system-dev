@@ -28,29 +28,73 @@
     z-index: 1;
     width: 13px;
     height: 13px;
-    color: #8f8f8f !important;
-    margin: -31px 20px 0 10px;
+    color: #112950 !important;
+    margin: -31px 25px 0 10px;
   }
   #search-span {
     position: relative;
     float: left;
     z-index: 1;
-    color: #ed0c6d !important;
+    color: #112950 !important;
     width: 20px;
     height: 20px;
     margin: -31px 0px 0px 15px;
   }
 }
+//for .
+#dot {
+  width: 3px;
+  height: 3px;
+  background: #ed0c6d 0% 0% no-repeat padding-box;
+  opacity: 1;
+  margin: 10px;
+}
+
+//for total search result for queary
+#totalResult {
+  margin: 1.7% 0 0 2.78%;
+  span {
+    text-align: left;
+    font: normal normal normal 14px/20px Poppins;
+    letter-spacing: 0px;
+    color: #112950;
+    opacity: 0.83;
+  }
+}
+
+//did you mean class
+.did-you-mean {
+  margin: 1.2% 0 2% 2.78%;
+  #text {
+    text-align: left;
+    font: normal normal normal 18px/20px Poppins;
+    letter-spacing: 0px;
+    color: #ea4638;
+    opacity: 1;
+  }
+  #query {
+    text-align: left;
+    font: italic normal normal 18px/20px Poppins;
+    letter-spacing: 0px;
+    color: #112950;
+  }
+}
+
 .property-card {
   width: auto;
-  height: 262px;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 3px 12px #00000029;
-  opacity: 1;
-  margin: 21.25px 40px 21.25px 40px;
+  height: auto;
+  // background: #ffffff 0% 0% no-repeat padding-box;
+  // box-shadow: 0px 3px 12px #00000029;
+  // opacity: 1;
+  margin: 0px 26px 0px 0px;
   ul {
     list-style: none;
     li {
+      a:hover {
+        text-decoration: underline;
+        color: #ed0c6d;
+        cursor: pointer;
+      }
       div {
         #sponsered {
           text-align: left;
@@ -58,13 +102,6 @@
           letter-spacing: 0px;
           color: #212544;
           opacity: 1;
-        }
-        #dot {
-          width: 3px;
-          height: 3px;
-          background: #ed0c6d 0% 0% no-repeat padding-box;
-          opacity: 1;
-          margin: 10px;
         }
         #location {
           text-align: left;
@@ -77,13 +114,15 @@
           padding: 1px 0 0 10px;
           font-size: 22px;
           line-height: 20px;
-          color: #ed0c6d;
+          color: #112950;
+          margin-top: -2px;
         }
         .rating-icon {
           padding: 1px 0 0 10px;
           font-size: 22px;
           line-height: 20px;
-          color: #ed0c6d;
+          color: #fecd38;
+          margin-top: -2px;
         }
         #locationRating {
           text-align: left;
@@ -94,12 +133,16 @@
           color: #202020;
           opacity: 1;
         }
-        #badge {
+        .badge-text {
           text-align: left;
           font: normal normal normal 14px/20px Poppins;
           letter-spacing: 0px;
           color: #ed0c6d;
           opacity: 1;
+        }
+        .view-video-share-icon {
+          font-size: 18px;
+          color: #ed0c6d;
         }
       }
       #location-margin {
@@ -174,7 +217,7 @@
   }
 }
 .search-icon {
-  color: #ed0c6d;
+  color: #112950;
   font-size: 24px;
   padding-right: 20px;
 }
@@ -189,7 +232,104 @@
   cursor: pointer;
   display: contents;
 }
-
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 12px #00000029;
+  }
+}
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container,
+  ::ng-deep .autocomplete-container input {
+    border-radius: 35px;
+    padding-left: 25px;
+    padding-right: 25px;
+    width: 100%;
+  }
+}
 .showMore {
   height: auto !important;
+}
+
+//nav bar
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: #495057;
+  background-color: #fff;
+  border-bottom: 3px solid #ed0c6d !important;
+  border: none;
+  cursor: pointer;
+  width: 12%;
+  margin: 0;
+}
+.nav-tabs .nav-link,
+.nav-tabs .nav-item.show .nav-link :hover {
+  color: #cccccc;
+  border-bottom: 2px solid #cccccc !important;
+  border: none;
+  cursor: pointer;
+  width: 12%;
+  margin: 0;
+}
+.tab-title {
+  text-align: center;
+  font: normal normal normal 14px/15px Montserrat;
+  letter-spacing: 0px;
+  color: #112950;
+  text-transform: capitalize;
+  opacity: 1;
+}
+.tab-title-active {
+  text-align: center;
+  font: normal normal 600 14px/15px Montserrat;
+  letter-spacing: 0px;
+  color: #112950;
+  text-transform: capitalize;
+  opacity: 1;
+}
+.similar-icon,
+.trending-up-icon,
+.check-circle-icon {
+  font-size: 21px;
+  margin: -4px 4px;
+  color: #112950;
+}
+
+//related search title
+#relatedSearchTitle {
+  margin: 1.7% 0 0 2.78%;
+  span {
+    text-align: left;
+    font: normal normal 600 20px/30px Poppins;
+    letter-spacing: 0px;
+    color: #112950;
+    opacity: 1;
+  }
+}
+
+//search cards
+.search-cards {
+  width: 338px;
+  height: auto;
+  background: #f3f3f3 0% 0% no-repeat padding-box;
+  border-radius: 43px;
+  opacity: 1;
+  display: inline-block;
+  margin: 1% 1% 0% 2%;
+  max-width: 285px;
+  .suggested-text {
+    padding: 5px;
+    .search-icon {
+      padding: 5% 2% 5% 0;
+    }
+    .suggestion {
+      text-align: left;
+      font: normal normal normal 14px/20px Poppins;
+      letter-spacing: 0px;
+      color: #112950;
+    }
+  }
+}
+.search-cards-nth-child:nth-child(3n + 1) {
+  margin-left: 3%;
 }

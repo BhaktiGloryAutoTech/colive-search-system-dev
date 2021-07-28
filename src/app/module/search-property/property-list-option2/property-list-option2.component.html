@@ -1,3 +1,6 @@
+<ngx-loading [show]="loading" [config]="{
+  primaryColour: '#ED0C6D', secondaryColour: '#ED0C6D', tertiaryColour: '#ED0C6D'}">
+</ngx-loading>
 <div>
   <div class="row col-md-12 search-header"></div>
   <div class="row ml-2">
@@ -6,68 +9,334 @@
     </div>
     <div class="col-md-8">
       <div class="search">
-        <input type="text" class="form-control" placeholder="Search property or location" aria-label="Search"
-        aria-describedby="basic-addon1">
+        <div class="flex-width">
+          <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar"
+          (selected)='selectEvent($event)'[itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
+            [(ngModel)]="searchQuery">
+          </ng-autocomplete>
+
+          <ng-template #itemTemplate let-item>
+            <a [innerHTML]="item.name"></a>
+          </ng-template>
+
+          <ng-template #notFoundTemplate let-notFound>
+            <!-- <div [innerHTML]="notFound"></div> -->
+          </ng-template>
+          <span id="search-span" class="material-icons search-icon">search</span>
+          <span id="mic-span" class="material-icons mic-icon">mic_none</span>
+        </div>
         <span id="search-span" class="material-icons search-icon">search</span>
         <span id="mic-span" class="material-icons mic-icon">mic_none</span>
       </div>
     </div>
   </div>
-
-  <div class="row property-card" [ngClass]="{'showMore':property.showMore}" *ngFor="let property of propertyList">
-    <ul>
-      <li class="d-flex mt-3">
-        <div class="d-flex">
-          <span id="sponsered">Sponsored</span>
-          <span id="dot"></span>
+  <hr>
+  <!-- nav-bar -->
+  <div class="row">
+    <div class="col-md-12">
+      <nav>
+        <div class="nav nav-tabs pl-5" id="nav-tab" role="tablist">
+          <a class="nav-link nav-item active" id="'matchedProerties'" data-toggle="tab" role="tab"
+            aria-controls="matched" aria-selected="true" [class.active]="tab=='matchedProerties'"
+            (click)="tab='matchedProerties'">
+            <div class="d-flex justify-content-center m-3">
+              <span class="material-icons-outlined check-circle-icon">check_circle_outline</span>
+              <span class="tab-title " [ngClass]="{'tab-title-active':tab=='matchedProerties'}">
+                Matched
+              </span>
+            </div>
+          </a>
+          <a class="nav-link nav-item" id="'tredingProperties'" data-toggle="tab" role="tab" aria-controls="treding"
+            aria-selected="false" [class.active]="tab=='tredingProperties'" (click)="tab='tredingProperties'">
+            <div class="d-flex justify-content-center m-3">
+              <span class="material-icons-outlined trending-up-icon">trending_up</span>
+              <span class="tab-title " [ngClass]="{'tab-title-active':tab=='tredingProperties'}">
+                Treding
+              </span>
+            </div>
+          </a>
+          <a class="nav-link nav-item" id="'similarProperties'" data-toggle="tab" role="tab" aria-controls="similar"
+            aria-selected="false" [class.active]="tab=='similarProperties'" (click)="tab='similarProperties'">
+            <div class="d-flex justify-content-center m-3">
+              <span class="material-icons-outlined similar-icon">autorenew</span>
+              <span class="tab-title " [ngClass]="{'tab-title-active':tab=='similarProperties'}">
+                Similar
+              </span>
+            </div>
+          </a>
         </div>
-        <div>
-          <span id="location">{{property.Area}}</span>
-        </div>
-      </li>
-      <li>
-        <span id="propertyName">
-          {{property.PropertyName}}
-        </span>
-      </li>
-      <li class="pr-4">
-        <span id="propertyDescription">
-          <span *ngIf="!property.showMore">
-            {{trimString(property.LocationDescription,300)}}
-          </span>
-          <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
-          <div *ngIf="property.LocationDescription.length > 300" (click)="property.showMore = !property.showMore"
-            class="show-more-design">
-            Show
-            <span>{{property.showMore ? 'less' : 'More'}}</span>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-backgroud tab-pane fade show active" id="matched" role="tabpanel"
+          [class.active]="tab=='matchedProerties'" aria-labelledby="matchedProerties">
+          <div id="totalResult">
+            <span>About 50 results</span>
           </div>
-        </span>
-      </li>
-      <li class="mt-1">
-        <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
-      </li>
-      <li class="d-flex mt-3">
-        <span id="price">₹ {{property.PricePerMonth}}</span>
-        <span id="onwards">onwards</span>
-      </li>
-      <li class="d-flex mt-3">
-        <div class="d-flex" id="location-margin">
-          <span class="material-icons-outlined location-icon">location_on</span>
-          <span id="locationRating">{{property.propertyDetails.totalMatch | number :'1.2-2'}}</span>
+          <div class="d-flex did-you-mean">
+            <span id="text">Did you mean:</span>
+            <span id="query" class="ml-2" [innerHTML]="stringFormatted(['2bhk','koramangala'])"></span>
+          </div>
+          <div class="row property-card" [ngClass]="{'showMore':property.showMore}"
+            *ngFor="let property of matchedPropertyList">
+            <ul>
+              <li class="d-flex mt-3">
+                <div class="d-flex">
+                  <span id="sponsered">Sponsored</span>
+                  <span id="dot"></span>
+                </div>
+                <div>
+                  <span id="location">{{property.Area}}</span>
+                </div>
+              </li>
+              <li>
+                <span id="propertyName">
+                  <a>{{property.PropertyName}}</a>
+                </span>
+              </li>
+              <li class="pr-4">
+                <span id="propertyDescription">
+                  <span *ngIf="!property.showMore">
+                    {{trimString(property.LocationDescription,300)}}
+                  </span>
+                  <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
+                  <div *ngIf="property.LocationDescription.length > 300"
+                    (click)="property.showMore = !property.showMore" class="show-more-design">
+                    Show
+                    <span>{{property.showMore ? 'less' : 'More'}}</span>
+                  </div>
+                </span>
+              </li>
+              <li class="mt-1">
+                <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
+              </li>
+              <li class="d-flex mt-3">
+                <div class="d-flex" id="location-margin">
+                  <span class="material-icons-outlined location-icon">location_on</span>
+                  <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
+                </div>
+                <div class="d-flex">
+                  <span class="material-icons rating-icon">star</span>
+                  <span id="locationRating">{{property.PropertyRating}}</span>
+                </div>
+                <div class="d-flex ml-3">
+                  <span id="price">₹ {{property.PricePerMonth}}</span>
+                  <span id="onwards">onwards</span>
+                </div>
+              </li>
+              <li class="d-flex m-0">
+                <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index">
+                  <span id="badge" class="badge-text">{{badge}}</span>
+                  <ng-container *ngIf="i+1<property.badgeList.length">
+                    <span id="dot"></span>
+                  </ng-container>
+                </div>
+              </li>
+              <li class="d-flex m-0">
+                <div class="d-flex">
+                  <span class="material-icons-outlined pr-1 view-video-share-icon">location_city</span>
+                  <span class="badge-text"><a>View Property</a></span>
+                </div>
+                <span id="dot"></span>
+                <div class="d-flex">
+                  <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">videocam</span>
+                  <span class="badge-text"><a>Schedule Video Visit</a></span>
+                </div>
+                <span id="dot"></span>
+                <div class="d-flex">
+                  <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">share</span>
+                  <span class="badge-text"><a>Share</a></span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="d-flex">
-          <span class="material-icons-outlined rating-icon">star_border</span>
-          <span id="locationRating">{{property.PropertyRating}}</span>
+        <div class="tab-backgroud tab-pane fade" id="treding" role="tabpanel" [class.active]="tab=='tredingProperties'"
+          [class.show]="tab=='tredingProperties'" aria-labelledby="tredingProperties">
+          <div id="totalResult">
+            <span>About 50 results</span>
+          </div>
+          <!-- <div class="d-flex did-you-mean">
+            <span id="text">Did you mean:</span>
+            <span id="query" class="ml-2" [innerHTML]="stringFormatted(['2bhk','koramangala'])"></span>
+          </div> -->
+          <div class="row property-card" [ngClass]="{'showMore':property.showMore}"
+            *ngFor="let property of matchedPropertyList">
+            <ul>
+              <li class="d-flex mt-3">
+                <!-- <div class="d-flex">
+                  <span id="sponsered">Sponsored</span>
+                  <span id="dot"></span>
+                </div> -->
+                <div>
+                  <span id="location">{{property.Area}}</span>
+                </div>
+              </li>
+              <li>
+                <span id="propertyName">
+                  <a>{{property.PropertyName}}</a>
+                </span>
+              </li>
+              <li class="pr-4">
+                <span id="propertyDescription">
+                  <span *ngIf="!property.showMore">
+                    {{trimString(property.LocationDescription,300)}}
+                  </span>
+                  <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
+                  <div *ngIf="property.LocationDescription.length > 300"
+                    (click)="property.showMore = !property.showMore" class="show-more-design">
+                    Show
+                    <span>{{property.showMore ? 'less' : 'More'}}</span>
+                  </div>
+                </span>
+              </li>
+              <li class="mt-1">
+                <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
+              </li>
+              <li class="d-flex mt-3">
+                <div class="d-flex" id="location-margin">
+                  <span class="material-icons-outlined location-icon">location_on</span>
+                  <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
+                </div>
+                <div class="d-flex">
+                  <span class="material-icons rating-icon">star</span>
+                  <span id="locationRating">{{property.PropertyRating}}</span>
+                </div>
+                <div class="d-flex ml-3">
+                  <span id="price">₹ {{property.PricePerMonth}}</span>
+                  <span id="onwards">onwards</span>
+                </div>
+              </li>
+              <li class="d-flex m-0">
+                <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index">
+                  <span id="badge" class="badge-text">{{badge}}</span>
+                  <ng-container *ngIf="i+1<property.badgeList.length">
+                    <span id="dot"></span>
+                  </ng-container>
+                </div>
+              </li>
+              <li class="d-flex m-0">
+                <div class="d-flex">
+                  <span class="material-icons-outlined pr-1 view-video-share-icon">location_city</span>
+                  <span class="badge-text"><a>View Property</a></span>
+                </div>
+                <span id="dot"></span>
+                <div class="d-flex">
+                  <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">videocam</span>
+                  <span class="badge-text"><a>Schedule Video Visit</a></span>
+                </div>
+                <span id="dot"></span>
+                <div class="d-flex">
+                  <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">share</span>
+                  <span class="badge-text"><a>Share</a></span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </li>
-      <li class="d-flex m-0">
-        <div class="m-1 text-center" *ngFor="let badge of property.badgeList">
-          <span id="badge">{{badge}}</span>
-          <span id="dot"></span>
+        <div class="tab-backgroud tab-pane fade" id="similar" role="tabpanel" aria-labelledby="similarProperties"
+          [class.show]="tab=='similarProperties'" [class.active]="tab=='similarProperties'">
+          <!-- <div id="totalResult">
+            <span>About 50 results</span>
+          </div>
+          <div class="d-flex did-you-mean">
+            <span id="text">Did you mean:</span>
+            <span id="query" class="ml-2" [innerHTML]="stringFormatted(['2bhk','koramangala'])"></span>
+          </div> -->
+          <div class="row property-card" [ngClass]="{'showMore':property.showMore}"
+            *ngFor="let property of matchedPropertyList">
+            <ul>
+              <li class="d-flex mt-3">
+                <!-- <div class="d-flex">
+                  <span id="sponsered">Sponsored</span>
+                  <span id="dot"></span>
+                </div> -->
+                <div>
+                  <span id="location">{{property.Area}}</span>
+                </div>
+              </li>
+              <li>
+                <span id="propertyName">
+                  <a>{{property.PropertyName}}</a>
+                </span>
+              </li>
+              <li class="pr-4">
+                <span id="propertyDescription">
+                  <span *ngIf="!property.showMore">
+                    {{trimString(property.LocationDescription,300)}}
+                  </span>
+                  <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
+                  <div *ngIf="property.LocationDescription.length > 300"
+                    (click)="property.showMore = !property.showMore" class="show-more-design">
+                    Show
+                    <span>{{property.showMore ? 'less' : 'More'}}</span>
+                  </div>
+                </span>
+              </li>
+              <li class="mt-1">
+                <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
+              </li>
+              <li class="d-flex mt-3">
+                <div class="d-flex" id="location-margin">
+                  <span class="material-icons-outlined location-icon">location_on</span>
+                  <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
+                </div>
+                <div class="d-flex">
+                  <span class="material-icons rating-icon">star</span>
+                  <span id="locationRating">{{property.PropertyRating}}</span>
+                </div>
+                <div class="d-flex ml-3">
+                  <span id="price">₹ {{property.PricePerMonth}}</span>
+                  <span id="onwards">onwards</span>
+                </div>
+              </li>
+              <li class="d-flex m-0">
+                <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index">
+                  <span id="badge" class="badge-text">{{badge}}</span>
+                  <ng-container *ngIf="i+1<property.badgeList.length">
+                    <span id="dot"></span>
+                  </ng-container>
+                </div>
+              </li>
+              <li class="d-flex m-0">
+                <div class="d-flex">
+                  <span class="material-icons-outlined pr-1 view-video-share-icon">location_city</span>
+                  <span class="badge-text"><a>View Property</a></span>
+                </div>
+                <span id="dot"></span>
+                <div class="d-flex">
+                  <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">videocam</span>
+                  <span class="badge-text"><a>Schedule Video Visit</a></span>
+                </div>
+                <span id="dot"></span>
+                <div class="d-flex">
+                  <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">share</span>
+                  <span class="badge-text"><a>Share</a></span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
+
+  <!-- related search title -->
+  <div id="relatedSearchTitle">
+    <span>Related Searches</span>
+  </div>
+  <!-- search cards -->
+  <div class="row mt-3">
+    <div class="col-md-8">
+      <div class="row col-md-3 search-cards search-cards-nth-child" *ngFor="let suggestion of relatedSuggestion">
+        <div class="d-flex suggested-text">
+          <span class="material-icons search-icon">search</span>
+          <span class="suggestion">{{suggestion}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+
 
   <div class="row col-md-12 container-footer">
     <div class="footer">

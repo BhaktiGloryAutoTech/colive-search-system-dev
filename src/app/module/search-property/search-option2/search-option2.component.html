@@ -18,13 +18,13 @@
         </ng-template>
 
         <ng-template #notFoundTemplate let-notFound>
-          <div [innerHTML]="notFound"></div>
+          <!-- <div [innerHTML]="notFound"></div> -->
         </ng-template>
         <span id="search-span" class="material-icons search-icon">search</span>
         <span id="mic-span" class="material-icons mic-icon">mic_none</span>
       </div>
       <div class="search-btn">
-        <button type="submit" class="searchButton" [disabled]="disableButton" (click)="searchFunction()">
+        <button type="submit" class="searchButton" [disabled]="disableButton" (click)="searchFunctionFormat()">
           Search
         </button>
       </div>

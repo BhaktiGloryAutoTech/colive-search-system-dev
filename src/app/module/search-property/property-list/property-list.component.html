@@ -143,7 +143,9 @@
       </div>
     </div>
 
-
+    <ngx-loading [show]="loading" [config]="{
+      primaryColour: '#ED0C6D', secondaryColour: '#ED0C6D', tertiaryColour: '#ED0C6D'}">
+    </ngx-loading>
     <!-- main body -->
     <div class="property-detail m-2" style="background-color: white;">
       <!-- sort by default -->
@@ -225,7 +227,8 @@
               <hr>
               <!-- matched property list -->
               <div class="container">
-                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}" *ngFor="let property of propertyList">
+                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}"
+                  *ngFor="let property of matchedPropertyList">
                   <!-- image preview -->
                   <div class="col-md-3">
                     <div class="featured-badge text-center">
@@ -248,7 +251,9 @@
                       </li>
                       <!-- property location -->
                       <li>
-                        <span class="property-location">{{trimString(property.Area,80)}}</span>
+                        <span class="property-location">{{property.Area}} -
+                          <!-- ({{property.propertyDetails.location.coord[0]}},{{property.propertyDetails.location.coord[1]}}) -->
+                        </span>
                       </li>
                       <!-- ratings distance match -->
                       <li class="d-flex">
@@ -268,16 +273,16 @@
                         </div>
                         <!-- match progress-bar -->
                         <div class="d-flex m-1">
-                          <circle-progress class="mt--5" [percent]="property.propertyDetails.totalMatch" [radius]="8" [outerStrokeWidth]="2"
-                            [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true"
-                            [showTitle]="false" [showSubtitle]="false" [showUnits]="false" [imageHeight]="50"
-                            [imageWidth]="50" [animationDuration]="300">
+                          <circle-progress class="mt--5" [percent]="property.propertyDetails.matchPercentage"
+                            [radius]="8" [outerStrokeWidth]="2" [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'"
+                            [clockwise]="false" [animation]="true" [showTitle]="false" [showSubtitle]="false"
+                            [showUnits]="false" [imageHeight]="50" [imageWidth]="50" [animationDuration]="300">
 
                           </circle-progress>
                           <!-- <svg style="width:100%;height:100%;">
                               <line x1="100%" y1="0%" x2="0%" y2="100%" style="stroke: rgb(234, 243, 234);stroke-width: 5;"></line>
                             </svg> -->
-                          <span class="distance">{{property.propertyDetails.totalMatch | number:'1.2-2'}}</span>
+                          <span class="distance">{{property.propertyDetails.matchPercentage | number:'1.2-2'}}</span>
                         </div>
                       </li>
                       <!-- property discription -->
@@ -343,7 +348,8 @@
               </div>
               <hr>
               <div class="container">
-                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}" *ngFor="let property of propertyList">
+                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}"
+                  *ngFor="let property of matchedPropertyList">
                   <!-- image preview -->
                   <div class="col-md-3">
                     <div class="featured-badge text-center">
@@ -366,7 +372,8 @@
                       </li>
                       <!-- property location -->
                       <li>
-                        <span class="property-location">{{trimString(property.Area,80)}}</span>
+                        <span class="property-location">{{trimString(property.Area,80)}}
+                          ({{property.propertyDetails.location.coord[0]}},{{property.propertyDetails.location.coord[1]}})</span>
                       </li>
                       <!-- ratings distance match -->
                       <li class="d-flex">
@@ -386,16 +393,16 @@
                         </div>
                         <!-- match progress-bar -->
                         <div class="d-flex m-1">
-                          <circle-progress class="mt--5" [percent]="property.propertyDetails.totalMatch" [radius]="8" [outerStrokeWidth]="2"
-                            [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true"
-                            [showTitle]="false" [showSubtitle]="false" [showUnits]="false" [imageHeight]="50"
-                            [imageWidth]="50" [animationDuration]="300">
+                          <circle-progress class="mt--5" [percent]="property.propertyDetails.matchPercentage"
+                            [radius]="8" [outerStrokeWidth]="2" [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'"
+                            [clockwise]="false" [animation]="true" [showTitle]="false" [showSubtitle]="false"
+                            [showUnits]="false" [imageHeight]="50" [imageWidth]="50" [animationDuration]="300">
 
                           </circle-progress>
                           <!-- <svg style="width:100%;height:100%;">
                               <line x1="100%" y1="0%" x2="0%" y2="100%" style="stroke: rgb(234, 243, 234);stroke-width: 5;"></line>
                             </svg> -->
-                          <span class="distance">{{property.propertyDetails.totalMatch | number:'1.2-2'}}</span>
+                          <span class="distance">{{property.propertyDetails.matchPercentage | number:'1.2-2'}}</span>
                         </div>
                       </li>
                       <!-- property discription -->
@@ -406,7 +413,7 @@
                             {{trimString(property.LocationDescription,150)}}
                           </span>
                           <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
-                          <div *ngIf="property.LocationDescription.length > 230"
+                          <div *ngIf="property.LocationDescription.length > 150"
                             (click)="property.showMore = !property.showMore" class="show-more-design">
                             Show
                             <span>{{property.showMore ? 'less' : 'More'}}</span>
@@ -460,7 +467,8 @@
               </div>
               <hr>
               <div class="container">
-                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}" *ngFor="let property of propertyList">
+                <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}"
+                  *ngFor="let property of matchedPropertyList">
                   <!-- image preview -->
                   <div class="col-md-3">
                     <div class="featured-badge text-center">
@@ -483,7 +491,8 @@
                       </li>
                       <!-- property location -->
                       <li>
-                        <span class="property-location">{{trimString(property.Area,80)}}</span>
+                        <span class="property-location">{{trimString(property.Area,80)}}
+                          ({{property.propertyDetails.location.coord[0]}},{{property.propertyDetails.location.coord[1]}})</span>
                       </li>
                       <!-- ratings distance match -->
                       <li class="d-flex">
@@ -503,16 +512,16 @@
                         </div>
                         <!-- match progress-bar -->
                         <div class="d-flex m-1">
-                          <circle-progress class="mt--5" [percent]="property.propertyDetails.totalMatch" [radius]="8" [outerStrokeWidth]="2"
-                            [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true"
-                            [showTitle]="false" [showSubtitle]="false" [showUnits]="false" [imageHeight]="50"
-                            [imageWidth]="50" [animationDuration]="300">
+                          <circle-progress class="mt--5" [percent]="property.propertyDetails.matchPercentage"
+                            [radius]="8" [outerStrokeWidth]="2" [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'"
+                            [clockwise]="false" [animation]="true" [showTitle]="false" [showSubtitle]="false"
+                            [showUnits]="false" [imageHeight]="50" [imageWidth]="50" [animationDuration]="300">
 
                           </circle-progress>
                           <!-- <svg style="width:100%;height:100%;">
                               <line x1="100%" y1="0%" x2="0%" y2="100%" style="stroke: rgb(234, 243, 234);stroke-width: 5;"></line>
                             </svg> -->
-                          <span class="distance">{{property.propertyDetails.totalMatch | number:'1.2-2'}}</span>
+                          <span class="distance">{{property.propertyDetails.matchPercentage | number:'1.2-2'}}</span>
                         </div>
                       </li>
                       <!-- property discription -->
@@ -523,7 +532,7 @@
                             {{trimString(property.LocationDescription,150)}}
                           </span>
                           <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
-                          <div *ngIf="property.LocationDescription.length > 230"
+                          <div *ngIf="property.LocationDescription.length > 150"
                             (click)="property.showMore = !property.showMore" class="show-more-design">
                             Show
                             <span>{{property.showMore ? 'less' : 'More'}}</span>
