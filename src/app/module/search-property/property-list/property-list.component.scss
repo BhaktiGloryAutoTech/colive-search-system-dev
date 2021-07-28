@@ -377,7 +377,7 @@ hr {
       .property-badge {
         background: #f9d9e8 0% 0% no-repeat padding-box;
         border-radius: 14px;
-        width: 72px;
+        width: auto;
         height: 28px;
         span {
           text-align: center;
@@ -436,13 +436,11 @@ hr {
 
 //for filter sidebar
 .filter {
-  width: 340px;
+  width: 320px;
   height: auto;
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 12px 12px #00000029;
   opacity: 1;
-  max-height: auto;
-  overflow-y: scroll;
   .filter-text-div {
     margin: 30px 243px 0px 30px;
     span {

@@ -15,6 +15,10 @@ export class SearchServiceService {
     return this.httpClient.post(this.commonServiceService.envUrl()+"query",data)
   }
 
+  searchPropertyFormated(data:any){
+    return this.httpClient.post("http://20.198.82.4:8082/query/v2",data);
+  }
+
   getPropertyDetail(data:any){
     return this.httpClient.post(this.commonServiceService.envUrl()+"properties",data)
   }

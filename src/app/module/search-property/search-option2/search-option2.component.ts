@@ -40,7 +40,6 @@ export class SearchOption2Component implements OnInit {
 
   }
   searchFunction() {
-    console.log("search query", this.searchQuery)
     this.loading = true;
     if (this.searchQuery) {
       this.propertyDetail = [];
@@ -89,6 +88,33 @@ export class SearchOption2Component implements OnInit {
           }
           this.loading=false;
         }, (error:any) => {
+          this.disableButton = false;
+        }
+      )
+    }
+  }
+
+  searchFunctionFormat(){
+    this.loading = true;
+    if (this.searchQuery) {
+      this.propertyDetail = [];
+      this.disableButton = true;
+      let search = {
+        "query": this.searchQuery
+      }
+      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+        (response: any) => {
+          let searchData = []
+          if (response ) {
+            searchData = response
+            this.searchService.searchedPropertyList.next(searchData);
+            localStorage.setItem("list", JSON.stringify(searchData))
+            this.disableButton = false;
+            this.router.navigate(['search/property'])
+          }
+          this.loading=false;
+        }, (error:any) => {
+          this.loading=false;
           this.disableButton = false;
         }
       )

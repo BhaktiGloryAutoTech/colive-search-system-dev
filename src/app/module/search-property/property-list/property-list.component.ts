@@ -1,10 +1,8 @@
 import { takeUntil } from 'rxjs/operators';
-import { Offers } from './../../../shared/models/popertyList-filter';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { SearchServiceService } from '@services/search-service.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
-import { ItemsList } from '@ng-select/ng-select/lib/items-list';
 
 @Component({
   selector: 'app-property-list',
@@ -59,19 +57,22 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     { id: 2, name: 'Wifi', value: false },
     { id: 3, name: 'Food', value: false },
   ]
-  constructor(private searchService: SearchServiceService, config: NgbRatingConfig) {
+  matchedPropertyList: any = [];
+  constructor(private searchService: SearchServiceService, config: NgbRatingConfig,
+    private cdr: ChangeDetectorRef) {
     this.loading = true;
     this.searchService.searchedPropertyList.pipe(takeUntil(this.unsubscribe)).subscribe(
       (response) => {
-        if (response && response.length) {
+        if (response) {
           this.getPropertyDetails(response)
           this.loading = false;
+
         } else {
           const list: any = localStorage.getItem('list');
           this.getPropertyDetails(JSON.parse(list));
           this.loading = false;
         }
-        console.log(this.propertyList)
+
       }
     )
     config.max = 5;
@@ -83,48 +84,75 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
+  //to order property according to response rating
+  orderItems(response: any) {
+    this.loading = true;
+    let tempList = [...this.propertyList];
+    this.propertyList = []
+    let orderedList: any = [];
+    response.matchedProperties.forEach((element: any) => {
+      let found = false
+      tempList.filter((item) => {
+        if (!found && item.PropertyID == element.propertyID) {
+          this.matchedPropertyList = [...this.matchedPropertyList, item]
+          found = true;
+          return false;
+        } else
+          return true;
+      })
+      this.cdr.detectChanges();
+    });
+    this.loading = false;
+  }
+
+  //get property Detail
   getPropertyDetails(response1: any) {
-    response1.forEach((plist: any, i: any) => {
+    this.loading = true;
+    let counter = 0;
+    response1.matchedProperties.forEach((plist: any, i: any) => {
       let propertyId = {
-        propertyId: plist.propertyId
+        propertyId: plist.propertyID
       }
       this.loading = true;
       this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
+          counter++
           if (response && response.Data) {
-            console.log(response.Data);
-            let itm = response1.filter((f: any) => f.propertyId == response.Data.Property[0].PropertyID)
+            let itm = response1.matchedProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
             if (itm && itm.length) {
               let badgeList = []
-              response.Data.Property[0]['propertyDetails'] = itm[0].propertyData;
-              for (let item of Object.keys(itm[0].propertyData)) {
-                if (item != 'distance' && item != 'totalMatch') {
-                  badgeList.push(item)
-                }
+              response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
+              for (let item of Object.keys(itm[0].labels)) {
+                badgeList.push(item)
               }
               response.Data.Property[0]['badgeList'] = badgeList
             }
             this.propertyList.push(response.Data.Property[0]);
+
             this.loading = false;
           } else {
             this.loading = false
           }
+          if (response1.matchedProperties.length == counter) {
+            this.orderItems(response1)
+          }
         }, (error: any) => {
+          counter++;
+          if (response1.matchedProperties.length == counter) {
+            this.orderItems(response1)
+          }
           this.loading = false;
         }
       )
-    }, (error: any) => {
-      this.loading = false
     });
     this.propertyList = this.propertyList.map((item: any) => ({
       ...item,
       showMore: false,
     }));
-    console.log("property Detail", this.propertyList)
   }
   ngOnInit(): void {
-
   }
+
 
   trimString(text: any, length: any) {
     return text.length > length ? text.substring(0, length) + "..." : text;
