@@ -126,7 +126,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
     this.matchedPropertyListDetails = [];
     this.trendingPropertyListDetails = [];
     this.similarPropertyListDetails = [];
-
+    console.log(response1)
     //for matched properties
     if (response1 && response1.matchedProperties && response1.matchedProperties.length) {
       this.loading = true;
@@ -145,7 +145,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
                 let badgeList = []
                 response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
                 for (let item of Object.keys(itm[0].labels)) {
-                  badgeList.push(item)
+                  if(itm[0].labels[item].entity){
+                    badgeList.push(itm[0].labels[item].entity)
+                  }else{
+                    badgeList.push(item)
+                  }
                 }
                 response.Data.Property[0]['badgeList'] = badgeList
               }
