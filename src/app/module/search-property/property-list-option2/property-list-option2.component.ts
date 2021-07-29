@@ -139,7 +139,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
         this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
           (response: any) => {
             this.loading = true;
-            if (response && response.Data) {
+            if (response && response.Data && response.Data.Property && response.Data.Property.length) {
               let itm = response1.matchedProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
               if (itm && itm.length) {
                 let badgeList = []
@@ -161,10 +161,10 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
           }, (error: any) => {
             counter++;
             if (response1.matchedProperties.length == counter) {
-              this.loading = false;
               this.orderItems(response1, 'matched')
+              this.loading = false;
             }
-            this.loading = false;
+
           }
         )
       });
@@ -184,7 +184,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
         this.loading = true;
         this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
           (response: any) => {
-            if (response && response.Data) {
+            if (response && response.Data && response.Data.Property && response.Data.Property.length) {
               this.loading = true;
               let itm = response1.trendingProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
               if (itm && itm.length) {
@@ -205,9 +205,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
           }, (error: any) => {
             counter++;
             if (response1.trendingProperties.length == counter) {
-              this.loading = false;
+
               this.orderItems(response1, 'trending')
+              this.loading = false;
             }
+
           }
         )
       });
@@ -228,7 +230,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
         this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
           (response: any) => {
             this.loading = true;
-            if (response && response.Data) {
+            if (response && response.Data && response.Data.Property && response.Data.Property.length) {
               let itm = response1.similarProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
               if (itm && itm.length) {
                 let badgeList = []
@@ -248,8 +250,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
           }, (error: any) => {
             counter++;
             if (response1.similarProperties.length == counter) {
-              this.loading = false;
               this.orderItems(response1, 'similar')
+              this.loading = false;
             }
 
           }

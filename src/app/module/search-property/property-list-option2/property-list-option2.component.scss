@@ -283,7 +283,8 @@ a:link {
   border: none;
   cursor: pointer;
   width: 12%;
-  margin: 0;
+  margin: -16px 0 0 0px;
+  text-decoration: none !important;
 }
 .nav-tabs .nav-link,
 .nav-tabs .nav-item.show .nav-link :hover {
@@ -293,6 +294,7 @@ a:link {
   cursor: pointer;
   width: 12%;
   margin: 0;
+  text-decoration: none !important;
 }
 .tab-title {
   text-align: center;
