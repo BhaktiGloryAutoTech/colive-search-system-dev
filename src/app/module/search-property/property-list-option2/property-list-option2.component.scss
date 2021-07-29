@@ -25,7 +25,7 @@
   #mic-span {
     position: relative;
     float: right;
-    z-index: 1;
+    z-index: 999;
     width: 13px;
     height: 13px;
     color: #112950 !important;
@@ -34,7 +34,7 @@
   #search-span {
     position: relative;
     float: left;
-    z-index: 1;
+    z-index: 999;
     color: #112950 !important;
     width: 20px;
     height: 20px;
@@ -80,6 +80,15 @@
   }
 }
 
+a:hover {
+  text-decoration: underline;
+  color: #ed0c6d;
+  cursor: pointer;
+}
+a, a:link{
+  color: #ed0c6d !important;
+  cursor: pointer;
+}
 .property-card {
   width: auto;
   height: auto;
@@ -90,11 +99,7 @@
   ul {
     list-style: none;
     li {
-      a:hover {
-        text-decoration: underline;
-        color: #ed0c6d;
-        cursor: pointer;
-      }
+
       div {
         #sponsered {
           text-align: left;
@@ -143,6 +148,7 @@
         .view-video-share-icon {
           font-size: 18px;
           color: #ed0c6d;
+          cursor: pointer;
         }
       }
       #location-margin {
@@ -220,6 +226,7 @@
   color: #112950;
   font-size: 24px;
   padding-right: 20px;
+  z-index: 999;
 }
 .show-more-design {
   text-align: left;
@@ -243,10 +250,17 @@
   ::ng-deep .autocomplete-container input {
     border-radius: 35px;
     padding-left: 25px;
-    padding-right: 25px;
+    padding-right: 34px;
     width: 100%;
   }
 }
+
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .x {
+   right: 40px;
+  }
+}
+
 .showMore {
   height: auto !important;
 }

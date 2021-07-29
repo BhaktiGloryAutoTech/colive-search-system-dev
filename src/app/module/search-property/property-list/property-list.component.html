@@ -196,25 +196,33 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
           <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-              <a class="nav-link nav-item active" id="'matchedProerties'" data-toggle="tab" role="tab"
-                aria-controls="matched" aria-selected="true" [class.active]="tab=='matchedProerties'"
-                (click)="tab='matchedProerties'">
-                <span class="tab-title " [ngClass]="{'tab-title-active':tab=='matchedProerties'}">
-                  Matched Properties
-                </span>
-              </a>
-              <a class="nav-link nav-item" id="'tredingProperties'" data-toggle="tab" role="tab" aria-controls="treding"
-                aria-selected="false" [class.active]="tab=='tredingProperties'" (click)="tab='tredingProperties'">
-                <span class="tab-title " [ngClass]="{'tab-title-active':tab=='tredingProperties'}">
-                  Treding Properties
-                </span>
-              </a>
-              <a class="nav-link nav-item" id="'similarProperties'" data-toggle="tab" role="tab" aria-controls="similar"
-                aria-selected="false" [class.active]="tab=='similarProperties'" (click)="tab='similarProperties'">
-                <span class="tab-title " [ngClass]="{'tab-title-active':tab=='similarProperties'}">
-                  Similar Properties
-                </span>
-              </a>
+              <ng-container *ngIf="matchedPropertyList && matchedPropertyList.length">
+                <a class="nav-link nav-item active" id="'matchedProerties'" data-toggle="tab" role="tab"
+                  aria-controls="matched" aria-selected="true" [class.active]="tab=='matchedProerties'"
+                  (click)="tab='matchedProerties'">
+                  <span class="tab-title " [ngClass]="{'tab-title-active':tab=='matchedProerties'}">
+                    Matched Properties
+                  </span>
+                </a>
+              </ng-container>
+              <ng-container *ngIf="trendingPropertyList && trendingPropertyList.length">
+                <a class="nav-link nav-item" id="'tredingProperties'" data-toggle="tab" role="tab"
+                  aria-controls="treding" aria-selected="false" [class.active]="tab=='tredingProperties'"
+                  (click)="tab='tredingProperties'">
+                  <span class="tab-title " [ngClass]="{'tab-title-active':tab=='tredingProperties'}">
+                    Treding Properties
+                  </span>
+                </a>
+              </ng-container>
+              <ng-container *ngIf="similarPropertyList && similarPropertyList.length">
+                <a class="nav-link nav-item" id="'similarProperties'" data-toggle="tab" role="tab"
+                  aria-controls="similar" aria-selected="false" [class.active]="tab=='similarProperties'"
+                  (click)="tab='similarProperties'">
+                  <span class="tab-title " [ngClass]="{'tab-title-active':tab=='similarProperties'}">
+                    Similar Properties
+                  </span>
+                </a>
+              </ng-container>
             </div>
           </nav>
           <div class="tab-content" id="nav-tabContent">
@@ -234,19 +242,24 @@
                     <div class="featured-badge text-center">
                       <span>FEATURED</span>
                     </div>
-                    <img class="img-fluid" src="{{property.ImageName}}"
-                      onerror="this.onerror=null;this.src='./../../../../assets/ColiveLogo2x.png';">
+                    <a href="https://www.colive.com/Property/{{property.url}}">
+                      <img class="img-fluid" src="{{property.ImageName}}"
+                        onerror="this.onerror=null;this.src='./../../../../assets/ColiveLogo2x.png';">
+                    </a>
                   </div>
                   <!-- content -->
                   <div class="col-md-7 p-3">
                     <ul class="m-0 p-0">
                       <!-- property name -->
                       <li class="d-flex justify-content-between">
-                        <span class="property-name">{{property.PropertyName}}</span>
+                        <a href="https://www.colive.com/Property/{{property.url}}"><span
+                            class="property-name">{{property.PropertyName}}</span></a>
                         <div class="d-flex ">
-                          <b><span class="material-icons-outlined pr-2">remove_red_eye</span>
-                            <span class="material-icons-outlined pr-2">videocam</span>
-                            <span class="material-icons-outlined">share</span></b>
+                          <a href="https://www.colive.com/Property/{{property.url}}">
+                            <b><span class="material-icons-outlined pr-2">remove_red_eye</span>
+                              <span class="material-icons-outlined pr-2">videocam</span>
+                              <span class="material-icons-outlined">share</span></b>
+                          </a>
                         </div>
                       </li>
                       <!-- property location -->
@@ -329,11 +342,13 @@
                       </span>
                     </div>
                     <div class="price-btn">
-                      <button>
-                        <span>
-                          Schedule a visit
-                        </span>
-                      </button>
+                      <a href="https://www.colive.com/Property/{{property.url}}">
+                        <button>
+                          <span>
+                            Schedule a visit
+                          </span>
+                        </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -349,14 +364,16 @@
               <hr>
               <div class="container">
                 <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}"
-                  *ngFor="let property of matchedPropertyList">
+                  *ngFor="let property of trendingPropertyList">
                   <!-- image preview -->
                   <div class="col-md-3">
                     <div class="featured-badge text-center">
                       <span>FEATURED</span>
                     </div>
-                    <img class="img-fluid" src="{{property.ImageName}}"
-                      onerror="this.onerror=null;this.src='./../../../../assets/ColiveLogo2x.png';">
+                    <a href="https://www.colive.com/Property/{{property.url}}">
+                      <img class="img-fluid" src="{{property.ImageName}}"
+                        onerror="this.onerror=null;this.src='./../../../../assets/ColiveLogo2x.png';">
+                    </a>
                   </div>
                   <!-- content -->
                   <div class="col-md-7 p-3">
@@ -468,7 +485,7 @@
               <hr>
               <div class="container">
                 <div class="row mt-37 property-card" [ngClass]="{'showMore':property.showMore}"
-                  *ngFor="let property of matchedPropertyList">
+                  *ngFor="let property of similarPropertyList">
                   <!-- image preview -->
                   <div class="col-md-3">
                     <div class="featured-badge text-center">
