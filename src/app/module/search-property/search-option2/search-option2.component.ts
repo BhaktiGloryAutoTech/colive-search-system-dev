@@ -29,13 +29,6 @@ export class SearchOption2Component implements OnInit {
   selectEvent(event: any) {
     console.log("select event", event)
   }
-  onChangeSearch(event: any) {
-    console.log("on change search", event)
-  }
-
-  onFocused(event: any) {
-    console.log("on focus", event)
-  }
   myFunction() {
 
   }
@@ -55,7 +48,7 @@ export class SearchOption2Component implements OnInit {
             searchData = response.data
             this.searchService.searchedPropertyList.next(searchData);
             localStorage.setItem("list", JSON.stringify(searchData))
-            this.router.navigate(['search/property'])
+            this.router.navigate(['/propertyv2'])
             // response.data.forEach((plist: any, i: any) => {
             //   let propertyId = {
             //     propertyId: plist.propertyId
@@ -94,6 +87,33 @@ export class SearchOption2Component implements OnInit {
     }
   }
 
+  keyPress(event:any){
+    if (this.searchQuery && event.keyCode==13) {
+      this.loading = true;
+      this.propertyDetail = [];
+      this.disableButton = true;
+      let search = {
+        "query": this.searchQuery
+      }
+      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+        (response: any) => {
+          let searchData = []
+          if (response ) {
+            searchData = response
+            this.searchService.searchedPropertyList.next(searchData);
+            localStorage.setItem("list", JSON.stringify(searchData))
+            this.disableButton = false;
+            this.router.navigate(['/propertyv2'])
+          }
+          this.loading=false;
+        }, (error:any) => {
+          this.loading=false;
+          this.disableButton = false;
+        }
+      )
+    }
+  }
+
   searchFunctionFormat(){
     this.loading = true;
     if (this.searchQuery) {
@@ -110,7 +130,7 @@ export class SearchOption2Component implements OnInit {
             this.searchService.searchedPropertyList.next(searchData);
             localStorage.setItem("list", JSON.stringify(searchData))
             this.disableButton = false;
-            this.router.navigate(['search/property'])
+            this.router.navigate(['/propertyv2'])
           }
           this.loading=false;
         }, (error:any) => {

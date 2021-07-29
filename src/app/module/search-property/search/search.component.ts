@@ -94,6 +94,32 @@ export class SearchComponent implements OnInit, OnDestroy {
   //   }
   // }
 
+  keyPress(event:any){
+    if (this.searchQuery && event.keyCode==13) {
+      this.loading = true;
+      this.propertyDetail = [];
+      this.disableButton = true;
+      let search = {
+        "query": this.searchQuery
+      }
+      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+        (response: any) => {
+          let searchData = []
+          if (response) {
+            searchData = response
+            this.searchService.searchedPropertyList.next(searchData);
+            localStorage.setItem("list", JSON.stringify(searchData))
+            this.disableButton = false;
+            this.router.navigate(['/propertyv1'])
+          }
+          this.loading = false;
+        }, (error: any) => {
+          this.loading = false;
+          this.disableButton = false;
+        }
+      )
+    }
+  }
 
   searchFunctionFormat() {
     this.loading = true;
@@ -111,7 +137,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.searchService.searchedPropertyList.next(searchData);
             localStorage.setItem("list", JSON.stringify(searchData))
             this.disableButton = false;
-            this.router.navigate(['search/property-list'])
+            this.router.navigate(['/propertyv1'])
           }
           this.loading = false;
         }, (error: any) => {

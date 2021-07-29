@@ -8,8 +8,8 @@
     <div class="body-container">
       <img class="img-fluid auto-center" alt="Colive" src="./../../../../assets/Flow2Logo@2x.png">
       <div class="flex-width">
-        <ng-autocomplete class="ng-autocomplete" id="auto-searchbar" (selected)='selectEvent($event)'
-          (inputChanged)='onChangeSearch($event)' (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
+        <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar" (selected)='selectEvent($event)'
+        (keypress)="keyPress($event)"  [itemTemplate]="itemTemplate"
           [notFoundTemplate]="notFoundTemplate" [(ngModel)]="searchQuery">
         </ng-autocomplete>
 

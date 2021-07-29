@@ -6,10 +6,11 @@ import { SearchComponent } from './search/search.component';
 import { PropertyListOption2Component } from './property-list-option2/property-list-option2.component';
 
 const routes: Routes = [
-  { path: '', component: SearchComponent },
-  { path: 'property-list', component: PropertyListComponent },
-  { path: 'search', component: SearchOption2Component },
-  { path: 'property', component: PropertyListOption2Component }
+  { path: "", redirectTo: "searchv1", pathMatch: "full" },
+  { path: 'searchv1', component: SearchComponent },
+  { path: 'propertyv1', component: PropertyListComponent },
+  { path: 'searchv2', component: SearchOption2Component },
+  { path: 'propertyv2', component: PropertyListOption2Component }
 ];
 
 @NgModule({
