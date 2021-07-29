@@ -23,6 +23,12 @@
     left: 50%;
     height: 50%;
     transform: translate(-50%, -50%);
+    .logo-text{
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #ed0c6d;
+      letter-spacing: 0.3rem;
+    }
     .flex-width {
       // width: 100%;
       // background: #ffffff 0% 0% no-repeat padding-box;
@@ -32,7 +38,7 @@
       // margin: 30% 0 7% 0;
       width: 100%;
       position: absolute;
-      top: 60%;
+      top: 55%;
       left: 50%;
       height: 50%;
       transform: translate(-50%, -50%);
@@ -59,7 +65,7 @@
       text-align: center;
       width: 100%;
       position: absolute;
-      top: 83%;
+      top: 78%;
       left: 50%;
       height: 50%;
       transform: translate(-50%, -50%);
