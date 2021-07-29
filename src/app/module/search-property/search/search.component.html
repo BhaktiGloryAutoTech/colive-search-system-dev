@@ -10,8 +10,7 @@
       <span class="title">Your search for a perfect home ends here!</span>
       <div class="searchBar">
         <div class="flex-width">
-          <ng-autocomplete id="auto-searchbar" (selected)='selectEvent($event)' (inputChanged)='onChangeSearch($event)'
-            (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
+          <ng-autocomplete id="auto-searchbar" (selected)='selectEvent($event)' (keypress)="keyPress($event)" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
             [(ngModel)]="searchQuery">
           </ng-autocomplete>
 
