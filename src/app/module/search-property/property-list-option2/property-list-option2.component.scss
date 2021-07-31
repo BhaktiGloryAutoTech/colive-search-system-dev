@@ -1,12 +1,12 @@
-.search-header {
-  width: 1440px;
+.container-div {
+  overflow-x: hidden;
 }
 .logo-text-div {
   margin-top: 1.99rem;
   .logo-text {
     font-size: 2.8rem;
     font-weight: 800;
-    color: #EC3E6E;
+    color: #ec3e6e;
     letter-spacing: 0.1rem;
   }
 }
@@ -357,4 +357,192 @@ a:link {
 }
 .search-cards-nth-child:nth-child(3n + 1) {
   margin-left: 3%;
+}
+
+@media screen and (max-width: 1024px) {
+  .container-div {
+    .logo-text-div .logo-text {
+      font-size: 2.2rem;
+    }
+    .search {
+      margin: 5.8% 0 0 -1%;
+      width: 430px;
+      height: 57px;
+      .ng-autocomplete {
+        ::ng-deep .autocomplete-container,
+        ::ng-deep .autocomplete-container input {
+          font-size: 14px;
+        }
+      }
+    }
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      padding: 0px;
+    }
+    #totalResult {
+      margin: 1.7% 0 0 3.9%;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container-div {
+    .logo-text-div .logo-text {
+      font-size: 2rem;
+    }
+    .search {
+      margin: 6.9% 0 0 2%;
+      width: 380px;
+      height: 57px;
+      .ng-autocomplete {
+        ::ng-deep .autocomplete-container,
+        ::ng-deep .autocomplete-container input {
+          font-size: 14px;
+        }
+      }
+    }
+    .nav,
+    .nav-tabs {
+      padding-left: 2rem !important;
+    }
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      padding: 0px;
+      width: 15%;
+    }
+    .similar-icon,
+    .trending-up-icon,
+    .check-circle-icon {
+      font-size: 18px;
+      margin: -2px 4px;
+    }
+    .tab-title {
+      font: normal normal normal 13px/15px Montserrat;
+    }
+    .tab-title-active {
+      font: normal normal 600 13px/15px Montserrat;
+    }
+    #totalResult {
+      margin: 1.7% 0 0 3.9%;
+    }
+    .property-card {
+      margin: 0px 26px 0px -9px;
+      ul li {
+        div {
+          #location {
+            font: normal normal normal 13px/21px Poppins;
+          }
+          .location-icon {
+            padding: 1px 0 0 4px;
+            font-size: 21px;
+          }
+          #locationRating {
+            font-size: 13px;
+          }
+          .badge-text {
+            font: normal normal normal 13px/20px Poppins;
+          }
+        }
+        #propertyName {
+          font: normal normal 600 19px/30px Poppins;
+        }
+        #propertyDescription {
+          font: normal normal 300 13px/20px Poppins;
+        }
+        #amenities {
+          font-size: 13px;
+        }
+        #price {
+          font: normal normal 600 15px/20px Poppins;
+        }
+      }
+    }
+    .container-footer .footer {
+      left: 40%;
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .container-div {
+    .logo-text-div {
+      margin: 1.99rem 0 0 -0.7rem;
+      .logo-text {
+        font-size: 2rem;
+      }
+    }
+    .search {
+      margin: 6.9% 0 0 0%;
+      width: 367px;
+      height: 57px;
+      .ng-autocomplete {
+        ::ng-deep .autocomplete-container,
+        ::ng-deep .autocomplete-container input {
+          font-size: 14px;
+        }
+      }
+    }
+    .nav,
+    .nav-tabs {
+      padding-left: 2rem !important;
+    }
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      padding: 0px;
+      width: 27%;
+    }
+    .similar-icon,
+    .trending-up-icon,
+    .check-circle-icon {
+      font-size: 16px;
+      margin: -1px 4px;
+    }
+    .tab-title {
+      font: normal normal normal 12px/15px Montserrat;
+    }
+    .tab-title-active {
+      font: normal normal 600 12px/15px Montserrat;
+    }
+    #totalResult {
+      margin: 2.7% 0 0 4.9%;
+      span{
+        font: normal normal normal 12px/20px Poppins;
+      }
+    }
+    .property-card {
+      margin: 0px 22px 0px -18px;
+      ul li {
+        div {
+          #location {
+            font: normal normal normal 12px/21px Poppins;
+          }
+          .location-icon {
+            padding: 1px 0 0 1px;
+            font-size: 20px;
+          }
+          #locationRating {
+            font-size: 12px;
+          }
+          .badge-text {
+            font: normal normal normal 12px/20px Poppins;
+          }
+        }
+        #propertyName {
+          font: normal normal 600 18px/30px Poppins;
+        }
+        #propertyDescription {
+          font: normal normal 300 12px/20px Poppins;
+        }
+        #amenities {
+          font-size: 13px;
+        }
+        #price {
+          font: normal normal 600 14px/20px Poppins;
+        }
+      }
+    }
+    .container-footer .footer {
+      left: 34%;
+    }
+  }
 }

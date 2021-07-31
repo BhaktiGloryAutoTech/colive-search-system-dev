@@ -1,5 +1,6 @@
-.search-header {
-  position: fixed;
+.container-div {
+  overflow-x: hidden;
+  position: absolute;
 }
 .search-body {
   background: #fff 0% 0% no-repeat padding-box;
@@ -23,7 +24,7 @@
     left: 50%;
     height: 50%;
     transform: translate(-50%, -50%);
-    .logo-text{
+    .logo-text {
       font-size: 3.5rem;
       font-weight: 800;
       color: #ed0c6d;
@@ -90,7 +91,7 @@
   ::ng-deep .autocomplete-container input {
     border-radius: 35px;
     padding-left: 25px;
-    padding-right: 37px;
+    padding-right: 35px;
     width: 100%;
   }
 }
@@ -103,7 +104,7 @@
 
 .ng-autocomplete {
   ::ng-deep .autocomplete-container .x {
-   right: 38px;
+    right: 38px;
   }
 }
 
@@ -125,53 +126,223 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .img-fluid {
-    padding: 10px;
-    height: 120px;
-    margin-top: -30%;
+  .search-body {
+    .body-container {
+      .logo-text {
+        font-size: 3rem;
+      }
+      .flex-width {
+        width: 125%;
+      }
+      .search-btn {
+        top: 80%;
+        .searchButton {
+          width: 34%;
+          height: 32px;
+          font-size: 18px;
+        }
+      }
+    }
   }
 }
 
 @media screen and (max-width: 768px) {
-  .img-fluid {
-    padding: 20px;
-    height: 120px;
-    margin-top: -30%;
+  .search-body {
+    .body-container {
+      .logo-text {
+        font-size: 2.5rem;
+      }
+      .flex-width {
+        width: 150%;
+        top: 50%;
+      }
+      .search-btn {
+        top: 75%;
+        .searchButton {
+          width: 36%;
+          height: 30px;
+          font-size: 16px;
+        }
+      }
+    }
   }
 }
 
 @media screen and (max-width: 425px) {
-  .search-header {
-    background: #202020 0% 0% no-repeat padding-box;
-    border: 1px solid #707070;
-    opacity: 1;
-    height: 70px;
-    width: 100%;
-    margin-left: 0px;
-    position: fixed;
-    margin-left: 76px;
-  }
-  .img-fluid {
-    padding: 30px;
-    height: 120px;
-    margin-top: -60%;
+  .search-body {
+    .body-container {
+      .logo-text {
+        font-size: 2rem;
+      }
+      .flex-width {
+        width: 195%;
+        top: 45%;
+        .ng-autocomplete {
+          ::ng-deep .autocomplete-container,
+          ::ng-deep .autocomplete-container input {
+            font-size: 13px;
+          }
+        }
+      }
+      .search-btn {
+        top: 69%;
+        .searchButton {
+          width: 60%;
+          height: 27px;
+          font-size: 14px;
+        }
+      }
+    }
   }
 }
 
 @media screen and (max-width: 375px) {
-  .search-header {
-    background: #202020 0% 0% no-repeat padding-box;
-    border: 1px solid #707070;
-    opacity: 1;
-    height: 70px;
-    width: 100%;
-    margin-left: 0px;
-    position: fixed;
+  .search-body {
+    .body-container {
+      .logo-text {
+        font-size: 1.9rem;
+      }
+      .flex-width {
+        width: 205%;
+        top: 45%;
+        .ng-autocomplete {
+          ::ng-deep .autocomplete-container,
+          ::ng-deep .autocomplete-container input {
+            font-size: 12px;
+          }
+        }
+      }
+      .search-btn {
+        top: 68%;
+        .searchButton {
+          width: 60%;
+          height: 25px;
+          font-size: 12px;
+        }
+      }
+    }
   }
-  .img-fluid {
-    padding: 30px;
-    height: 120px;
-    margin-top: -60%;
+}
+
+@media screen and (max-width: 320px) {
+  .search-body {
+    .body-container {
+      .logo-text {
+        font-size: 1.89rem;
+      }
+      .flex-width {
+        width: 205%;
+        top: 45%;
+        .ng-autocomplete {
+          ::ng-deep .autocomplete-container,
+          ::ng-deep .autocomplete-container input {
+            font-size: 10px;
+          }
+        }
+      }
+      .search-btn {
+        top: 68%;
+        .searchButton {
+          width: 64%;
+          height: 24px;
+          font-size: 11px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 700px) {
+  .search-body {
+    .body-container {
+      .flex-width {
+        top: 45%;
+      }
+      .search-btn {
+        top: 68%;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 610px) {
+  .search-body {
+    .body-container {
+      .flex-width {
+        top: 50%;
+      }
+      .search-btn {
+        top: 75%;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 510px) {
+  .search-body {
+    .body-container {
+      .flex-width {
+        top: 55%;
+      }
+      .search-btn {
+        top: 85%;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 410px) {
+  .search-body {
+    .body-container {
+      .flex-width {
+        top: 60%;
+      }
+      .search-btn {
+        top: 98%;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 375px) {
+  .search-body {
+    margin: 4rem auto 8.1rem auto;
+    .body-container {
+      .flex-width {
+        top: 65%;
+      }
+      .search-btn {
+        top: 112%;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 375px) {
+  .search-body {
+    margin: 3rem auto 8.1rem auto;
+    .body-container {
+      .flex-width {
+        top: 80%;
+      }
+      .search-btn {
+        top: 142%;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 225px) {
+  .search-body {
+    margin: 3rem auto 8.1rem auto;
+    .body-container {
+      .flex-width {
+        top: 80%;
+      }
+      .search-btn {
+        top: 162%;
+      }
+    }
   }
 }
 
