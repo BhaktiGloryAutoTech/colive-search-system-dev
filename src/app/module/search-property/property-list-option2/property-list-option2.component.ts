@@ -19,7 +19,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   similarPropertyListDetails: any = [];
   public loading = false;
   numbers: any = [1, 2, 3, 4, 5, 6];
-  searchQuery: any=null;
+  searchQuery: any = null;
   meanQuery = "2bhk room in koramangala"
   relatedSuggestion = ['2 bhk for rent in koramanagala 2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala',
     '2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala',
@@ -31,13 +31,13 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   similarPropertyList: any = [];
 
   //to track user clicks
-  visitedPropertyList:any=[];
+  visitedPropertyList: any = [];
 
   //for request
   matchedPropertyListRequest: any = '';
   trendingPropertyListRequest: any = '';
   similarPropertyListRequest: any = '';
-  suggestionList: any=[];
+  suggestionList: any = [];
   constructor(private searchService: SearchServiceService, config: NgbRatingConfig,
     private cdr: ChangeDetectorRef) {
     this.loading = true;
@@ -82,6 +82,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+    this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
+    this.visitedPropertyList = [];
   }
 
   ngOnInit(): void {
@@ -326,7 +328,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
           }
         });
         this.getPropertyDetailsByPropertyIdString(this.matchedPropertyListRequest, 'matching');
-        console.log("match request", this.matchedPropertyListRequest);
         break;
 
       case 'trending':
@@ -339,7 +340,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
           }
         });
         this.getPropertyDetailsByPropertyIdString(this.trendingPropertyListRequest, 'trending');
-        console.log("trending request", this.trendingPropertyListRequest);
         break;
 
       case 'similar':
@@ -352,7 +352,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
           }
         });
         this.getPropertyDetailsByPropertyIdString(this.similarPropertyListRequest, 'similar');
-        console.log("similar request", this.similarPropertyListRequest);
         break;
     }
   }
@@ -410,24 +409,15 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
     }
   }
 
-  stringFormatted(value: any) {
-    // value.forEach((searchWord:any) =>{
-    //   console.log('/'+searchWord+'/g', '<b>'+searchWord+'</b>')
-    //   console.log("replaceee",this.meanQuery.replace(/searchWord/g, '<b>'+searchWord+'</b>'));
-    //   console.log("replaceee 2222",this.meanQuery.replace("/koramangala/g", "<b>koramangala</b>"));
-    // });
-
-    return this.meanQuery.replace(/koramangala/g, "<b>koramangala</b>")
-  }
-
   selectEvent(event: any) {
-    console.log("select event", event)
     if (event) {
+      this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search')
       this.matchedPropertyList = [];
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
+      this.visitedPropertyList = [];
       let search = {
         "query": event.name
       }
@@ -461,9 +451,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   keyPress(event: any) {
     this.loading = true;
     if (this.searchQuery && event.keyCode == 13) {
+      this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search')
       this.matchedPropertyList = [];
+      this.visitedPropertyList = [];
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       let search = {
@@ -494,8 +486,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
     } else {
       this.loading = false;
     }
-
-    console.log("key pressss", event)
   }
 
   //tring string ex.discription
@@ -513,7 +503,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
 
   //search suggestion list
   onChangeSearch(event: any) {
-    console.log(event)
     if (event) {
       let searchObj = {
         query: event
@@ -531,7 +520,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
               this.suggestionList.push({ name: element.propertyName, type: 'property' })
             });
           }
-          console.log(this.suggestionList)
         }
       )
     }
@@ -539,9 +527,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   }
 
   //tracks clicks of user
-  trackClicks(propertyId:any){
-    // PropertyID
-    this.visitedPropertyList.push(propertyId);
-    console.log(this.visitedPropertyList)
+  trackClicks(propertyId: any, queryId: any) {
+    let timeStamp = new Date()
+    this.visitedPropertyList.push({ 'PropertyID': propertyId, 'queryID': queryId, 'timeStamp': timeStamp.toString() });
   }
 }

@@ -29,4 +29,8 @@ export class SearchServiceService {
   searchSuggestion(data:any){
     return this.httpClient.post("http://20.198.82.4:8082/search/suggestion",data);
   }
+
+  trackedClicks(data:any){
+    return this.httpClient.post("http://20.198.82.4:8082/",data);
+  }
 }
