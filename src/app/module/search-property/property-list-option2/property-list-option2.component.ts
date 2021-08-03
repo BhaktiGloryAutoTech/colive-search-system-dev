@@ -1,5 +1,5 @@
 import { error } from '@angular/compiler/src/util';
-import { ChangeDetectorRef, Component, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SearchServiceService } from '@services/search-service.service';
 import { Subject } from 'rxjs';
@@ -87,7 +87,17 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-
+  @HostListener('click', ['$event.target'])
+  onClick(e: any) {
+    let container: any = document.getElementById('auoComplete');
+    if (!container.contains(e)) {
+      container?.classList.remove('input-search');
+    } else {
+      if (this.searchQuery) {
+        container?.classList.add('input-search')
+      }
+    }
+  }
 
   //to order property according to response rating
   orderItems(response: any, value: any) {
@@ -530,7 +540,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
 
   //tracks clicks of user
   trackClicks(propertyId:any){
-    console.log("property Id",propertyId)
     // PropertyID
     this.visitedPropertyList.push(propertyId);
     console.log(this.visitedPropertyList)
