@@ -39,11 +39,12 @@ export class SearchOption2Component implements OnInit {
     //for settings...
     let container: any = document.getElementById('auoComplete');
     // let itemList: any = document.getElementById('item-list');
-    // let sbtn: any = document.getElementById('search-button');
+    let sbtn: any = document.getElementById('search-button');
     // let notFound: any = document.getElementById('not-found');
     // var img = document.getElementById('auoComplete');
     if (!container.contains(e)) {
-      container?.classList.remove('input-search')
+      container?.classList.remove('input-search');
+      sbtn?.classList.remove('btn-display')
     } else {
       if (this.searchQuery) {
         container?.classList.add('input-search')

@@ -30,6 +30,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   trendingPropertyList: any = [];
   similarPropertyList: any = [];
 
+  //to track user clicks
+  visitedPropertyList:any=[];
+
   //for request
   matchedPropertyListRequest: any = '';
   trendingPropertyListRequest: any = '';
@@ -523,5 +526,13 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
       )
     }
 
+  }
+
+  //tracks clicks of user
+  trackClicks(propertyId:any){
+    console.log("property Id",propertyId)
+    // PropertyID
+    this.visitedPropertyList.push(propertyId);
+    console.log(this.visitedPropertyList)
   }
 }
