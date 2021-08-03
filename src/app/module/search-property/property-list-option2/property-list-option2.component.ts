@@ -1,3 +1,4 @@
+import { error } from '@angular/compiler/src/util';
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SearchServiceService } from '@services/search-service.service';
@@ -18,7 +19,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   similarPropertyListDetails: any = [];
   public loading = false;
   numbers: any = [1, 2, 3, 4, 5, 6];
-  searchQuery: any;
+  searchQuery: any=null;
   meanQuery = "2bhk room in koramangala"
   relatedSuggestion = ['2 bhk for rent in koramanagala 2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala',
     '2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala',
@@ -28,6 +29,12 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   matchedPropertyList: any = [];
   trendingPropertyList: any = [];
   similarPropertyList: any = [];
+
+  //for request
+  matchedPropertyListRequest: any = '';
+  trendingPropertyListRequest: any = '';
+  similarPropertyListRequest: any = '';
+  suggestionList: any=[];
   constructor(private searchService: SearchServiceService, config: NgbRatingConfig,
     private cdr: ChangeDetectorRef) {
     this.loading = true;
@@ -36,9 +43,31 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
       (response) => {
         if (response) {
           this.getPropertyDetails(response);
+
+          //making property Id as one string
+          //for matching properties
+          // if (response.matchedProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.matchedProperties, 'matching');
+          // //for trending properties
+          // if (response.trendingProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.trendingProperties, 'trending');
+          // //for similar properties
+          // if (response.similarProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.similarProperties, 'similar');
         } else {
           const list: any = localStorage.getItem('list');
           this.getPropertyDetails(JSON.parse(list));
+          let response = JSON.parse(list)
+          //making property Id as one string
+          //for matching properties
+          // if (response.matchedProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.matchedProperties, 'matching');
+          // //for trending properties
+          // if (response.trendingProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.trendingProperties, 'trending');
+          // //for similar properties
+          // if (response.similarProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.similarProperties, 'similar');
         }
       }
     )
@@ -52,9 +81,13 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
+  ngOnInit(): void {
+  }
+
+
+
   //to order property according to response rating
   orderItems(response: any, value: any) {
-
     switch (value) {
       case 'matched':
         this.loading = true;
@@ -73,7 +106,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
           })
           this.cdr.detectChanges();
         });
-        console.log("matched property list", this.matchedPropertyList)
         this.loading = false;
         break;
 
@@ -126,7 +158,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
     this.matchedPropertyListDetails = [];
     this.trendingPropertyListDetails = [];
     this.similarPropertyListDetails = [];
-    console.log(response1)
     //for matched properties
     if (response1 && response1.matchedProperties && response1.matchedProperties.length) {
       this.loading = true;
@@ -145,9 +176,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
                 let badgeList = []
                 response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
                 for (let item of Object.keys(itm[0].labels)) {
-                  if(itm[0].labels[item].entity){
+                  if (itm[0].labels[item].entity) {
                     badgeList.push(itm[0].labels[item].entity)
-                  }else{
+                  } else {
                     badgeList.push(item)
                   }
                 }
@@ -268,9 +299,104 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
     }
 
   }
-  ngOnInit(): void {
 
+  //to put prorprty id in one string (request parameter)
+  propertyDetailsByPropertyIdRequestBody(value: any, type: any) {
+    switch (type) {
+      case 'matching':
+        value.forEach((element: any, i: any) => {
+          // element.propertyID
+          if (i != 0) {
+            this.matchedPropertyListRequest += ',' + element.propertyID;
+          } else {
+            this.matchedPropertyListRequest += element.propertyID;
+          }
+        });
+        this.getPropertyDetailsByPropertyIdString(this.matchedPropertyListRequest, 'matching');
+        console.log("match request", this.matchedPropertyListRequest);
+        break;
+
+      case 'trending':
+        value.forEach((element: any, i: any) => {
+          // element.propertyID
+          if (i != 0) {
+            this.trendingPropertyListRequest += ',' + element.propertyID;
+          } else {
+            this.trendingPropertyListRequest += element.propertyID;
+          }
+        });
+        this.getPropertyDetailsByPropertyIdString(this.trendingPropertyListRequest, 'trending');
+        console.log("trending request", this.trendingPropertyListRequest);
+        break;
+
+      case 'similar':
+        value.forEach((element: any, i: any) => {
+          // element.propertyID
+          if (i != 0) {
+            this.similarPropertyListRequest += ',' + element.propertyID;
+          } else {
+            this.similarPropertyListRequest += element.propertyID;
+          }
+        });
+        this.getPropertyDetailsByPropertyIdString(this.similarPropertyListRequest, 'similar');
+        console.log("similar request", this.similarPropertyListRequest);
+        break;
+    }
   }
+
+  //call one string property ID request
+  getPropertyDetailsByPropertyIdString(requestString: any, type: any) {
+    let requestObj = {
+      propertyId: requestString,
+    }
+    switch (type) {
+      case 'matching':
+        this.loading = true;
+        this.searchService.getPropertyDetailsByString(requestObj).pipe(takeUntil(this.unsubscribe)).subscribe(
+          (response: any) => {
+            if (response) {
+              this.matchedPropertyListDetails = response
+            }
+            this.loading = false;
+          },
+          error => {
+            this.loading = false;
+          }
+        )
+        break;
+
+      case 'trending':
+        this.loading = true;
+        this.searchService.getPropertyDetailsByString(requestObj).pipe(takeUntil(this.unsubscribe)).subscribe(
+          (response: any) => {
+            if (response) {
+              this.trendingPropertyListDetails = response
+            }
+            this.loading = false;
+          },
+          error => {
+            this.loading = false;
+          }
+        )
+        break;
+
+      case 'trending':
+        this.loading = true;
+        this.searchService.getPropertyDetailsByString(requestObj).pipe(takeUntil(this.unsubscribe)).subscribe(
+          (response: any) => {
+            if (response) {
+              this.similarPropertyListDetails = response
+            }
+            this.loading = false;
+          },
+          error => {
+            this.loading = false;
+          }
+        )
+        break;
+    }
+  }
+
   stringFormatted(value: any) {
     // value.forEach((searchWord:any) =>{
     //   console.log('/'+searchWord+'/g', '<b>'+searchWord+'</b>')
@@ -282,17 +408,48 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
   }
 
   selectEvent(event: any) {
-    console.log("Select event", event)
-
+    console.log("select event", event)
+    if (event) {
+      let ele = document.getElementById('auoComplete');
+      ele?.classList.remove('input-search')
+      this.matchedPropertyList = [];
+      this.trendingPropertyList = [];
+      this.similarPropertyList = [];
+      let search = {
+        "query": event.name
+      }
+      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+        (response: any) => {
+          let searchData = []
+          if (response) {
+            this.searchService.searchedPropertyList.next(response);
+            localStorage.setItem("list", JSON.stringify(response))
+            this.getPropertyDetails(response)
+            //making property Id as one string
+            //for matching properties
+            // if (response.matchedProperties)
+            //   this.propertyDetailsByPropertyIdRequestBody(response.matchedProperties, 'matching');
+            // //for trending properties
+            // if (response.trendingProperties)
+            //   this.propertyDetailsByPropertyIdRequestBody(response.trendingProperties, 'trending');
+            // //for similar properties
+            // if (response.similarProperties)
+            //   this.propertyDetailsByPropertyIdRequestBody(response.similarProperties, 'similar');
+          }
+          this.loading = false;
+        }, (error: any) => {
+          this.loading = false;
+        }
+      )
+    }
   }
 
-  keyupevent(event: any) {
-    console.log("key up ", event)
-  }
-
+  //search property
   keyPress(event: any) {
     this.loading = true;
     if (this.searchQuery && event.keyCode == 13) {
+      let ele = document.getElementById('auoComplete');
+      ele?.classList.remove('input-search')
       this.matchedPropertyList = [];
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
@@ -305,6 +462,16 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
             this.searchService.searchedPropertyList.next(response);
             localStorage.setItem("list", JSON.stringify(response))
             this.getPropertyDetails(response)
+            //making property Id as one string
+            //for matching properties
+            // if (response.matchedProperties)
+            //   this.propertyDetailsByPropertyIdRequestBody(response.matchedProperties, 'matching');
+            // //for trending properties
+            // if (response.trendingProperties)
+            //   this.propertyDetailsByPropertyIdRequestBody(response.trendingProperties, 'trending');
+            // //for similar properties
+            // if (response.similarProperties)
+            //   this.propertyDetailsByPropertyIdRequestBody(response.similarProperties, 'similar');
           }
           this.loading = false;
         }, (error: any) => {
@@ -314,9 +481,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
     } else {
       this.loading = false;
     }
+
     console.log("key pressss", event)
   }
 
+  //tring string ex.discription
   trimString(text: any, length: any) {
     return text.length > length ? text.substring(0, length) + "..." : text;
   }
@@ -329,4 +498,30 @@ export class PropertyListOption2Component implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
+  //search suggestion list
+  onChangeSearch(event: any) {
+    console.log(event)
+    if (event) {
+      let searchObj = {
+        query: event
+      }
+      this.searchService.searchSuggestion(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
+        (response: any) => {
+          this.suggestionList = [];
+          if (response && response.response && response.response.propertyLocation) {
+            response.response.propertyLocation.forEach((element: any) => {
+              this.suggestionList.push({ name: element, type: 'location' })
+            });
+          }
+          if (response && response.response && response.response.propertiesName) {
+            response.response.propertiesName.forEach((element: any) => {
+              this.suggestionList.push({ name: element.propertyName, type: 'property' })
+            });
+          }
+          console.log(this.suggestionList)
+        }
+      )
+    }
+
+  }
 }

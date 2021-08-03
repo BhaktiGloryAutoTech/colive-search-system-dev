@@ -158,6 +158,7 @@ a:link {
           font-size: 18px;
           color: #ed0c6d;
           cursor: pointer;
+          margin-top: 1px;
         }
       }
       #location-margin {
@@ -270,6 +271,51 @@ a:link {
   }
 }
 
+//for suggestion List
+
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container {
+    border-radius: 0px 0px 30px 30px;
+    width: 100%;
+    margin: 0px -24px;
+    border-color: #112950 !important;
+  }
+}
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container ul li a {
+    color: #112950 !important;
+  }
+}
+.input-search .ng-autocomplete {
+  ::ng-deep .autocomplete-container,
+  ::ng-deep .autocomplete-container input {
+    border-radius: 30px 30px 0px 0px;
+    border-color: #112950 !important;
+  }
+}
+
+.location-property {
+  color: #112950;
+  font-size: 24px;
+  margin: 2% 0 0 4%;
+}
+//not found
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .not-found {
+    border-radius: 0px 0px 30px 30px;
+    padding-left: 21px;
+    width: 113%;
+    margin: 0px -26px;
+    div {
+      padding: 0.4em 1.7rem;
+      a {
+        font: normal normal 700 13px/10px Poppins;
+        color: #112950 !important;
+      }
+    }
+  }
+}
+
 .showMore {
   height: auto !important;
 }
@@ -359,6 +405,11 @@ a:link {
   margin-left: 3%;
 }
 
+//progress Bar
+.mt--9 {
+  margin-top: -9%;
+}
+
 @media screen and (max-width: 1024px) {
   .container-div {
     .logo-text-div .logo-text {
@@ -383,9 +434,15 @@ a:link {
       margin: 1.7% 0 0 3.9%;
     }
   }
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 116%;
+    }
+  }
 }
-
-@media screen and (max-width: 768px) {
+// 768
+@media screen and (max-width: 922px) {
   .container-div {
     .logo-text-div .logo-text {
       font-size: 2rem;
@@ -461,6 +518,90 @@ a:link {
       left: 40%;
     }
   }
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 119%;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .container-div {
+    .search {
+      margin: 3.9% 5% 0 5%;
+      width: 87%;
+    }
+  }
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 111%;
+    }
+  }
+}
+
+@media screen and (max-width: 696px) {
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 112%;
+    }
+  }
+}
+
+@media screen and (max-width: 630px) {
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 113%;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 114%;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 116%;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 117%;
+    }
+  }
+}
+
+@media screen and (max-width: 475px) {
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 118%;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 119%;
+    }
+  }
 }
 
 @media screen and (max-width: 425px) {
@@ -505,7 +646,7 @@ a:link {
     }
     #totalResult {
       margin: 2.7% 0 0 4.9%;
-      span{
+      span {
         font: normal normal normal 12px/20px Poppins;
       }
     }
@@ -527,6 +668,7 @@ a:link {
             font: normal normal normal 12px/20px Poppins;
           }
         }
+
         #propertyName {
           font: normal normal 600 18px/30px Poppins;
         }
@@ -543,6 +685,36 @@ a:link {
     }
     .container-footer .footer {
       left: 34%;
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .container-div .search {
+    width: 329px;
+  }
+  .property-card ul li #location-margin {
+    margin-left: -2.2%;
+  }
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 123%;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .container-div .search {
+    width: 277px;
+  }
+  .property-card ul li #location-margin {
+    margin-left: -3.2%;
+  }
+  //not found
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 128.5%;
     }
   }
 }

@@ -1,29 +1,42 @@
 <ngx-loading [show]="loading" [config]="{
   primaryColour: '#ED0C6D', secondaryColour: '#ED0C6D', tertiaryColour: '#ED0C6D'}">
 </ngx-loading>
-<div class="container-div">
+<div class="container-div" id="search">
   <div class="row col-md-12 search-body">
     <div class="body-container text-center">
       <span class="logo-text">COLIVE</span>
       <!-- <img class="img-fluid auto-center" alt="Colive" src="./../../../../assets/paginator.png"> -->
-      <div class="flex-width">
-        <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar" (selected)='selectEvent($event)'
-        (keypress)="keyPress($event)"  [itemTemplate]="itemTemplate"
-          [notFoundTemplate]="notFoundTemplate" [(ngModel)]="searchQuery">
+      <div class="flex-width" id="auoComplete" [ngClass]="{'input-search':searchQuery!=='' }">
+        <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar"
+          (selected)='selectEvent($event)' (keypress)="keyPress($event)" [searchKeyword]="'name'"
+          (inputChanged)='onChangeSearch($event)' [data]="suggestionList" [itemTemplate]="itemTemplate"
+          [(ngModel)]="searchQuery" [notFoundTemplate]="notFoundTemplate" [focusFirst]="true">
         </ng-autocomplete>
 
         <ng-template #itemTemplate let-item>
-          <a [innerHTML]="item.name"></a>
+          <div class="d-flex" id="item-list">
+            <ng-container *ngIf="item.type=='location'; else logotemp">
+              <span class="material-icons-outlined location-property">location_on</span>
+            </ng-container>
+            <ng-template #logotemp>
+              <span class="material-icons-outlined location-property">location_city</span>
+            </ng-template>
+            <a class="suggestion-text" [innerHTML]="item.name"></a>
+          </div>
         </ng-template>
 
         <ng-template #notFoundTemplate let-notFound>
-          <!-- <div [innerHTML]="notFound"></div> -->
+          <div class="text-left">
+            <a id="not-found" [innerHTML]="searchQuery"></a>
+          </div>
         </ng-template>
+
         <span id="search-span" class="material-icons search-icon">search</span>
         <!-- <span id="mic-span" class="material-icons mic-icon">mic_none</span> -->
       </div>
       <div class="search-btn">
-        <button type="submit" class="searchButton" [disabled]="disableButton" (click)="searchFunctionFormat()">
+        <button type="submit" id="search-button" class="searchButton" [disabled]="disableButton"
+          (click)="searchFunctionFormat()">
           Search
         </button>
       </div>

@@ -79,6 +79,7 @@ export class PropertyListComponent implements OnInit, OnDestroy {
 
       }
     )
+    //for star rating
     config.max = 5;
     config.readonly = true;
   }

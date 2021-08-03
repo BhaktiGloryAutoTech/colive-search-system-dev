@@ -22,4 +22,11 @@ export class SearchServiceService {
   getPropertyDetail(data:any){
     return this.httpClient.post(this.commonServiceService.envUrl()+"properties",data)
   }
+  getPropertyDetailsByString(data:any){
+    return this.httpClient.post(this.commonServiceService.envUrl()+"",data)
+  }
+
+  searchSuggestion(data:any){
+    return this.httpClient.post("http://20.198.82.4:8082/search/suggestion",data);
+  }
 }

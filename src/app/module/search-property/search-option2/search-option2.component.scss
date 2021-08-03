@@ -108,35 +108,53 @@
   }
 }
 
+//button display
+.btn-display{
+  display: none;
+}
+
 //for suggestion List
 
 .ng-autocomplete {
   ::ng-deep .autocomplete-container .suggestions-container {
     border-radius: 0px 0px 30px 30px;
-    padding-left: 10px;
     width: 100%;
     margin: 0px -24px;
     border-color: black;
   }
 }
-.ng-autocomplete {
-  ::ng-deep .autocomplete-container:focus-within,
-  ::ng-deep .autocomplete-container input :focus-within {
+.input-search .ng-autocomplete {
+  ::ng-deep .autocomplete-container,
+  ::ng-deep .autocomplete-container input {
     border-radius: 30px 30px 0px 0px;
     border-color: black;
   }
 }
+//not found
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .not-found {
+    border-radius: 0px 0px 30px 30px;
+    padding-left: 21px;
+    width: 112%;
+    margin: 0px -26px;
+    div {
+      padding: 0.4em 1.7rem;
+      a {
+        font: normal normal 700 13px/10px Poppins;
+      }
+    }
+  }
+}
 
-.location-property{
+.location-property {
   color: #112950;
   font-size: 24px;
-  margin: 2% 0 0 0;
+  margin: 2% 0 0 4%;
 }
 
-.suggestion-text{
+.suggestion-text {
   font: normal normal normal 10px/10px Poppins;
 }
-
 
 .searchButton {
   width: 30%;
@@ -153,6 +171,30 @@
   padding: 0px;
   height: 120px;
   margin-top: -20%;
+}
+
+@media screen and (max-width: 1199px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 115%;
+    }
+  }
+}
+
+@media screen and (max-width: 1114px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 116%;
+    }
+  }
+}
+
+@media screen and (max-width: 1047px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 117.5%;
+    }
+  }
 }
 
 @media screen and (max-width: 1024px) {
@@ -172,6 +214,43 @@
           font-size: 18px;
         }
       }
+    }
+  }
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 113.8%;
+    }
+  }
+}
+
+@media screen and (max-width: 947px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 115%;
+    }
+  }
+}
+
+@media screen and (max-width: 880px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 116.4%;
+    }
+  }
+}
+
+@media screen and (max-width: 822px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 117.8%;
+    }
+  }
+}
+
+@media screen and (max-width: 770px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 119%;
     }
   }
 }
@@ -194,6 +273,67 @@
           font-size: 16px;
         }
       }
+    }
+  }
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 115.8%;
+    }
+  }
+}
+
+@media screen and (max-width: 709px) {
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 117%;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 119%;
+    }
+  }
+}
+
+@media screen and (max-width: 585px) {
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 121%;
+    }
+  }
+}
+
+@media screen and (max-width: 528px) {
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 124%;
+    }
+  }
+}
+
+@media screen and (max-width: 493px) {
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 126%;
+    }
+  }
+}
+
+@media screen and (max-width: 463px) {
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 129%;
+    }
+  }
+}
+
+@media screen and (max-width: 435px) {
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 130.6%;
     }
   }
 }
@@ -222,6 +362,19 @@
           font-size: 14px;
         }
       }
+    }
+  }
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 123%;
+    }
+  }
+}
+
+@media screen and (max-width: 395px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 125%;
     }
   }
 }
@@ -253,6 +406,21 @@
     }
   }
 }
+@media screen and (max-width: 350px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 127%;
+    }
+  }
+}
+
+@media screen and (max-width: 330px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 130%;
+    }
+  }
+}
 
 @media screen and (max-width: 320px) {
   .search-body {
@@ -278,6 +446,14 @@
           font-size: 11px;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 310px){
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container .not-found {
+      width: 133%;
     }
   }
 }
