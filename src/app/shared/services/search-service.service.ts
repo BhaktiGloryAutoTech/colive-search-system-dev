@@ -9,28 +9,35 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class SearchServiceService {
 
   public searchedPropertyList = new BehaviorSubject<any>('');
-  constructor(private httpClient: HttpClient,private commonServiceService:CommonServiceService) { }
+  public searchQuerySpell = new BehaviorSubject<any>('');
+  public searchQuery = new BehaviorSubject<any>('');
+  public fixedQuery= new BehaviorSubject<any>('');
+  constructor(private httpClient: HttpClient, private commonServiceService: CommonServiceService) { }
 
-  seachProperty(data:any){
-    return this.httpClient.post(this.commonServiceService.envUrl()+"query",data)
+  seachProperty(data: any) {
+    return this.httpClient.post(this.commonServiceService.envUrl() + "query", data)
   }
 
-  searchPropertyFormated(data:any){
-    return this.httpClient.post("http://20.198.82.4:8082/query/v2",data);
+  searchPropertyFormated(data: any) {
+    return this.httpClient.post("http://20.198.82.4:8082/query/v2", data);
   }
 
-  getPropertyDetail(data:any){
-    return this.httpClient.post(this.commonServiceService.envUrl()+"properties",data)
+  getPropertyDetail(data: any) {
+    return this.httpClient.post(this.commonServiceService.envUrl() + "properties", data)
   }
-  getPropertyDetailsByString(data:any){
-    return this.httpClient.post(this.commonServiceService.envUrl()+"",data)
-  }
-
-  searchSuggestion(data:any){
-    return this.httpClient.post("http://20.198.82.4:8082/search/suggestion",data);
+  getPropertyDetailsByString(data: any) {
+    return this.httpClient.post(this.commonServiceService.envUrl() + "", data)
   }
 
-  trackedClicks(data:any){
-    return this.httpClient.post("http://20.198.82.4:8082/",data);
+  searchSuggestion(data: any) {
+    return this.httpClient.post("http://20.198.82.4:8082/search/suggestion", data);
+  }
+
+  trackedClicks(data: any) {
+    return this.httpClient.post("http://20.198.82.4:8082/", data);
+  }
+
+  spellCheck(data: any) {
+    return this.httpClient.post("http://20.198.82.4:8082/search/spellCheck/", data);
   }
 }

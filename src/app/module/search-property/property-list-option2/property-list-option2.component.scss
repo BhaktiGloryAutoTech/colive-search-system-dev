@@ -329,7 +329,7 @@ a:link {
   border: none;
   cursor: pointer;
   width: 12%;
-  margin: -16px 0 0 0px;
+  margin: 0px 0 0 0px;
   text-decoration: none !important;
 }
 .nav-tabs .nav-link,
@@ -339,7 +339,7 @@ a:link {
   border: none;
   cursor: pointer;
   width: 12%;
-  margin: 0;
+  margin: 0px 0 0 0;
   text-decoration: none !important;
 }
 .tab-title {
@@ -428,7 +428,12 @@ a:link {
     }
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
+      margin: -2px 0 0 0px;
       padding: 0px;
+    }
+    .nav-tabs .nav-link,
+    .nav-tabs .nav-item.show .nav-link :hover {
+      margin: -9px 0 0 0;
     }
     #totalResult {
       margin: 1.7% 0 0 3.9%;
@@ -630,7 +635,11 @@ a:link {
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
       padding: 0px;
-      width: 27%;
+      width: auto;
+    }
+    .nav-tabs .nav-link,
+    .nav-tabs .nav-item.show .nav-link :hover {
+      width: auto;
     }
     .similar-icon,
     .trending-up-icon,
@@ -702,6 +711,14 @@ a:link {
       width: 123%;
     }
   }
+  .nav-tabs .nav-link.active,
+  .nav-tabs .nav-item.show .nav-link {
+    width: auto;
+  }
+  .nav-tabs .nav-link,
+  .nav-tabs .nav-item.show .nav-link :hover {
+    width: auto;
+  }
 }
 
 @media screen and (max-width: 320px) {
@@ -716,5 +733,13 @@ a:link {
     ::ng-deep .autocomplete-container .not-found {
       width: 128.5%;
     }
+  }
+  .nav-tabs .nav-link.active,
+  .nav-tabs .nav-item.show .nav-link {
+    width: auto;
+  }
+  .nav-tabs .nav-link,
+  .nav-tabs .nav-item.show .nav-link :hover {
+    width: auto;
   }
 }
