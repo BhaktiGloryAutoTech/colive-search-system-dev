@@ -96,7 +96,7 @@ export class SearchOption2Component implements OnInit {
           localStorage.setItem("query", JSON.stringify(this.searchQuery))
           localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
           let searchObj = {
-            query: response.response.fixedQuery
+            query: this.searchQuery
           }
           //get property IDs
           this.searchService.searchPropertyFormated(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(

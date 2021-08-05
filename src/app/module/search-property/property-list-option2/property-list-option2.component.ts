@@ -478,7 +478,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             this.fixedQuery = response.response.fixedQuery
             localStorage.setItem('searchQuery', JSON.stringify(response.response.formattedString))
             let searchObj = {
-              'query': response.response.fixedQuery
+              'query': this.searchQuery
             }
             //get property ids for search query
             this.searchService.searchPropertyFormated(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
@@ -545,7 +545,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             this.fixedQuery = response.response.fixedQuery
             localStorage.setItem('searchQuery', JSON.stringify(response.response.formattedString))
             let searchObj = {
-              'query': response.response.fixedQuery
+              'query': this.searchQuery
             }
             //get property ids for search query
             this.searchService.searchPropertyFormated(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
