@@ -93,7 +93,8 @@
           <ng-container *ngIf="spellCorrectedQuery">
             <div class="d-flex did-you-mean">
               <span id="text">Did you mean:</span>
-              <span id="query" style="cursor: pointer;" class="ml-2" [innerHTML]="spellCorrectedQuery | bold" (click)="changeDidyouMean()"></span>
+              <span id="query" style="cursor: pointer;" class="ml-2" [innerHTML]="spellCorrectedQuery | bold"
+                (click)="changeDidyouMean()"></span>
             </div>
           </ng-container>
           <div class="row property-card" [ngClass]="{'showMore':property.showMore}"
@@ -152,12 +153,12 @@
                     [imageWidth]="50" [animationDuration]="300">
 
                   </circle-progress>
-                  <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}}</span>
+                  <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}} %</span>
                 </div>
               </li>
               <li class="d-flex mt-1">
                 <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index;let last=last">
-                  <span id="badge" class="badge-text">{{badge}}</span>
+                  <span id="badge" class="badge-text text-uppercase">{{badge}}</span>
                   <!-- <ng-container *ngIf="i+1<property.badgeList.length">
                     <span id="dot"></span>
                   </ng-container> -->
@@ -264,13 +265,13 @@
                       [imageHeight]="50" [imageWidth]="50" [animationDuration]="300">
 
                     </circle-progress>
-                    <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}}</span>
+                    <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}} %</span>
                   </div>
                 </ng-container>
               </li>
               <li class="d-flex mt-1">
                 <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index">
-                  <span id="badge" class="badge-text">{{badge}}</span>
+                  <span id="badge" class="badge-text text-uppercase">{{badge}}</span>
                   <ng-container *ngIf="i+1<property.badgeList.length">
                     <span id="dot"></span>
                   </ng-container>
@@ -374,13 +375,13 @@
                       [imageHeight]="50" [imageWidth]="50" [animationDuration]="300">
 
                     </circle-progress>
-                    <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}}</span>
+                    <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}} %</span>
                   </div>
                 </ng-container>
               </li>
               <li class="d-flex mt-1">
                 <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index">
-                  <span id="badge" class="badge-text">{{badge}}</span>
+                  <span id="badge" class="badge-text text-uppercase">{{badge}}</span>
                   <ng-container *ngIf="i+1<property.badgeList.length">
                     <span id="dot"></span>
                   </ng-container>

@@ -140,7 +140,7 @@
     div {
       padding: 0.4em 1.7rem;
       a {
-        font: normal normal 700 13px/10px Poppins;
+        font: normal normal 700 13px/10px Montserrat;
       }
     }
   }
@@ -153,7 +153,8 @@
 }
 
 .suggestion-text {
-  font: normal normal normal 10px/10px Poppins;
+  font: normal normal normal 10px/10px Montserrat;
+  text-transform: capitalize;
 }
 
 .searchButton {

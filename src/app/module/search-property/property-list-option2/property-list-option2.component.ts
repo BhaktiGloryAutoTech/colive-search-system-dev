@@ -241,8 +241,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
                 let badgeList = []
                 response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
                 for (let item of Object.keys(itm[0].labels)) {
-                  if (itm[0].labels[item].entity) {
-                    badgeList.push(itm[0].labels[item].entity)
+                  if (itm[0].labels[item].displayValue) {
+                    badgeList.push(itm[0].labels[item].displayValue)
                   } else {
                     badgeList.push(item)
                   }
@@ -291,7 +291,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
                 let badgeList = []
                 response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
                 for (let item of Object.keys(itm[0].labels)) {
-                  badgeList.push(item)
+                  if (itm[0].labels[item].displayValue) {
+                    badgeList.push(itm[0].labels[item].displayValue)
+                  } else {
+                    badgeList.push(item)
+                  }
                 }
                 response.Data.Property[0]['badgeList'] = badgeList
               }
@@ -336,7 +340,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
                 let badgeList = []
                 response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
                 for (let item of Object.keys(itm[0].labels)) {
-                  badgeList.push(item)
+                  if (itm[0].labels[item].displayValue) {
+                    badgeList.push(itm[0].labels[item].displayValue)
+                  } else {
+                    badgeList.push(item)
+                  }
                 }
                 response.Data.Property[0]['badgeList'] = badgeList
               }
@@ -591,10 +599,10 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   }
 
   changeDidyouMean() {
-    this.loading=true;
+    this.loading = true;
     this.searchQuery = this.fixedQuery;
     this.spellCorrectedQuery = ''
-    localStorage.setItem('searchQuery','')
+    localStorage.setItem('searchQuery', '')
     let searchObj = {
       'query': this.searchQuery
     }
