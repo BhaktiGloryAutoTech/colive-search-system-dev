@@ -594,6 +594,32 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     this.searchQuery = this.fixedQuery;
     this.spellCorrectedQuery = ''
     localStorage.setItem('searchQuery','')
+    let searchObj = {
+      'query': this.searchQuery
+    }
+    //get property ids for search query
+    this.searchService.searchPropertyFormated(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
+      (response: any) => {
+        if (response) {
+          this.searchService.searchedPropertyList.next(response);
+          localStorage.setItem("list", JSON.stringify(response))
+          this.getPropertyDetails(response)
+          //making property Id as one string
+          //for matching properties
+          // if (response.matchedProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.matchedProperties, 'matching');
+          // //for trending properties
+          // if (response.trendingProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.trendingProperties, 'trending');
+          // //for similar properties
+          // if (response.similarProperties)
+          //   this.propertyDetailsByPropertyIdRequestBody(response.similarProperties, 'similar');
+        }
+        this.loading = false;
+      }, (error: any) => {
+        this.loading = false;
+      }
+    )
     this.cdr.detectChanges();
   }
 
