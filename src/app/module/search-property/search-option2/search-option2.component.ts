@@ -59,7 +59,8 @@ export class SearchOption2Component implements OnInit {
       let search = {
         "query": event.name
       }
-      this.getPropertyList(search);
+      this.spellCheck(search);
+      // this.getPropertyList(search);
     }
   }
   keyPress(event: any) {
@@ -72,7 +73,8 @@ export class SearchOption2Component implements OnInit {
       let search = {
         "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
       }
-      this.getPropertyList(search);
+      this.spellCheck(search);
+      // this.getPropertyList(search);
 
     }
   }
@@ -80,49 +82,25 @@ export class SearchOption2Component implements OnInit {
   //get property list
   getPropertyList(search: any) {
     this.loading = true;
-    //spell check
-    this.searchService.spellCheck(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+    //get property IDs
+    this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
       (response: any) => {
-        if (response && response.response) {
-          if (response.response.originalQuery != response.response.formattedString) {
-            this.searchService.searchQuerySpell.next(response.response.formattedString);
-            localStorage.setItem('searchQuery', JSON.stringify(response.response.formattedString))
-          } else {
-            this.searchService.searchQuerySpell.next('');
-            localStorage.setItem('searchQuery', JSON.stringify(''))
-          }
-          this.searchService.searchQuery.next(this.searchQuery);
-          this.searchService.fixedQuery.next(response.response.fixedQuery)
-          localStorage.setItem("query", JSON.stringify(this.searchQuery))
-          localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
-          let searchObj = {
-            query: this.searchQuery
-          }
-          //get property IDs
-          this.searchService.searchPropertyFormated(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
-            (response: any) => {
-              let searchData = []
-              if (response) {
-                searchData = response
-                this.searchService.searchedPropertyList.next(searchData);
-                localStorage.setItem("list", JSON.stringify(searchData))
-                this.disableButton = false;
-                this.router.navigate(['/propertyv2'])
-              }
-              this.loading = false;
-            }, (error: any) => {
-              this.loading = false;
-              this.disableButton = false;
-            }
-          )
-        } else {
-          this.loading = false;
+        let searchData = []
+        if (response) {
+          searchData = response
+          this.searchService.searchedPropertyList.next(searchData);
+          localStorage.setItem("list", JSON.stringify(searchData))
+          this.disableButton = false;
+          this.router.navigate(['/propertyv2'])
         }
-      },
-      error => {
         this.loading = false;
+      }, (error: any) => {
+        this.loading = false;
+        this.disableButton = false;
       }
     )
+
+
   }
 
   //suggestion list
@@ -173,7 +151,8 @@ export class SearchOption2Component implements OnInit {
       let search = {
         "query": this.searchQuery
       }
-      this.getPropertyList(search);
+      this.spellCheck(search);
+
     }
   }
 
@@ -193,9 +172,14 @@ export class SearchOption2Component implements OnInit {
               localStorage.setItem('searchQuery', JSON.stringify(''))
             }
             this.searchService.searchQuery.next(this.searchQuery);
+            this.searchService.fixedQuery.next(response.response.fixedQuery)
             localStorage.setItem("query", JSON.stringify(this.searchQuery))
+            localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
+            this.getPropertyList(value);
+          }else{
+            this.loading = false;
           }
-          this.loading = false;
+
         },
         error => {
           this.loading = false;
