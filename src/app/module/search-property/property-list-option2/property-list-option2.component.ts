@@ -591,6 +591,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   }
 
   changeDidyouMean() {
+    this.loading=true;
     this.searchQuery = this.fixedQuery;
     this.spellCorrectedQuery = ''
     localStorage.setItem('searchQuery','')
