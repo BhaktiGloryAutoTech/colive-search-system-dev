@@ -155,10 +155,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   @HostListener('click', ['$event.target'])
   onClick(e: any) {
     let container: any = document.getElementById('auoComplete');
+    let suggestionList: any = document.getElementById('item-list');
     if (!container.contains(e)) {
       container?.classList.remove('input-search');
     } else {
-      if (this.searchQuery) {
+      if (this.searchQuery && suggestionList) {
         container?.classList.add('input-search')
       }
     }
@@ -756,7 +757,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         query: event
       }
       let container: any = document.getElementById('auoComplete');
-
+      let suggest: any = document.getElementById('item-list');
       this.searchService.searchSuggestion(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
           this.suggestionList = [];
@@ -774,17 +775,13 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
 
         }, error => {
-          (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
+          // suggest ? container.classList.add('input-search') : container.classList.remove('input-search');
         }
       )
       // setTimeout(() => {
-
-      //   let notFound: any = document.getElementById('notFound');
-      //   if (notFound) {
-
-      //   } else {
-
-      //   }
+      //   let container: any = document.getElementById('auoComplete');
+      //   let suggest: any = document.getElementById('item-list');
+      //   suggest ? container.classList.add('input-search') : container.classList.remove('input-search');
       // }, 1000)
       this.cdr.detectChanges();
     }

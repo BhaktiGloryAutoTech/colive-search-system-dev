@@ -50,11 +50,12 @@ export class SearchOption2Component implements OnInit {
     //for settings...
     let container: any = document.getElementById('auoComplete');
     let sbtn: any = document.getElementById('search-button');
+    let suggestionList:any =document.getElementById('item-list');
     if (!container.contains(e)) {
       container?.classList.remove('input-search');
       sbtn?.classList.remove('btn-display')
     } else {
-      if (this.searchQuery) {
+      if (this.searchQuery && suggestionList) {
         container?.classList.add('input-search')
       }
     }
@@ -142,7 +143,6 @@ export class SearchOption2Component implements OnInit {
           setTimeout(() => {
             let itemList: any = document.getElementById('item-list');
             let sbtn: any = document.getElementById('search-button');
-            let notFound: any = document.getElementById('not-found');
             if (itemList) {
               sbtn?.classList.add('btn-display')
             } else if (!this.suggestionList || !this.suggestionList.length) {

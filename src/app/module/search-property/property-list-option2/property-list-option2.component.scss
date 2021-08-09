@@ -2,7 +2,7 @@
   overflow-x: hidden;
   overflow-y: hidden;
 }
-hr{
+hr {
   margin-bottom: 0 !important;
 }
 .logo-text-div {
@@ -93,18 +93,18 @@ hr{
   }
 }
 //to remove underline
-#view-property-link{
+#view-property-link {
   text-decoration: none !important;
 }
 a:hover {
   text-decoration: underline;
-  color: #ED0C6D;
+  color: #ed0c6d;
   cursor: pointer;
 }
 
 a,
 a:link {
-  color: #ED0C6D !important;
+  color: #ed0c6d !important;
   cursor: pointer;
 }
 .property-card {
@@ -299,6 +299,17 @@ a:link {
     color: #112950 !important;
   }
 }
+
+//hover
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container ul li:last-child .complete-selected,
+  ::ng-deep .autocomplete-container .suggestions-container ul li:last-child:hover
+  {
+    border-radius: 0 0 30px 30px;
+  }
+}
+
+
 .input-search .ng-autocomplete {
   ::ng-deep .autocomplete-container,
   ::ng-deep .autocomplete-container input {
@@ -485,6 +496,11 @@ a:link {
       padding: 0px;
       width: 15%;
     }
+    .nav-tabs .nav-link,
+    .nav-tabs .nav-item.show .nav-link :hover {
+      width: 15%;
+      margin-top: -1%;
+    }
     .similar-icon,
     .trending-up-icon,
     .check-circle-icon {
@@ -595,6 +611,29 @@ a:link {
   }
 }
 
+@media screen and (max-width: 540px) {
+  .container-div {
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      padding: 0px;
+      width: 23%;
+      margin-top: 8px;
+    }
+    .nav-tabs .nav-link,
+    .nav-tabs .nav-item.show .nav-link :hover {
+      width: 23%;
+      margin-top: -3%;
+      padding: 24px 0 0 0;
+    }
+    hr {
+      margin-bottom: -8px !important;
+    }
+    #totalResult {
+      margin-left: 5.9% !important;
+    }
+  }
+}
+
 @media screen and (max-width: 500px) {
   //not found
   .ng-autocomplete {
@@ -641,18 +680,25 @@ a:link {
         }
       }
     }
+    hr {
+      margin-bottom: -10px !important;
+    }
     .nav,
     .nav-tabs {
-      padding-left: 2rem !important;
+      padding-left: 1.2rem !important;
+      padding-right: 1.2rem !important;
     }
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
       padding: 0px;
-      width: auto;
+      width: 33%;
+      margin-top: 12px;
     }
     .nav-tabs .nav-link,
     .nav-tabs .nav-item.show .nav-link :hover {
-      width: auto;
+      width: 33%;
+      margin-top: -3%;
+      padding: 24px 0 0 0;
     }
     .similar-icon,
     .trending-up-icon,
@@ -673,7 +719,7 @@ a:link {
       }
     }
     .property-card {
-      margin: 0px 22px 0px -18px;
+      margin: 0px 16px 0px -18px;
       ul li {
         div {
           #location {
@@ -712,12 +758,41 @@ a:link {
 }
 
 @media screen and (max-width: 375px) {
-  .container-div .search {
-    width: 329px;
+  .container-div {
+    .search {
+      width: 329px;
+    }
+    .property-card ul {
+      padding-left: 2.3rem;
+      li {
+        div {
+          #locationRating {
+            font-size: 11px;
+          }
+          .dot-badge {
+            margin: 8px !important;
+          }
+        }
+        #circle {
+          margin-left: 0.5rem !important;
+        }
+        #location-margin {
+          margin-left: -1.6%;
+          margin-right: -2.3%;
+        }
+        #amenities {
+          font-size: 11.4px;
+        }
+        #price {
+          font: normal normal 600 11px/20px Montserrat;
+        }
+        #onwards {
+          font: normal normal 300 11px/20px Montserrat;
+        }
+      }
+    }
   }
-  .property-card ul li #location-margin {
-    margin-left: -2.2%;
-  }
+
   //not found
   .ng-autocomplete {
     ::ng-deep .autocomplete-container .not-found {
@@ -735,11 +810,35 @@ a:link {
 }
 
 @media screen and (max-width: 320px) {
-  .container-div .search {
-    width: 277px;
+  .container-div {
+    .search {
+      width: 277px;
+    }
+    .property-card {
+      margin: 0px 16px 0px -23px !important;
+      ul li {
+        div {
+          #locationRating {
+            font-size: 10px;
+          }
+        }
+        #circle {
+          margin-left: 0rem !important;
+        }
+        #price-div {
+          margin-left: 0.5rem !important;
+        }
+      }
+    }
+    .nav,
+    .nav-tabs {
+      padding-left: 1.099rem !important;
+      padding-right: 1.099rem !important;
+    }
   }
+
   .property-card ul li #location-margin {
-    margin-left: -3.2%;
+    margin-left: -2.2%;
   }
   //not found
   .ng-autocomplete {
@@ -747,9 +846,11 @@ a:link {
       width: 128.5%;
     }
   }
+
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
     width: auto;
+    margin-top: 16px !important;
   }
   .nav-tabs .nav-link,
   .nav-tabs .nav-item.show .nav-link :hover {
