@@ -106,45 +106,53 @@
                   <span id="dot"></span>
                 </div>
                 <div>
-                  <span id="location">{{property.Area}}</span>
+                  <span id="location">{{property.metaData.subLocation}}</span>
                 </div>
               </li>
               <li>
                 <span id="propertyName">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">{{property.PropertyName}}</a>
+                  <a href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                    (click)=" trackClicks(property.PropertyID)" target="_blank"
+                    rel="noopener noreferrer">{{property.metaData.propertyName}}</a>
                 </span>
               </li>
               <li class="pr-4">
-                <span id="propertyDescription">
-                  <span *ngIf="!property.showMore">
-                    {{trimString(property.LocationDescription,300)}}
+                <ng-container *ngIf="property.metaData.locationHighlights">
+                  <span id="propertyDescription">
+                    <span *ngIf="!property.showMore">
+                      {{trimString(property.metaData.locationHighlights,300)}}
+                    </span>
+                    <span *ngIf="property.showMore"> {{property.metaData.locationHighlights}} </span>
+                    <div *ngIf="property.metaData.locationHighlights.length > 300"
+                      (click)="property.showMore = !property.showMore" class="show-more-design">
+                      Show
+                      <span>{{property.showMore ? 'less' : 'More'}}</span>
+                    </div>
                   </span>
-                  <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
-                  <div *ngIf="property.LocationDescription.length > 300"
-                    (click)="property.showMore = !property.showMore" class="show-more-design">
-                    Show
-                    <span>{{property.showMore ? 'less' : 'More'}}</span>
-                  </div>
-                </span>
+                </ng-container>
               </li>
               <li class="mt-1">
-                <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
+                <span id="amenities">{{property.metaData.topAmenity}}</span>
               </li>
               <li class="d-flex mt-2">
-                <div class="d-flex" id="location-margin">
-                  <span class="material-icons-outlined location-icon">location_on</span>
-                  <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
-                </div>
-                <div class="d-flex">
-                  <span class="material-icons rating-icon">star</span>
-                  <span id="locationRating">{{property.PropertyRating}}</span>
-                </div>
-                <div class="d-flex ml-3">
-                  <span id="price">₹ {{property.PricePerMonth}}</span>
-                  <span id="onwards">&nbsp;onwards</span>
-                </div>
+                <ng-container *ngIf="property.propertyDetails.distance[0]">
+                  <div class="d-flex" id="location-margin">
+                    <span class="material-icons-outlined location-icon">location_on</span>
+                    <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="property.metaData.propertyRating>=0">
+                  <div class="d-flex">
+                    <span class="material-icons rating-icon">star</span>
+                    <span id="locationRating">{{property.metaData.propertyRating}}</span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="property.metaData.price">
+                  <div class="d-flex ml-3">
+                    <span id="price">₹ {{property.metaData.price}}</span>
+                    <span id="onwards">&nbsp;&nbsp;onwards</span>
+                  </div>
+                </ng-container>
                 <ng-container *ngIf="property.propertyDetails.matchPercentage">
                   <div class="d-flex ml-3">
                     <!-- property.propertyDetails.matchPercentage -->
@@ -170,8 +178,8 @@
                 </div>
               </li>
               <li class="d-flex m-0">
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">location_city</span>&nbsp;
@@ -179,8 +187,8 @@
                   </div>
                 </a>
                 <span id="dot"></span>
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">videocam</span>&nbsp;
@@ -188,8 +196,8 @@
                   </div>
                 </a>
                 <span id="dot"></span>
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">share</span>&nbsp;
@@ -220,45 +228,53 @@
                   <span id="dot"></span>
                 </div>
                 <div>
-                  <span id="location">{{property.Area}}</span>
+                  <span id="location">{{property.metaData.subLocation}}</span>
                 </div>
               </li>
               <li>
                 <span id="propertyName">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">{{property.PropertyName}}</a>
+                  <a href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                    (click)=" trackClicks(property.PropertyID)" target="_blank"
+                    rel="noopener noreferrer">{{property.metaData.propertyName}}</a>
                 </span>
               </li>
               <li class="pr-4">
-                <span id="propertyDescription">
-                  <span *ngIf="!property.showMore">
-                    {{trimString(property.LocationDescription,300)}}
+                <ng-container *ngIf="property.metaData.locationHighlights">
+                  <span id="propertyDescription">
+                    <span *ngIf="!property.showMore">
+                      {{trimString(property.metaData.locationHighlights,300)}}
+                    </span>
+                    <span *ngIf="property.showMore"> {{property.metaData.locationHighlights}} </span>
+                    <div *ngIf="property.metaData.locationHighlights.length > 300"
+                      (click)="property.showMore = !property.showMore" class="show-more-design">
+                      Show
+                      <span>{{property.showMore ? 'less' : 'More'}}</span>
+                    </div>
                   </span>
-                  <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
-                  <div *ngIf="property.LocationDescription.length > 300"
-                    (click)="property.showMore = !property.showMore" class="show-more-design">
-                    Show
-                    <span>{{property.showMore ? 'less' : 'More'}}</span>
-                  </div>
-                </span>
+                </ng-container>
               </li>
               <li class="mt-1">
-                <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
+                <span id="amenities">{{property.metaData.topAmenity}}</span>
               </li>
               <li class="d-flex mt-2">
-                <div class="d-flex" id="location-margin">
-                  <span class="material-icons-outlined location-icon">location_on</span>
-                  <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
-                </div>
-                <div class="d-flex">
-                  <span class="material-icons rating-icon">star</span>
-                  <span id="locationRating">{{property.PropertyRating}}</span>
-                </div>
-                <div class="d-flex ml-3">
-                  <span id="price">₹ {{property.PricePerMonth}}</span>
-                  <span id="onwards">&nbsp;onwards</span>
-                </div>
+                <ng-container *ngIf="property.propertyDetails.distance[0]">
+                  <div class="d-flex" id="location-margin">
+                    <span class="material-icons-outlined location-icon">location_on</span>
+                    <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="property.metaData.propertyRating>=0">
+                  <div class="d-flex">
+                    <span class="material-icons rating-icon">star</span>
+                    <span id="locationRating">{{property.metaData.propertyRating}}</span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="property.metaData.price">
+                  <div class="d-flex ml-3">
+                    <span id="price">₹ {{property.metaData.price}}</span>
+                    <span id="onwards">&nbsp;&nbsp;onwards</span>
+                  </div>
+                </ng-container>
                 <ng-container *ngIf="property.propertyDetails.matchPercentage">
                   <div class="d-flex ml-3">
                     <!-- property.propertyDetails.matchPercentage -->
@@ -284,8 +300,8 @@
                 </div>
               </li>
               <li class="d-flex m-0">
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">location_city</span>&nbsp;
@@ -293,8 +309,8 @@
                   </div>
                 </a>
                 <span id="dot"></span>
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">videocam</span>&nbsp;
@@ -302,8 +318,8 @@
                   </div>
                 </a>
                 <span id="dot"></span>
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">share</span>&nbsp;
@@ -334,45 +350,53 @@
                   <span id="dot"></span>
                 </div>
                 <div>
-                  <span id="location">{{property.Area}}</span>
+                  <span id="location">{{property.metaData.subLocation}}</span>
                 </div>
               </li>
               <li>
                 <span id="propertyName">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">{{property.PropertyName}}</a>
+                  <a href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                    (click)=" trackClicks(property.PropertyID)" target="_blank"
+                    rel="noopener noreferrer">{{property.metaData.propertyName}}</a>
                 </span>
               </li>
               <li class="pr-4">
-                <span id="propertyDescription">
-                  <span *ngIf="!property.showMore">
-                    {{trimString(property.LocationDescription,300)}}
+                <ng-container *ngIf="property.metaData.locationHighlights">
+                  <span id="propertyDescription">
+                    <span *ngIf="!property.showMore">
+                      {{trimString(property.metaData.locationHighlights,300)}}
+                    </span>
+                    <span *ngIf="property.showMore"> {{property.metaData.locationHighlights}} </span>
+                    <div *ngIf="property.metaData.locationHighlights.length > 300"
+                      (click)="property.showMore = !property.showMore" class="show-more-design">
+                      Show
+                      <span>{{property.showMore ? 'less' : 'More'}}</span>
+                    </div>
                   </span>
-                  <span *ngIf="property.showMore"> {{property.LocationDescription}} </span>
-                  <div *ngIf="property.LocationDescription.length > 300"
-                    (click)="property.showMore = !property.showMore" class="show-more-design">
-                    Show
-                    <span>{{property.showMore ? 'less' : 'More'}}</span>
-                  </div>
-                </span>
+                </ng-container>
               </li>
               <li class="mt-1">
-                <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
+                <span id="amenities">{{property.metaData.topAmenity}}</span>
               </li>
               <li class="d-flex mt-2">
-                <div class="d-flex" id="location-margin">
-                  <span class="material-icons-outlined location-icon">location_on</span>
-                  <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
-                </div>
-                <div class="d-flex">
-                  <span class="material-icons rating-icon">star</span>
-                  <span id="locationRating">{{property.PropertyRating}}</span>
-                </div>
-                <div class="d-flex ml-3">
-                  <span id="price">₹ {{property.PricePerMonth}}</span>
-                  <span id="onwards">&nbsp;onwards</span>
-                </div>
+                <ng-container *ngIf="property.propertyDetails.distance[0]">
+                  <div class="d-flex" id="location-margin">
+                    <span class="material-icons-outlined location-icon">location_on</span>
+                    <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="property.metaData.propertyRating>=0">
+                  <div class="d-flex">
+                    <span class="material-icons rating-icon">star</span>
+                    <span id="locationRating">{{property.metaData.propertyRating}}</span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="property.metaData.price">
+                  <div class="d-flex ml-3">
+                    <span id="price">₹ {{property.metaData.price}}</span>
+                    <span id="onwards">&nbsp;&nbsp;onwards</span>
+                  </div>
+                </ng-container>
                 <ng-container *ngIf="property.propertyDetails.matchPercentage">
                   <div class="d-flex ml-3">
                     <circle-progress class="mt--9" [percent]="property.propertyDetails.matchPercentage" [radius]="8"
@@ -397,8 +421,8 @@
                 </div>
               </li>
               <li class="d-flex m-0">
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">location_city</span>&nbsp;
@@ -406,8 +430,8 @@
                   </div>
                 </a>
                 <span id="dot"></span>
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">videocam</span>&nbsp;
@@ -415,8 +439,8 @@
                   </div>
                 </a>
                 <span id="dot"></span>
-                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
-                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
+                  (click)=" trackClicks(property.PropertyID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">share</span>&nbsp;
