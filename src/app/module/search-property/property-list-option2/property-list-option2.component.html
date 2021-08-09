@@ -143,12 +143,12 @@
                 </div>
                 <div class="d-flex ml-3">
                   <span id="price">₹ {{property.PricePerMonth}}</span>
-                  <span id="onwards">onwards</span>
+                  <span id="onwards">&nbsp;onwards</span>
                 </div>
                 <div class="d-flex ml-3">
                   <!-- property.propertyDetails.matchPercentage -->
                   <circle-progress class="mt--9" [percent]="property.propertyDetails.matchPercentage" [radius]="8"
-                    [outerStrokeWidth]="2" [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false"
+                    [outerStrokeWidth]="2" [innerStrokeColor]="'#ED0C6D'" [innerStrokeWidth]="3" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false"
                     [animation]="true" [showTitle]="false" [showSubtitle]="false" [showUnits]="false" [imageHeight]="50"
                     [imageWidth]="50" [animationDuration]="300">
 

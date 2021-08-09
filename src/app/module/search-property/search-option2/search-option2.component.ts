@@ -1,14 +1,16 @@
-import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchServiceService } from '@services/search-service.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+declare const annyang: any;
 @Component({
   selector: 'app-search-option2',
   templateUrl: './search-option2.component.html',
   styleUrls: ['./search-option2.component.scss']
 })
+
 export class SearchOption2Component implements OnInit {
   searchQuery: any = '';
   disableButton: boolean = false;
@@ -18,8 +20,17 @@ export class SearchOption2Component implements OnInit {
   suggestionList: any = [];
   hideButtonFlag: boolean = false;
 
+  //for speech
+
+  voiceActiveSectionDisabled: boolean = true;
+  voiceActiveSectionError: boolean = false;
+  voiceActiveSectionSuccess: boolean = false;
+  voiceActiveSectionListening: boolean = false;
+  voiceText: any;
+
   constructor(private searchService: SearchServiceService,
-    private router: Router, private cdr: ChangeDetectorRef) { }
+    private router: Router, private cdr: ChangeDetectorRef,
+    private ngZone: NgZone) { }
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
@@ -46,6 +57,9 @@ export class SearchOption2Component implements OnInit {
       if (this.searchQuery) {
         container?.classList.add('input-search')
       }
+    }
+    if (this.voiceText) {
+      this.searchQuery = this.voiceText
     }
   }
 
@@ -176,7 +190,7 @@ export class SearchOption2Component implements OnInit {
             localStorage.setItem("query", JSON.stringify(this.searchQuery))
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
             this.getPropertyList(value);
-          }else{
+          } else {
             this.loading = false;
           }
 
@@ -186,5 +200,95 @@ export class SearchOption2Component implements OnInit {
         }
       )
     }
+  }
+
+
+  //for speechhh
+  initializeVoiceRecognitionCallback(): void {
+    annyang.addCallback('error', (err: any) => {
+      if (err.error === 'network') {
+        this.voiceText = "Internet is require";
+        annyang.abort();
+        this.ngZone.run(() => this.voiceActiveSectionSuccess = true);
+      } else if (this.voiceText === undefined) {
+        this.ngZone.run(() => this.voiceActiveSectionError = true);
+        annyang.abort();
+      }
+    });
+
+    annyang.addCallback('soundstart', (res: any) => {
+      this.ngZone.run(() => this.voiceActiveSectionListening = true);
+    });
+
+    annyang.addCallback('end', () => {
+      if (this.voiceText === undefined) {
+        this.ngZone.run(() => this.voiceActiveSectionError = true);
+        annyang.abort();
+      }
+    });
+
+    annyang.addCallback('result', (userSaid: any) => {
+      this.ngZone.run(() => this.voiceActiveSectionError = false);
+
+      let queryText: any = userSaid[0];
+
+      annyang.abort();
+
+      this.voiceText = queryText;
+      console.log(this.voiceText)
+      this.searchQuery = queryText;
+      this.cdr.detectChanges();
+      this.ngZone.run(() => this.voiceActiveSectionListening = false);
+      this.ngZone.run(() => this.voiceActiveSectionSuccess = true);
+    });
+  }
+
+  startVoiceRecognition(): void {
+    this.voiceActiveSectionDisabled = false;
+    this.voiceActiveSectionError = false;
+    this.voiceActiveSectionSuccess = false;
+    this.voiceText = undefined;
+
+    if (annyang) {
+      let commands = {
+        'demo-annyang': () => { }
+      };
+
+      annyang.addCommands(commands);
+
+      this.initializeVoiceRecognitionCallback();
+
+      annyang.start({ autoRestart: false });
+    }
+  }
+
+  closeVoiceRecognition(): void {
+
+    this.initializeVoiceRecognitionCallback();
+    this.voiceActiveSectionDisabled = true;
+    this.voiceActiveSectionError = false;
+    this.voiceActiveSectionSuccess = false;
+    this.voiceActiveSectionListening = false;
+    this.searchQuery = this.voiceText;
+    this.cdr.detectChanges();
+
+    // annyang.addCallback('result', (userSaid: any) => {
+    //   this.ngZone.run(() => this.voiceActiveSectionError = false);
+
+    //   let queryText: any = userSaid[0];
+    //   this.searchQuery=queryText;
+    //   annyang.abort();
+
+    //   this.voiceText = queryText;
+
+    //   console.log(this.voiceText)
+    //   this.ngZone.run(() => this.voiceActiveSectionListening = false);
+    //   this.ngZone.run(() => this.voiceActiveSectionSuccess = true);
+    // });
+    // this.voiceText = undefined;
+
+    // if(annyang){
+    //   annyang.abort();
+    // }
   }
 }
