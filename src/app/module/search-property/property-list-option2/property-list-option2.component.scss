@@ -1,5 +1,6 @@
 .container-div {
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 .logo-text-div {
   margin-top: 1.99rem;
@@ -88,12 +89,16 @@
     color: #112950;
   }
 }
-
+//to remove underline
+#view-property-link{
+  text-decoration: none !important;
+}
 a:hover {
   text-decoration: underline;
   color: #ED0C6D;
   cursor: pointer;
 }
+
 a,
 a:link {
   color: #ED0C6D !important;

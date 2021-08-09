@@ -123,6 +123,7 @@ export class SearchOption2Component implements OnInit {
       let searchObj = {
         query: event
       }
+      let container: any = document.getElementById('auoComplete');
       //suggestion list api call
       this.searchService.searchSuggestion(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
@@ -137,19 +138,22 @@ export class SearchOption2Component implements OnInit {
               this.suggestionList.push({ name: element.propertyName, type: 'property' })
             });
           }
+          (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
           setTimeout(() => {
             let itemList: any = document.getElementById('item-list');
             let sbtn: any = document.getElementById('search-button');
             let notFound: any = document.getElementById('not-found');
             if (itemList) {
               sbtn?.classList.add('btn-display')
-            } else if (notFound) {
+            } else if (!this.suggestionList || !this.suggestionList.length) {
               sbtn?.classList.remove('btn-display')
             } else {
               sbtn?.classList.add('btn-display')
             }
           }, 10)
           this.cdr.detectChanges();
+        }, error => {
+          (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
         }
       )
     }
@@ -203,7 +207,7 @@ export class SearchOption2Component implements OnInit {
   }
 
 
-  //for speechhh
+  //for speech to text
   initializeVoiceRecognitionCallback(): void {
     annyang.addCallback('error', (err: any) => {
       if (err.error === 'network') {

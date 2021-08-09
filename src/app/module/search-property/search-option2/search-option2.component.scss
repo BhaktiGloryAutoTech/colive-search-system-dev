@@ -111,7 +111,8 @@
 
 //button display
 .btn-display{
-  display: none;
+  display: none !important;
+  z-index: 999;
 }
 
 //for suggestion List

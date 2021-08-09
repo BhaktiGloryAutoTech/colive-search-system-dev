@@ -247,10 +247,10 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
                 let badgeList = []
                 response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
                 for (let item of Object.keys(itm[0].labels)) {
-                  if (itm[0].labels[item].displayValue) {
+                  if (itm[0].labels[item].exists) {
                     badgeList.push(itm[0].labels[item].displayValue)
                   } else {
-                    badgeList.push(item)
+                    badgeList.push(item.strike())
                   }
                 }
                 response.Data.Property[0]['badgeList'] = badgeList
@@ -640,6 +640,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       let searchObj = {
         query: event
       }
+      let container: any = document.getElementById('auoComplete');
+
       this.searchService.searchSuggestion(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
           this.suggestionList = [];
@@ -653,8 +655,23 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
               this.suggestionList.push({ name: element.propertyName, type: 'property' })
             });
           }
+
+          (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
+
+        }, error => {
+          (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
         }
       )
+      // setTimeout(() => {
+
+      //   let notFound: any = document.getElementById('notFound');
+      //   if (notFound) {
+
+      //   } else {
+
+      //   }
+      // }, 1000)
+      this.cdr.detectChanges();
     }
 
   }

@@ -26,16 +26,16 @@
         </ng-template>
 
         <ng-template #notFoundTemplate let-notFound>
-          <div class="text-left">
+          <!-- <div class="text-left">
             <a id="not-found" [innerHTML]="searchQuery"></a>
-          </div>
+          </div> -->
         </ng-template>
 
         <span id="search-span" class="material-icons search-icon">search</span>
         <!-- <span id="mic-span" class="material-icons mic-icon" (click)="startVoiceRecognition()">mic_none</span> -->
       </div>
-      <div class="search-btn">
-        <button type="submit" id="search-button" class="searchButton" [disabled]="disableButton"
+      <div class="search-btn" id="search-button">
+        <button type="submit"  class="searchButton" [disabled]="disableButton"
           (click)="searchFunctionFormat()">
           Search
         </button>

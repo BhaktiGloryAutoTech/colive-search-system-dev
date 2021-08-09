@@ -29,10 +29,10 @@
 
           </ng-template>
 
-          <ng-template #notFoundTemplate let-notFound>
-            <div class="text-left">
+          <ng-template id="notFound" #notFoundTemplate let-notFound>
+            <!-- <div class="text-left">
               <a [innerHTML]="searchQuery"></a>
-            </div>
+            </div> -->
           </ng-template>
           <span id="search-span" class="material-icons search-icon">search</span>
           <!-- <span id="mic-span" class="material-icons mic-icon">mic_none</span> -->
@@ -145,20 +145,22 @@
                   <span id="price">₹ {{property.PricePerMonth}}</span>
                   <span id="onwards">&nbsp;onwards</span>
                 </div>
-                <div class="d-flex ml-3">
-                  <!-- property.propertyDetails.matchPercentage -->
-                  <circle-progress class="mt--9" [percent]="property.propertyDetails.matchPercentage" [radius]="8"
-                    [outerStrokeWidth]="2" [innerStrokeColor]="'#ED0C6D'" [innerStrokeWidth]="4" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false"
-                    [animation]="true" [showTitle]="false" [showSubtitle]="false" [showUnits]="false" [imageHeight]="50"
-                    [imageWidth]="50" [animationDuration]="300">
-
-                  </circle-progress>
-                  <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}} %</span>
-                </div>
+                <ng-container *ngIf="property.propertyDetails.matchPercentage">
+                  <div class="d-flex ml-3">
+                    <!-- property.propertyDetails.matchPercentage -->
+                    <circle-progress class="mt--9" [percent]="property.propertyDetails.matchPercentage" [radius]="8"
+                      [outerStrokeWidth]="2" [innerStrokeColor]="'#ED0C6D'" [innerStrokeWidth]="4"
+                      [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true" [showTitle]="false"
+                      [showSubtitle]="false" [showUnits]="false" [imageHeight]="50" [imageWidth]="50"
+                      [animationDuration]="300">
+                    </circle-progress>
+                    <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}} %</span>
+                  </div>
+                </ng-container>
               </li>
               <li class="d-flex mt-1">
                 <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index;let last=last">
-                  <span id="badge" class="badge-text text-uppercase">{{badge}}</span>
+                  <span id="badge" class="badge-text" [innerHTML]="badge"></span>
                   <!-- <ng-container *ngIf="i+1<property.badgeList.length">
                     <span id="dot"></span>
                   </ng-container> -->
@@ -168,7 +170,7 @@
                 </div>
               </li>
               <li class="d-flex m-0">
-                <a href="https://www.colive.com/Property/{{property.url}}"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
                   (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
@@ -177,7 +179,7 @@
                   </div>
                 </a>
                 <span id="dot"></span>
-                <a href="https://www.colive.com/Property/{{property.url}}"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
                   (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
@@ -186,7 +188,7 @@
                   </div>
                 </a>
                 <span id="dot"></span>
-                <a href="https://www.colive.com/Property/{{property.url}}"
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
                   (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
                   rel="noopener noreferrer">
                   <div class="d-flex">
@@ -244,7 +246,7 @@
               <li class="mt-1">
                 <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
               </li>
-              <li class="d-flex mt-3">
+              <li class="d-flex mt-2">
                 <div class="d-flex" id="location-margin">
                   <span class="material-icons-outlined location-icon">location_on</span>
                   <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
@@ -255,55 +257,59 @@
                 </div>
                 <div class="d-flex ml-3">
                   <span id="price">₹ {{property.PricePerMonth}}</span>
-                  <span id="onwards">onwards</span>
+                  <span id="onwards">&nbsp;onwards</span>
                 </div>
                 <ng-container *ngIf="property.propertyDetails.matchPercentage">
                   <div class="d-flex ml-3">
+                    <!-- property.propertyDetails.matchPercentage -->
                     <circle-progress class="mt--9" [percent]="property.propertyDetails.matchPercentage" [radius]="8"
-                      [outerStrokeWidth]="2" [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false"
-                      [animation]="true" [showTitle]="false" [showSubtitle]="false" [showUnits]="false"
-                      [imageHeight]="50" [imageWidth]="50" [animationDuration]="300">
-
+                      [outerStrokeWidth]="2" [innerStrokeColor]="'#ED0C6D'" [innerStrokeWidth]="4"
+                      [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true" [showTitle]="false"
+                      [showSubtitle]="false" [showUnits]="false" [imageHeight]="50" [imageWidth]="50"
+                      [animationDuration]="300">
                     </circle-progress>
                     <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}} %</span>
                   </div>
                 </ng-container>
               </li>
               <li class="d-flex mt-1">
-                <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index">
-                  <span id="badge" class="badge-text text-uppercase">{{badge}}</span>
-                  <ng-container *ngIf="i+1<property.badgeList.length">
+                <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index;let last=last">
+                  <span id="badge" class="badge-text" [innerHTML]="badge"></span>
+                  <!-- <ng-container *ngIf="i+1<property.badgeList.length">
+                    <span id="dot"></span>
+                  </ng-container> -->
+                  <ng-container *ngIf="!last">
                     <span id="dot"></span>
                   </ng-container>
                 </div>
               </li>
               <li class="d-flex m-0">
-                <div class="d-flex">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">
-                    <span class="material-icons-outlined pr-1 view-video-share-icon">location_city</span>
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
+                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                  rel="noopener noreferrer">
+                  <div class="d-flex">
+                    <span class="material-icons-outlined view-video-share-icon">location_city</span>&nbsp;
                     <span class="badge-text">View Property</span>
-                  </a>
-                </div>
+                  </div>
+                </a>
                 <span id="dot"></span>
-                <div class="d-flex">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">
-                    <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">videocam</span>
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
+                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                  rel="noopener noreferrer">
+                  <div class="d-flex">
+                    <span class="material-icons-outlined view-video-share-icon">videocam</span>&nbsp;
                     <span class="badge-text">Schedule Video Visit</span>
-                  </a>
-                </div>
+                  </div>
+                </a>
                 <span id="dot"></span>
-                <div class="d-flex">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">
-                    <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">share</span>
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
+                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                  rel="noopener noreferrer">
+                  <div class="d-flex">
+                    <span class="material-icons-outlined view-video-share-icon">share</span>&nbsp;
                     <span class="badge-text">Share</span>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </li>
             </ul>
           </div>
@@ -354,7 +360,7 @@
               <li class="mt-1">
                 <span id="amenities">Gymnasium | Health Club | Swimming Pool | Multipurpose Hall</span>
               </li>
-              <li class="d-flex mt-3">
+              <li class="d-flex mt-2">
                 <div class="d-flex" id="location-margin">
                   <span class="material-icons-outlined location-icon">location_on</span>
                   <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
@@ -365,55 +371,58 @@
                 </div>
                 <div class="d-flex ml-3">
                   <span id="price">₹ {{property.PricePerMonth}}</span>
-                  <span id="onwards">onwards</span>
+                  <span id="onwards">&nbsp;onwards</span>
                 </div>
                 <ng-container *ngIf="property.propertyDetails.matchPercentage">
                   <div class="d-flex ml-3">
                     <circle-progress class="mt--9" [percent]="property.propertyDetails.matchPercentage" [radius]="8"
-                      [outerStrokeWidth]="2" [innerStrokeWidth]="0" [outerStrokeColor]="'#ED0C6D'" [clockwise]="false"
-                      [animation]="true" [showTitle]="false" [showSubtitle]="false" [showUnits]="false"
-                      [imageHeight]="50" [imageWidth]="50" [animationDuration]="300">
-
+                      [outerStrokeWidth]="2" [innerStrokeColor]="'#ED0C6D'" [innerStrokeWidth]="4"
+                      [outerStrokeColor]="'#ED0C6D'" [clockwise]="false" [animation]="true" [showTitle]="false"
+                      [showSubtitle]="false" [showUnits]="false" [imageHeight]="50" [imageWidth]="50"
+                      [animationDuration]="300">
                     </circle-progress>
                     <span id="locationRating">{{property.propertyDetails.matchPercentage | number:'1.2-2'}} %</span>
                   </div>
                 </ng-container>
               </li>
               <li class="d-flex mt-1">
-                <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index">
-                  <span id="badge" class="badge-text text-uppercase">{{badge}}</span>
-                  <ng-container *ngIf="i+1<property.badgeList.length">
+                <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index;let last=last">
+                  <span id="badge" class="badge-text" [innerHTML]="badge"></span>
+                  <!-- <ng-container *ngIf="i+1<property.badgeList.length">
+                    <span id="dot"></span>
+                  </ng-container> -->
+                  <ng-container *ngIf="!last">
                     <span id="dot"></span>
                   </ng-container>
                 </div>
               </li>
               <li class="d-flex m-0">
-                <div class="d-flex">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">
-                    <span class="material-icons-outlined pr-1 view-video-share-icon">location_city</span>
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
+                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                  rel="noopener noreferrer">
+                  <div class="d-flex">
+                    <span class="material-icons-outlined view-video-share-icon">location_city</span>&nbsp;
                     <span class="badge-text">View Property</span>
-                  </a>
-                </div>
+                  </div>
+                </a>
                 <span id="dot"></span>
-                <div class="d-flex">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">
-                    <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">videocam</span>
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
+                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                  rel="noopener noreferrer">
+                  <div class="d-flex">
+                    <span class="material-icons-outlined view-video-share-icon">videocam</span>&nbsp;
                     <span class="badge-text">Schedule Video Visit</span>
-                  </a>
-                </div>
+                  </div>
+                </a>
                 <span id="dot"></span>
-                <div class="d-flex">
-                  <a href="https://www.colive.com/Property/{{property.url}}"
-                    (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
-                    rel="noopener noreferrer">
-                    <span class="material-icons-outlined view-video-share-icon pr-1 pl-1">share</span>
+                <a id="view-property-link" href="https://www.colive.com/Property/{{property.url}}"
+                  (click)=" trackClicks(property.PropertyID,property.queryID)" target="_blank"
+                  rel="noopener noreferrer">
+                  <div class="d-flex">
+                    <span class="material-icons-outlined view-video-share-icon">share</span>&nbsp;
                     <span class="badge-text">Share</span>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </li>
             </ul>
           </div>
