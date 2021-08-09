@@ -1,5 +1,4 @@
-import { error } from '@angular/compiler/src/util';
-import { ChangeDetectorRef, Component, OnInit, OnDestroy, OnChanges, SimpleChanges, HostListener, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, HostListener, AfterViewInit } from '@angular/core';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SearchServiceService } from '@services/search-service.service';
 import { Subject } from 'rxjs';
@@ -43,6 +42,10 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   //fixed spell
   fixedQuery: any;
+
+  //query ID to treck clicks of user for query
+  queryId: any;
+
   constructor(private searchService: SearchServiceService, config: NgbRatingConfig,
     private cdr: ChangeDetectorRef) {
     this.loading = true;
@@ -136,12 +139,16 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-    this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
+    // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
     this.visitedPropertyList = [];
   }
 
   ngOnInit(): void {
-
+    //get QueryId
+    if (localStorage.getItem('queryId')) {
+      let qid: any = localStorage.getItem('queryId');
+      this.queryId = JSON.parse(qid);
+    }
   }
 
 
@@ -226,155 +233,262 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   //to get property Details
   getPropertyDetails(response1: any) {
-    this.matchedPropertyListDetails = [];
-    this.trendingPropertyListDetails = [];
-    this.similarPropertyListDetails = [];
+    // this.matchedPropertyListDetails = [];
+    // this.trendingPropertyListDetails = [];
+    // this.similarPropertyListDetails = [];
+    this.matchedPropertyList = [];
+    this.trendingPropertyList = [];
+    this.similarPropertyList = [];
     //for matched properties
     if (response1 && response1.matchedProperties && response1.matchedProperties.length) {
       this.loading = true;
-      let counter = 0;
+      // let counter = 0;
       response1.matchedProperties.forEach((plist: any, i: any) => {
-        let propertyId = {
-          propertyId: plist.propertyID
+        let responseObj: any = {}
+        let badgeList = [];
+        //add Property Id
+        if (plist.propertyID) {
+          responseObj['PropertyID'] = plist.propertyID
         }
-        this.loading = true;
-        this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
-          (response: any) => {
-            this.loading = true;
-            if (response && response.Data && response.Data.Property && response.Data.Property.length) {
-              let itm = response1.matchedProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
-              if (itm && itm.length) {
-                let badgeList = []
-                response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
-                for (let item of Object.keys(itm[0].labels)) {
-                  if (itm[0].labels[item].exists) {
-                    badgeList.push(itm[0].labels[item].displayValue)
-                  } else {
-                    badgeList.push(item.strike())
-                  }
-                }
-                response.Data.Property[0]['badgeList'] = badgeList
-              }
-              response.Data.Property[0]['url'] = response.Data.Property[0].ReferUrl.split('=')[1]
-              this.matchedPropertyListDetails.push(response.Data.Property[0]);
-            }
-            counter++;
-            this.loading = true;
-            if (response1.matchedProperties.length == counter) {
-              this.orderItems(response1, 'matched')
-              this.loading = false;
-            }
-          }, (error: any) => {
-            counter++;
-            if (response1.matchedProperties.length == counter) {
-              this.orderItems(response1, 'matched')
-              this.loading = false;
-            }
 
+        //add property Info (labels and location)
+        if (plist.propertyInfo) {
+          responseObj['propertyDetails'] = plist.propertyInfo;
+        }
+        if (plist.labels) {
+          for (let item of Object.keys(plist.labels)) {
+            if (plist.labels[item].exists) {
+              badgeList.push(plist.labels[item].displayValue)
+            } else {
+              badgeList.push(item.strike())
+            }
           }
-        )
+          responseObj['badgeList'] = badgeList;
+        }
+
+        //add property Details (name , description , price ,etc..)
+        if (plist.metaData) {
+          responseObj['metaData'] = plist.metaData;
+        }
+
+        //push matched property detail
+        if (responseObj) {
+          this.matchedPropertyList.push(responseObj)
+        }
+
+
+        // let propertyId = {
+        //   propertyId: plist.propertyID
+        // }
+        // this.loading = true;
+        // this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
+        //   (response: any) => {
+        //     this.loading = true;
+        //     if (response && response.Data && response.Data.Property && response.Data.Property.length) {
+        //       let itm = response1.matchedProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
+        //       if (itm && itm.length) {
+        //         let badgeList = []
+        //         response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
+        //         for (let item of Object.keys(itm[0].labels)) {
+        //           if (itm[0].labels[item].exists) {
+        //             badgeList.push(itm[0].labels[item].displayValue)
+        //           } else {
+        //             badgeList.push(item.strike())
+        //           }
+        //         }
+        //         response.Data.Property[0]['badgeList'] = badgeList
+        //       }
+        //       response.Data.Property[0]['url'] = response.Data.Property[0].ReferUrl.split('=')[1]
+        //       this.matchedPropertyListDetails.push(response.Data.Property[0]);
+        //     }
+        //     counter++;
+        //     this.loading = true;
+        //     if (response1.matchedProperties.length == counter) {
+        //       this.orderItems(response1, 'matched')
+        //       this.loading = false;
+        //     }
+        //   }, (error: any) => {
+        //     counter++;
+        //     if (response1.matchedProperties.length == counter) {
+        //       this.orderItems(response1, 'matched')
+        //       this.loading = false;
+        //     }
+
+        //   }
+        // )
       });
       this.matchedPropertyListDetails = this.matchedPropertyListDetails.map((item: any) => ({
         ...item,
         showMore: false,
       }));
+      this.loading = false;
     }
     //for trending properties
     if (response1 && response1.trendingProperties && response1.trendingProperties.length) {
       this.loading = true;
-      let counter = 0;
+      // let counter = 0;
       response1.trendingProperties.forEach((plist: any, i: any) => {
-        let propertyId = {
-          propertyId: plist.propertyID
+        // let propertyId = {
+        //   propertyId: plist.propertyID
+        // }
+        let responseObj: any = {}
+        let badgeList = [];
+        //add Property Id
+        if (plist.propertyID) {
+          responseObj['PropertyID'] = plist.propertyID
         }
-        this.loading = true;
-        this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
-          (response: any) => {
-            if (response && response.Data && response.Data.Property && response.Data.Property.length) {
-              this.loading = true;
-              let itm = response1.trendingProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
-              if (itm && itm.length) {
-                let badgeList = []
-                response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
-                for (let item of Object.keys(itm[0].labels)) {
-                  if (itm[0].labels[item].displayValue) {
-                    badgeList.push(itm[0].labels[item].displayValue)
-                  } else {
-                    badgeList.push(item)
-                  }
-                }
-                response.Data.Property[0]['badgeList'] = badgeList
-              }
-              response.Data.Property[0]['url'] = response.Data.Property[0].ReferUrl.split('=')[1]
-              this.trendingPropertyListDetails.push(response.Data.Property[0]);
-            }
-            counter++;
-            if (response1.trendingProperties.length == counter) {
-              this.orderItems(response1, 'trending')
-            }
-          }, (error: any) => {
-            counter++;
-            if (response1.trendingProperties.length == counter) {
 
-              this.orderItems(response1, 'trending')
-              this.loading = false;
+        //add property Info (labels and location)
+        if (plist.propertyInfo) {
+          responseObj['propertyDetails'] = plist.propertyInfo;
+        }
+        if (plist.labels) {
+          for (let item of Object.keys(plist.labels)) {
+            if (plist.labels[item].exists) {
+              badgeList.push(plist.labels[item].displayValue)
+            } else {
+              badgeList.push(item.strike())
             }
-
           }
-        )
+          responseObj['badgeList'] = badgeList;
+        }
+
+        //add property Details (name , description , price ,etc..)
+        if (plist.metaData) {
+          responseObj['metaData'] = plist.metaData;
+        }
+
+        //push matched property detail
+        if (responseObj) {
+          this.trendingPropertyList.push(responseObj)
+        }
+
+
+
+        // this.loading = true;
+        // this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
+        //   (response: any) => {
+        //     if (response && response.Data && response.Data.Property && response.Data.Property.length) {
+        //       this.loading = true;
+        //       let itm = response1.trendingProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
+        //       if (itm && itm.length) {
+        //         let badgeList = []
+        //         response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
+        //         for (let item of Object.keys(itm[0].labels)) {
+        //           if (itm[0].labels[item].displayValue) {
+        //             badgeList.push(itm[0].labels[item].displayValue)
+        //           } else {
+        //             badgeList.push(item)
+        //           }
+        //         }
+        //         response.Data.Property[0]['badgeList'] = badgeList
+        //       }
+        //       response.Data.Property[0]['url'] = response.Data.Property[0].ReferUrl.split('=')[1]
+        //       this.trendingPropertyListDetails.push(response.Data.Property[0]);
+        //     }
+        //     counter++;
+        //     if (response1.trendingProperties.length == counter) {
+        //       this.orderItems(response1, 'trending')
+        //     }
+        //   }, (error: any) => {
+        //     counter++;
+        //     if (response1.trendingProperties.length == counter) {
+
+        //       this.orderItems(response1, 'trending')
+        //       this.loading = false;
+        //     }
+
+        //   }
+        // )
       });
       this.trendingPropertyListDetails = this.trendingPropertyListDetails.map((item: any) => ({
         ...item,
         showMore: false,
       }));
+      this.loading = false;
     }
     //for similar properties
     if (response1 && response1.similarProperties && response1.similarProperties.length) {
       this.loading = true;
-      let counter = 0;
+      // let counter = 0;
       response1.similarProperties.forEach((plist: any, i: any) => {
-        let propertyId = {
-          propertyId: plist.propertyID
+        // let propertyId = {
+        //   propertyId: plist.propertyID
+        // }
+        let responseObj: any = {}
+        let badgeList = [];
+        //add Property Id
+        if (plist.propertyID) {
+          responseObj['PropertyID'] = plist.propertyID
         }
-        this.loading = true;
-        this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
-          (response: any) => {
-            this.loading = true;
-            if (response && response.Data && response.Data.Property && response.Data.Property.length) {
-              let itm = response1.similarProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
-              if (itm && itm.length) {
-                let badgeList = []
-                response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
-                for (let item of Object.keys(itm[0].labels)) {
-                  if (itm[0].labels[item].displayValue) {
-                    badgeList.push(itm[0].labels[item].displayValue)
-                  } else {
-                    badgeList.push(item)
-                  }
-                }
-                response.Data.Property[0]['badgeList'] = badgeList
-              }
-              response.Data.Property[0]['url'] = response.Data.Property[0].ReferUrl.split('=')[1]
-              this.similarPropertyListDetails.push(response.Data.Property[0]);
-            }
-            counter++;
-            if (response1.similarProperties.length == counter) {
-              this.orderItems(response1, 'similar')
-            }
-          }, (error: any) => {
-            counter++;
-            if (response1.similarProperties.length == counter) {
-              this.orderItems(response1, 'similar')
-              this.loading = false;
-            }
 
+        //add property Info (labels and location)
+        if (plist.propertyInfo) {
+          responseObj['propertyDetails'] = plist.propertyInfo;
+        }
+        if (plist.labels) {
+          for (let item of Object.keys(plist.labels)) {
+            if (plist.labels[item].exists) {
+              badgeList.push(plist.labels[item].displayValue)
+            } else {
+              badgeList.push(item.strike())
+            }
           }
-        )
+          responseObj['badgeList'] = badgeList;
+        }
+
+        //add property Details (name , description , price ,etc..)
+        if (plist.metaData) {
+          responseObj['metaData'] = plist.metaData;
+        }
+
+        //push matched property detail
+        if (responseObj) {
+          this.similarPropertyList.push(responseObj)
+        }
+
+
+
+        // this.loading = true;
+        // this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
+        //   (response: any) => {
+        //     this.loading = true;
+        //     if (response && response.Data && response.Data.Property && response.Data.Property.length) {
+        //       let itm = response1.similarProperties.filter((f: any) => f.propertyID == response.Data.Property[0].PropertyID)
+        //       if (itm && itm.length) {
+        //         let badgeList = []
+        //         response.Data.Property[0]['propertyDetails'] = itm[0].propertyInfo;
+        //         for (let item of Object.keys(itm[0].labels)) {
+        //           if (itm[0].labels[item].displayValue) {
+        //             badgeList.push(itm[0].labels[item].displayValue)
+        //           } else {
+        //             badgeList.push(item)
+        //           }
+        //         }
+        //         response.Data.Property[0]['badgeList'] = badgeList
+        //       }
+        //       response.Data.Property[0]['url'] = response.Data.Property[0].ReferUrl.split('=')[1]
+        //       this.similarPropertyListDetails.push(response.Data.Property[0]);
+        //     }
+        //     counter++;
+        //     if (response1.similarProperties.length == counter) {
+        //       this.orderItems(response1, 'similar')
+        //     }
+        //   }, (error: any) => {
+        //     counter++;
+        //     if (response1.similarProperties.length == counter) {
+        //       this.orderItems(response1, 'similar')
+        //       this.loading = false;
+        //     }
+
+        //   }
+        // )
       });
       this.similarPropertyListDetails = this.similarPropertyListDetails.map((item: any) => ({
         ...item,
         showMore: false,
       }));
+      this.loading = false
     }
 
   }
@@ -475,7 +589,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   selectEvent(event: any) {
     if (event) {
-      this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
+      // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search')
       this.matchedPropertyList = [];
@@ -519,7 +633,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     if (this.searchQuery && event.keyCode == 13) {
       // this.searchQuery = this.fixedQuery;
       // this.spellCorrectedQuery = ''
-      this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
+      // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search')
       this.matchedPropertyList = [];
@@ -536,7 +650,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
           if (response) {
-            this.searchService.searchedPropertyList.next(response);
+            this.queryId = response.queryID;
+            localStorage.setItem('queryId', JSON.stringify(response.queryID))
             localStorage.setItem("list", JSON.stringify(response))
             this.getPropertyDetails(response)
             //making property Id as one string
@@ -600,6 +715,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     this.searchService.searchPropertyFormated(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
       (response: any) => {
         if (response) {
+
           localStorage.setItem("list", JSON.stringify(response))
           this.getPropertyDetails(response)
           //making property Id as one string
@@ -618,7 +734,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         this.loading = false;
       }
     )
-    this.cdr.detectChanges();
   }
 
   //tring string ex.discription
@@ -677,9 +792,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   }
 
   //tracks clicks of user
-  trackClicks(propertyId: any, queryId: any) {
+  trackClicks(propertyId: any) {
     let timeStamp = new Date()
-    this.visitedPropertyList.push({ 'PropertyID': propertyId, 'queryID': queryId, 'timeStamp': timeStamp.toString() });
+    this.visitedPropertyList.push({ 'PropertyID': propertyId, 'queryID': this.queryId, 'timeStamp': timeStamp.toString() });
   }
 
   //for spellCheck
@@ -699,7 +814,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             localStorage.setItem("query", JSON.stringify(this.searchQuery))
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
           }
-          this.loading = false;
         },
         error => {
           this.loading = false;
