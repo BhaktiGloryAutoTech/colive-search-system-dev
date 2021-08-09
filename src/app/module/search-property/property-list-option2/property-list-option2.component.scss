@@ -2,6 +2,9 @@
   overflow-x: hidden;
   overflow-y: hidden;
 }
+hr{
+  margin-bottom: 0 !important;
+}
 .logo-text-div {
   margin-top: 1.99rem;
   .logo-text {
@@ -438,7 +441,7 @@ a:link {
     }
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
-      margin: -2px 0 0 0px;
+      margin: 1px 0 0 0px;
       padding: 0px;
     }
     .nav-tabs .nav-link,

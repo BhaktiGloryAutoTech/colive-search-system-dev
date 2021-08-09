@@ -19,7 +19,8 @@ export class SearchServiceService {
   }
 
   searchPropertyFormated(data: any) {
-    return this.httpClient.post("http://20.198.82.4:8082/query/v2", data);
+    // return this.httpClient.post("http://20.198.82.4:8082/query/v2", data);
+    return this.httpClient.post("http://20.198.69.138:8082/query/v2", data);
   }
 
   getPropertyDetail(data: any) {
