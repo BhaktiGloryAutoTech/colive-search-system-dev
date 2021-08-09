@@ -17,7 +17,7 @@
           </ng-autocomplete>
 
           <ng-template #itemTemplate let-item>
-            <div class="d-flex">
+            <div class="d-flex" id="item-list">
               <ng-container *ngIf="item.type=='location'; else logotemp">
                 <span class="material-icons-outlined location-property">location_on</span>
               </ng-container>
@@ -49,7 +49,7 @@
       <nav>
         <div class="nav nav-tabs pl-5" id="nav-tab" role="tablist">
           <ng-container *ngIf="matchedPropertyList && matchedPropertyList.length">
-            <a class="nav-link nav-item active" id="'matchedProerties'" data-toggle="tab" role="tab"
+            <a class="nav-link nav-item active text-center" id="'matchedProerties'" data-toggle="tab" role="tab"
               aria-controls="matched" aria-selected="true" [class.active]="tab=='matchedProerties'"
               (click)="tab='matchedProerties'">
               <div class="d-flex justify-content-center m-3">
@@ -61,8 +61,9 @@
             </a>
           </ng-container>
           <ng-container *ngIf="trendingPropertyList && trendingPropertyList.length">
-            <a class="nav-link nav-item" id="'tredingProperties'" data-toggle="tab" role="tab" aria-controls="treding"
-              aria-selected="false" [class.active]="tab=='tredingProperties'" (click)="tab='tredingProperties'">
+            <a class="nav-link nav-item text-center" id="'tredingProperties'" data-toggle="tab" role="tab"
+              aria-controls="treding" aria-selected="false" [class.active]="tab=='tredingProperties'"
+              (click)="tab='tredingProperties'">
               <div class="d-flex justify-content-center m-3">
                 <span class="material-icons-outlined trending-up-icon">trending_up</span>
                 <span class="tab-title " [ngClass]="{'tab-title-active':tab=='tredingProperties'}">
@@ -72,8 +73,9 @@
             </a>
           </ng-container>
           <ng-container *ngIf="similarPropertyList && similarPropertyList.length">
-            <a class="nav-link nav-item" id="'similarProperties'" data-toggle="tab" role="tab" aria-controls="similar"
-              aria-selected="false" [class.active]="tab=='similarProperties'" (click)="tab='similarProperties'">
+            <a class="nav-link nav-item text-center" id="'similarProperties'" data-toggle="tab" role="tab"
+              aria-controls="similar" aria-selected="false" [class.active]="tab=='similarProperties'"
+              (click)="tab='similarProperties'">
               <div class="d-flex justify-content-center m-3">
                 <span class="material-icons-outlined similar-icon">autorenew</span>
                 <span class="tab-title " [ngClass]="{'tab-title-active':tab=='similarProperties'}">
@@ -116,7 +118,7 @@
                     rel="noopener noreferrer">{{property.metaData.propertyName}}</a>
                 </span>
               </li>
-              <li class="pr-4">
+              <li class="justify-content-center">
                 <ng-container *ngIf="property.metaData.locationHighlights">
                   <span id="propertyDescription">
                     <span *ngIf="!property.showMore">
@@ -148,13 +150,13 @@
                   </div>
                 </ng-container>
                 <ng-container *ngIf="property.metaData.price">
-                  <div class="d-flex ml-3">
-                    <span id="price">₹ {{property.metaData.price}}</span>
-                    <span id="onwards">&nbsp;&nbsp;onwards</span>
+                  <div class="d-flex ml-3" id="price-div">
+                    <span id="price">₹ {{property.metaData.price}}<span id="onwards">&nbsp;&nbsp;onwards</span></span>
+
                   </div>
                 </ng-container>
                 <ng-container *ngIf="property.propertyDetails.matchPercentage">
-                  <div class="d-flex ml-3">
+                  <div class="d-flex ml-3" id="circle">
                     <!-- property.propertyDetails.matchPercentage -->
                     <circle-progress class="mt--9" [percent]="property.propertyDetails.matchPercentage" [radius]="8"
                       [outerStrokeWidth]="2" [innerStrokeColor]="'#ED0C6D'" [innerStrokeWidth]="4"
@@ -167,20 +169,19 @@
                 </ng-container>
               </li>
               <li class="d-flex mt-1">
-                <div class="m-1 d-flex text-center" *ngFor="let badge of property.badgeList;let i=index;let last=last">
+                <div class=" d-flex text-center" *ngFor="let badge of property.badgeList;let i=index;let last=last">
                   <span id="badge" class="badge-text" [innerHTML]="badge"></span>
                   <!-- <ng-container *ngIf="i+1<property.badgeList.length">
                     <span id="dot"></span>
                   </ng-container> -->
                   <ng-container *ngIf="!last">
-                    <span id="dot"></span>
+                    <span id="dot" class=" dot-badge"></span>
                   </ng-container>
                 </div>
               </li>
-              <li class="d-flex m-0">
+              <li class="d-flex mt-2">
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">location_city</span>&nbsp;
                     <span class="badge-text">View Property</span>
@@ -188,8 +189,7 @@
                 </a>
                 <span id="dot"></span>
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">videocam</span>&nbsp;
                     <span class="badge-text">Schedule Video Visit</span>
@@ -197,8 +197,7 @@
                 </a>
                 <span id="dot"></span>
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">share</span>&nbsp;
                     <span class="badge-text">Share</span>
@@ -238,7 +237,7 @@
                     rel="noopener noreferrer">{{property.metaData.propertyName}}</a>
                 </span>
               </li>
-              <li class="pr-4">
+              <li class="justify-content-center">
                 <ng-container *ngIf="property.metaData.locationHighlights">
                   <span id="propertyDescription">
                     <span *ngIf="!property.showMore">
@@ -301,8 +300,7 @@
               </li>
               <li class="d-flex m-0">
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">location_city</span>&nbsp;
                     <span class="badge-text">View Property</span>
@@ -310,8 +308,7 @@
                 </a>
                 <span id="dot"></span>
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">videocam</span>&nbsp;
                     <span class="badge-text">Schedule Video Visit</span>
@@ -319,8 +316,7 @@
                 </a>
                 <span id="dot"></span>
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">share</span>&nbsp;
                     <span class="badge-text">Share</span>
@@ -360,7 +356,7 @@
                     rel="noopener noreferrer">{{property.metaData.propertyName}}</a>
                 </span>
               </li>
-              <li class="pr-4">
+              <li class="justify-content-center">
                 <ng-container *ngIf="property.metaData.locationHighlights">
                   <span id="propertyDescription">
                     <span *ngIf="!property.showMore">
@@ -422,8 +418,7 @@
               </li>
               <li class="d-flex m-0">
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">location_city</span>&nbsp;
                     <span class="badge-text">View Property</span>
@@ -431,8 +426,7 @@
                 </a>
                 <span id="dot"></span>
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">videocam</span>&nbsp;
                     <span class="badge-text">Schedule Video Visit</span>
@@ -440,8 +434,7 @@
                 </a>
                 <span id="dot"></span>
                 <a id="view-property-link" href="https://www.colive.com/Property/{{property.metaData.propertyLink}}"
-                  (click)=" trackClicks(property.PropertyID)" target="_blank"
-                  rel="noopener noreferrer">
+                  (click)=" trackClicks(property.PropertyID)" target="_blank" rel="noopener noreferrer">
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon">share</span>&nbsp;
                     <span class="badge-text">Share</span>
@@ -473,7 +466,7 @@
   </div> -->
 
 
-  <div class="row col-md-12 mb-3 container-footer">
+  <div class="row col-md-12 mb-5 container-footer">
     <div class="footer">
       <img src="./../../../../assets/paginator.png" alt="">
       <!-- <div id="page">
