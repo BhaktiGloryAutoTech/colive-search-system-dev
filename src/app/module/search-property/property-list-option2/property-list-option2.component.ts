@@ -769,12 +769,12 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           this.suggestionList = [];
           if (response && response.response && response.response.propertyLocation) {
             response.response.propertyLocation.forEach((element: any) => {
-              this.suggestionList.push({ name: element, type: 'location' })
+              this.suggestionList.push({ name: element.displayValue, type: 'location' , query: element.value})
             });
           }
           if (response && response.response && response.response.propertiesName) {
             response.response.propertiesName.forEach((element: any) => {
-              this.suggestionList.push({ name: element.propertyName, type: 'property' })
+              this.suggestionList.push({ name: element.propertyName, type: 'property' , query: element.propertyName})
             });
           }
 
