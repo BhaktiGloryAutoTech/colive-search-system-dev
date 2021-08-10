@@ -66,9 +66,16 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           // if (response.similarProperties)
           //   this.propertyDetailsByPropertyIdRequestBody(response.similarProperties, 'similar');
         } else {
-          const list: any = localStorage.getItem('list');
-          this.getPropertyDetails(JSON.parse(list));
-          let response = JSON.parse(list)
+          if (localStorage.getItem('list')) {
+            const list: any = localStorage.getItem('list');
+            this.getPropertyDetails(JSON.parse(list));
+          } else {
+            if (localStorage.getItem('PropertyDetail')) {
+              const property: any = localStorage.getItem('PropertyDetail');
+              this.matchedPropertyList.push({ metaData: JSON.parse(property) })
+              this.loading = false;
+            }
+          }
           //making property Id as one string
           //for matching properties
           // if (response.matchedProperties)
@@ -163,7 +170,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       if (this.searchQuery && this.suggestionList.length) {
         container?.classList.add('input-search')
         container?.classList.add('suggest-border');
-      }else{
+      } else if (this.suggestionList && this.suggestionList.length) {
+        container?.classList.add('input-search')
+        container?.classList.add('suggest-border');
+      }
+      else {
         container?.classList.remove('input-search')
         container?.classList.remove('suggest-border');
       }
@@ -598,38 +609,46 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search')
+      ele?.classList.remove('suggest-border');
       this.matchedPropertyList = [];
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       this.visitedPropertyList = [];
-      let search = {
-        "query": event.name
-      }
-      //for spell check
-      this.spellCheck(search)
-      //get property ids for search query
-      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-        (response: any) => {
-          if (response) {
-            this.searchService.searchedPropertyList.next(response);
-            localStorage.setItem("list", JSON.stringify(response))
-            this.getPropertyDetails(response)
-            //making property Id as one string
-            //for matching properties
-            // if (response.matchedProperties)
-            //   this.propertyDetailsByPropertyIdRequestBody(response.matchedProperties, 'matching');
-            // //for trending properties
-            // if (response.trendingProperties)
-            //   this.propertyDetailsByPropertyIdRequestBody(response.trendingProperties, 'trending');
-            // //for similar properties
-            // if (response.similarProperties)
-            //   this.propertyDetailsByPropertyIdRequestBody(response.similarProperties, 'similar');
-          }
-          this.loading = false;
-        }, (error: any) => {
-          this.loading = false;
+      if (event.type != 'property') {
+        let search = {
+          "query": event.name
         }
-      )
+        //for spell check
+        this.spellCheck(search)
+        //get property ids for search query
+        this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+          (response: any) => {
+            if (response) {
+              this.searchService.searchedPropertyList.next(response);
+              localStorage.setItem("list", JSON.stringify(response))
+              this.getPropertyDetails(response)
+              //making property Id as one string
+              //for matching properties
+              // if (response.matchedProperties)
+              //   this.propertyDetailsByPropertyIdRequestBody(response.matchedProperties, 'matching');
+              // //for trending properties
+              // if (response.trendingProperties)
+              //   this.propertyDetailsByPropertyIdRequestBody(response.trendingProperties, 'trending');
+              // //for similar properties
+              // if (response.similarProperties)
+              //   this.propertyDetailsByPropertyIdRequestBody(response.similarProperties, 'similar');
+            }
+            this.loading = false;
+          }, (error: any) => {
+            this.loading = false;
+          }
+        )
+      } else {
+        localStorage.removeItem('list')
+        localStorage.setItem('PropertyDetail',JSON.stringify(event))
+        this.matchedPropertyList.push({ metaData: event })
+        this.loading=false;
+      }
     }
   }
 
@@ -769,12 +788,18 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           this.suggestionList = [];
           if (response && response.response && response.response.propertyLocation) {
             response.response.propertyLocation.forEach((element: any) => {
-              this.suggestionList.push({ name: element.displayValue, type: 'location' , query: element.value})
+              this.suggestionList.push({ name: element.displayValue, type: 'location', query: element.value })
             });
           }
           if (response && response.response && response.response.propertiesName) {
             response.response.propertiesName.forEach((element: any) => {
-              this.suggestionList.push({ name: element.propertyName, type: 'property' , query: element.propertyName})
+              this.suggestionList.push({
+                name: element.propertyName, type: 'property', query: element.propertyName,
+                propertyName: element.propertyName, propertyLink: element.propertyLink, price: element.price,
+                locationHighlights: element.locationHighlights, city: element.city,
+                propertyRating: element.propertyRating, subLocation: element.subLocation,
+                tileImageUrl: element.tileImageUrl, topAmenity: element.topAmenity
+              })
             });
           }
 
@@ -813,7 +838,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
           if (response && response.response) {
-            if (response.response.originalQuery != response.response.formattedString) {
+            if (String(response.response.originalQuery).toLowerCase() != String(response.response.formattedString).toLowerCase()) {
               this.spellCorrectedQuery = response.response.formattedString
               localStorage.setItem('searchQuery', JSON.stringify(response.response.formattedString))
             } else {

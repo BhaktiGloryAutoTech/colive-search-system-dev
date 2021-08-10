@@ -77,8 +77,8 @@ hr {
 
 //did you mean class
 .did-you-mean {
-  margin: 1.2% 0 2% 2.78%;
-  #text-div{
+  margin: 1.2% 2% 2% 2.78%;
+  #text-div {
     width: auto;
   }
   #text {
@@ -464,8 +464,7 @@ a:link {
       }
     }
     .did-you-mean {
-      margin: 1.2% 0 1% 3.78%;
-
+      margin: 1.2% 2% 1% 3.78%;
     }
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
@@ -499,6 +498,9 @@ a:link {
       }
     }
     .did-you-mean {
+      #text-div {
+        width: 17%;
+      }
       #query,
       #text {
         font-size: 16px !important;
@@ -588,6 +590,12 @@ a:link {
 
 @media screen and (max-width: 540px) {
   .container-div {
+    .did-you-mean {
+      margin: 1.2% 2% 1% 5.5%;
+      #text-div {
+        width: 35%;
+      }
+    }
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
       padding: 0px;
@@ -618,7 +626,10 @@ a:link {
       }
     }
     .did-you-mean {
-      margin: 1.2% 0 0 5%;
+      margin: 1.2% 2.8% 0 5%;
+      #text-div {
+        width: 30%;
+      }
       #query,
       #text {
         font-size: 12px !important;
@@ -712,13 +723,25 @@ a:link {
   }
 }
 
+@media screen and (max-width: 414px) {
+  .container-div {
+    .did-you-mean {
+      #text-div {
+        width: 35%;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 375px) {
   .container-div {
     .search {
       width: 329px;
     }
-    .did-you-mean{
-
+    .did-you-mean {
+      #text-div {
+        width: 40%;
+      }
     }
     .property-card ul {
       padding-left: 2.3rem;
@@ -760,10 +783,23 @@ a:link {
   }
 }
 
+@media screen and (max-width: 360px) {
+  .container-div .did-you-mean {
+    #text-div {
+      width: 45%;
+    }
+  }
+}
+
 @media screen and (max-width: 320px) {
   .container-div {
     .search {
       width: 277px;
+    }
+    .did-you-mean {
+      #text-div {
+        width: 58%;
+      }
     }
     .property-card {
       margin: 0px 16px 0px -23px !important;
