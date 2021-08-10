@@ -6,11 +6,12 @@
     <div class="body-container text-center">
       <span class="logo-text">COLIVE</span>
       <!-- <img class="img-fluid auto-center" alt="Colive" src="./../../../../assets/paginator.png"> -->
-      <div class="flex-width" id="auoComplete" [ngClass]="{'input-search':searchQuery!=='' || suggestionList.length }">
+      <div class="flex-width" id="auoComplete" [ngClass]="{'suggest-border':suggestionList.length}"
+        [ngClass]="{'input-search':searchQuery!=='' || suggestionList.length }">
         <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar"
           (selected)='selectEvent($event)' (keypress)="keyPress($event)" [searchKeyword]="'name'"
           (inputChanged)='onChangeSearch($event)' [data]="suggestionList" [itemTemplate]="itemTemplate"
-          [(ngModel)]="searchQuery" [notFoundTemplate]="notFoundTemplate" [focusFirst]="true">
+          [(ngModel)]="searchQuery"  [focusFirst]="true">
         </ng-autocomplete>
 
         <ng-template #itemTemplate let-item>
@@ -25,18 +26,11 @@
           </div>
         </ng-template>
 
-        <ng-template #notFoundTemplate let-notFound>
-          <!-- <div class="text-left">
-            <a id="not-found" [innerHTML]="searchQuery"></a>
-          </div> -->
-        </ng-template>
-
         <span id="search-span" class="material-icons search-icon">search</span>
         <!-- <span id="mic-span" class="material-icons mic-icon" (click)="startVoiceRecognition()">mic_none</span> -->
       </div>
       <div class="search-btn" id="search-button">
-        <button type="submit"  class="searchButton" [disabled]="disableButton"
-          (click)="searchFunctionFormat()">
+        <button type="submit" class="searchButton" [disabled]="disableButton" (click)="searchFunctionFormat()">
           Search
         </button>
       </div>

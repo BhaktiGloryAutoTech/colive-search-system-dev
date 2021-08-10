@@ -50,13 +50,20 @@ export class SearchOption2Component implements OnInit {
     //for settings...
     let container: any = document.getElementById('auoComplete');
     let sbtn: any = document.getElementById('search-button');
-    let suggestionList:any =document.getElementById('item-list');
+    let suggestionList: any = document.getElementById('item-list');
     if (!container.contains(e)) {
       container?.classList.remove('input-search');
+      container?.classList.remove('suggest-border');
       sbtn?.classList.remove('btn-display')
     } else {
-      if (this.searchQuery && suggestionList) {
-        container?.classList.add('input-search')
+      if (this.searchQuery && this.suggestionList.length) {
+        container?.classList.add('input-search');
+        container?.classList.add('suggest-border');
+        sbtn?.classList.add('btn-display');
+      } else {
+        container?.classList.remove('input-search');
+        container?.classList.remove('suggest-border');
+        sbtn?.classList.remove('btn-display');
       }
     }
     if (this.voiceText) {
@@ -72,7 +79,7 @@ export class SearchOption2Component implements OnInit {
       this.propertyDetail = [];
       this.disableButton = true;
       let search = {
-        "query": event.name
+        "query": event.query
       }
       this.spellCheck(search);
       // this.getPropertyList(search);
@@ -120,35 +127,40 @@ export class SearchOption2Component implements OnInit {
 
   //suggestion list
   onChangeSearch(event: any) {
+    let container: any = document.getElementById('auoComplete');
+    let sbtn: any = document.getElementById('search-button');
     if (event) {
       let searchObj = {
         query: event
       }
-      let container: any = document.getElementById('auoComplete');
       //suggestion list api call
       this.searchService.searchSuggestion(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
           this.suggestionList = [];
           if (response && response.response && response.response.propertyLocation) {
             response.response.propertyLocation.forEach((element: any) => {
-              this.suggestionList.push({ name: element, type: 'location' })
+              this.suggestionList.push({ name: element.displayValue, type: 'location', query: element.value })
             });
           }
           if (response && response.response && response.response.propertiesName) {
             response.response.propertiesName.forEach((element: any) => {
-              this.suggestionList.push({ name: element.propertyName, type: 'property' })
+              this.suggestionList.push({ name: element.propertyName, type: 'property' ,query: element.propertyName })
             });
           }
           (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
           setTimeout(() => {
-            let itemList: any = document.getElementById('item-list');
-            let sbtn: any = document.getElementById('search-button');
-            if (itemList) {
+
+            if (this.suggestionList && this.suggestionList.length) {
+              container?.classList.add('input-search')
               sbtn?.classList.add('btn-display')
+              container?.classList.add('suggest-border')
             } else if (!this.suggestionList || !this.suggestionList.length) {
               sbtn?.classList.remove('btn-display')
-            } else {
+              container?.classList.remove('suggest-border')
+            }
+            else {
               sbtn?.classList.add('btn-display')
+              container?.classList.add('suggest-border')
             }
           }, 10)
           this.cdr.detectChanges();
@@ -156,6 +168,10 @@ export class SearchOption2Component implements OnInit {
           (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
         }
       )
+    } else {
+      if (this.suggestionList && this.suggestionList.length) {
+        container?.classList.add('suggest-border')
+      }
     }
   }
 

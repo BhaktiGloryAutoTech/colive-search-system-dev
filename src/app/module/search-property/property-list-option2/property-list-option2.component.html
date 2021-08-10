@@ -9,11 +9,12 @@
     </div>
     <div class="col-md-8">
       <div class="search">
-        <div class="flex-width" id="auoComplete" [ngClass]="{'input-search':searchQuery!==null || suggestionList.length}">
+        <div class="flex-width" id="auoComplete" [ngClass]="{'suggest-border':suggestionList.length}"
+          [ngClass]="{'input-search':searchQuery!==null || suggestionList.length}">
           <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar"
             (selected)='selectEvent($event)' (keypress)="keyPress($event)" [searchKeyword]="'name'"
             (inputChanged)='onChangeSearch($event)' [data]="suggestionList" [itemTemplate]="itemTemplate"
-            [(ngModel)]="searchQuery" [notFoundTemplate]="notFoundTemplate" [focusFirst]="true">
+            [(ngModel)]="searchQuery" [focusFirst]="true">
           </ng-autocomplete>
 
           <ng-template #itemTemplate let-item>
@@ -27,12 +28,6 @@
               <a class="suggestion-text" [innerHTML]="item.name"></a>
             </div>
 
-          </ng-template>
-
-          <ng-template id="notFound" #notFoundTemplate let-notFound>
-            <!-- <div class="text-left">
-              <a [innerHTML]="searchQuery"></a>
-            </div> -->
           </ng-template>
           <span id="search-span" class="material-icons search-icon">search</span>
           <!-- <span id="mic-span" class="material-icons mic-icon">mic_none</span> -->
@@ -94,9 +89,13 @@
           </div>
           <ng-container *ngIf="spellCorrectedQuery">
             <div class="d-flex did-you-mean">
-              <span id="text">Did you mean:</span>
-              <span id="query" style="cursor: pointer;" class="ml-2" [innerHTML]="spellCorrectedQuery | bold"
-                (click)="changeDidyouMean()"></span>
+              <div id="text-div">
+                <span id="text">Did you mean:</span>
+              </div>
+              <div>
+                <span id="query" style="cursor: pointer;"  [innerHTML]="spellCorrectedQuery | bold"
+                  (click)="changeDidyouMean()"></span>
+              </div>
             </div>
           </ng-container>
           <div class="row property-card" [ngClass]="{'showMore':property.showMore}"

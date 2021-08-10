@@ -31,7 +31,8 @@ export class SearchServiceService {
   }
 
   searchSuggestion(data: any) {
-    return this.httpClient.post("http://20.198.82.4:8082/search/suggestion/", data);
+    // return this.httpClient.post("http://20.198.82.4:8082/search/suggestion/", data);
+    return this.httpClient.post("http://20.198.69.138:8082/search/suggestion/", data);
   }
 
   trackedClicks(data: any) {
@@ -39,6 +40,7 @@ export class SearchServiceService {
   }
 
   spellCheck(data: any) {
-    return this.httpClient.post("http://20.198.82.4:8082/search/spellCheck/", data);
+    // return this.httpClient.post("http://20.198.82.4:8082/search/spellCheck/", data);
+    return this.httpClient.post("http://20.198.69.138:8082/search/spellCheck/", data);
   }
 }
