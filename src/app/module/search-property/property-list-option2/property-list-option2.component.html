@@ -9,7 +9,7 @@
     </div>
     <div class="col-md-8">
       <div class="search">
-        <div class="flex-width" id="auoComplete" [ngClass]="{'input-search':searchQuery!==null }">
+        <div class="flex-width" id="auoComplete" [ngClass]="{'input-search':searchQuery!==null || suggestionList.length}">
           <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar"
             (selected)='selectEvent($event)' (keypress)="keyPress($event)" [searchKeyword]="'name'"
             (inputChanged)='onChangeSearch($event)' [data]="suggestionList" [itemTemplate]="itemTemplate"
@@ -143,7 +143,7 @@
                     <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="property.metaData.propertyRating>=0">
+                <ng-container *ngIf="property.metaData.propertyRating>0">
                   <div class="d-flex">
                     <span class="material-icons rating-icon">star</span>
                     <span id="locationRating">{{property.metaData.propertyRating}}</span>
@@ -262,7 +262,7 @@
                     <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="property.metaData.propertyRating>=0">
+                <ng-container *ngIf="property.metaData.propertyRating>0">
                   <div class="d-flex">
                     <span class="material-icons rating-icon">star</span>
                     <span id="locationRating">{{property.metaData.propertyRating}}</span>
@@ -381,7 +381,7 @@
                     <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="property.metaData.propertyRating>=0">
+                <ng-container *ngIf="property.metaData.propertyRating>0">
                   <div class="d-flex">
                     <span class="material-icons rating-icon">star</span>
                     <span id="locationRating">{{property.metaData.propertyRating}}</span>

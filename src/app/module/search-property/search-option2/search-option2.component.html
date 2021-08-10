@@ -6,7 +6,7 @@
     <div class="body-container text-center">
       <span class="logo-text">COLIVE</span>
       <!-- <img class="img-fluid auto-center" alt="Colive" src="./../../../../assets/paginator.png"> -->
-      <div class="flex-width" id="auoComplete" [ngClass]="{'input-search':searchQuery!=='' }">
+      <div class="flex-width" id="auoComplete" [ngClass]="{'input-search':searchQuery!=='' || suggestionList.length }">
         <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar"
           (selected)='selectEvent($event)' (keypress)="keyPress($event)" [searchKeyword]="'name'"
           (inputChanged)='onChangeSearch($event)' [data]="suggestionList" [itemTemplate]="itemTemplate"
