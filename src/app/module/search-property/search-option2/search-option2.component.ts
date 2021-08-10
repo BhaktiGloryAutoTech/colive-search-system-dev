@@ -74,14 +74,21 @@ export class SearchOption2Component implements OnInit {
   selectEvent(event: any) {
     if (event) {
       let ele = document.getElementById('auoComplete');
-      ele?.classList.remove('input-search')
+      ele?.classList.remove('input-search');
+      ele?.classList.remove('suggest-border');
       this.loading = true;
       this.propertyDetail = [];
       this.disableButton = true;
       let search = {
         "query": event.query
       }
-      this.spellCheck(search);
+      if (event.type == 'property') {
+        this.spellCheck(search, 'property');
+        localStorage.setItem('PropertyDetail', JSON.stringify(event));
+        localStorage.removeItem('list')
+      } else {
+        this.spellCheck(search)
+      };
       // this.getPropertyList(search);
     }
   }
@@ -112,6 +119,7 @@ export class SearchOption2Component implements OnInit {
           searchData = response
           this.searchService.searchedPropertyList.next(searchData);
           localStorage.setItem("list", JSON.stringify(searchData))
+          localStorage.removeItem('PropertyDetail')
           this.disableButton = false;
           this.router.navigate(['/propertyv2'])
         }
@@ -144,7 +152,12 @@ export class SearchOption2Component implements OnInit {
           }
           if (response && response.response && response.response.propertiesName) {
             response.response.propertiesName.forEach((element: any) => {
-              this.suggestionList.push({ name: element.propertyName, type: 'property' ,query: element.propertyName })
+              this.suggestionList.push({
+                name: element.propertyName, type: 'property', query: element.propertyName, propertyName: element.propertyName,
+                propertyLink: element.propertyLink, price: element.price, locationHighlights: element.locationHighlights,
+                city: element.city, propertyRating: element.propertyRating, subLocation: element.subLocation,
+                tileImageUrl: element.tileImageUrl, topAmenity: element.topAmenity
+              })
             });
           }
           (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
@@ -192,13 +205,13 @@ export class SearchOption2Component implements OnInit {
 
 
   //for spellCheck
-  spellCheck(value: any) {
+  spellCheck(value: any, property?: any) {
     if (value) {
       this.loading = true;
       this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
           if (response && response.response) {
-            if (response.response.originalQuery != response.response.formattedString) {
+            if (String(response.response.originalQuery).toLowerCase() != String(response.response.formattedString).toLowerCase()) {
               this.searchService.searchQuerySpell.next(response.response.formattedString);
               localStorage.setItem('searchQuery', JSON.stringify(response.response.formattedString))
             } else {
@@ -209,11 +222,15 @@ export class SearchOption2Component implements OnInit {
             this.searchService.fixedQuery.next(response.response.fixedQuery)
             localStorage.setItem("query", JSON.stringify(this.searchQuery))
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
-            this.getPropertyList(value);
+            if (!property) {
+              this.getPropertyList(value);
+            } else {
+              this.disableButton = false;
+              this.router.navigate(['/propertyv2'])
+            }
           } else {
             this.loading = false;
           }
-
         },
         error => {
           this.loading = false;

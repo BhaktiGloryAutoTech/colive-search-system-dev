@@ -93,7 +93,7 @@
                 <span id="text">Did you mean:</span>
               </div>
               <div>
-                <span id="query" style="cursor: pointer;" class="ml-1"  [innerHTML]="spellCorrectedQuery | bold"
+                <span id="query" style="cursor: pointer;" class="ml-1" [innerHTML]="spellCorrectedQuery | bold"
                   (click)="changeDidyouMean()"></span>
               </div>
             </div>
@@ -102,10 +102,12 @@
             *ngFor="let property of matchedPropertyList">
             <ul>
               <li class="d-flex mt-3">
-                <div class="d-flex" *ngIf="property.propertyDetails.isSponsered">
-                  <span id="sponsered">Sponsored</span>
-                  <span id="dot"></span>
-                </div>
+                <ng-container *ngIf="property && property.propertyDetails">
+                  <div class="d-flex" *ngIf="property.propertyDetails.isSponsered">
+                    <span id="sponsered">Sponsored</span>
+                    <span id="dot"></span>
+                  </div>
+                </ng-container>
                 <div>
                   <span id="location">{{property.metaData.subLocation}}</span>
                 </div>
@@ -136,7 +138,7 @@
                 <span id="amenities">{{property.metaData.topAmenity}}</span>
               </li>
               <li class="d-flex mt-2">
-                <ng-container *ngIf="property.propertyDetails.distance[0]">
+                <ng-container *ngIf="property && property.propertyDetails && property.propertyDetails.distance[0]">
                   <div class="d-flex" id="location-margin">
                     <span class="material-icons-outlined location-icon">location_on</span>
                     <span id="locationRating">{{property.propertyDetails.distance[0]}}</span>
@@ -154,7 +156,7 @@
 
                   </div>
                 </ng-container>
-                <ng-container *ngIf="property.propertyDetails.matchPercentage">
+                <ng-container *ngIf="property && property.propertyDetails &&  property.propertyDetails.matchPercentage">
                   <div class="d-flex ml-3" id="circle">
                     <!-- property.propertyDetails.matchPercentage -->
                     <circle-progress class="mt--9" [percent]="property.propertyDetails.matchPercentage" [radius]="8"
