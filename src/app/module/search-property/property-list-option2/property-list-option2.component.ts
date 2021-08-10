@@ -158,9 +158,14 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     let suggestionList: any = document.getElementById('item-list');
     if (!container.contains(e)) {
       container?.classList.remove('input-search');
+      container?.classList.remove('suggest-border');
     } else {
-      if (this.searchQuery && suggestionList) {
+      if (this.searchQuery && this.suggestionList.length) {
         container?.classList.add('input-search')
+        container?.classList.add('suggest-border');
+      }else{
+        container?.classList.remove('input-search')
+        container?.classList.remove('suggest-border');
       }
     }
   }
@@ -752,11 +757,12 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   //search suggestion list
   onChangeSearch(event: any) {
+    let container: any = document.getElementById('auoComplete');
     if (event) {
       let searchObj = {
         query: event
       }
-      let container: any = document.getElementById('auoComplete');
+
       let suggest: any = document.getElementById('item-list');
       this.searchService.searchSuggestion(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
@@ -778,13 +784,19 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           // suggest ? container.classList.add('input-search') : container.classList.remove('input-search');
         }
       )
-      // setTimeout(() => {
-      //   let container: any = document.getElementById('auoComplete');
-      //   let suggest: any = document.getElementById('item-list');
-      //   suggest ? container.classList.add('input-search') : container.classList.remove('input-search');
-      // }, 1000)
+
       this.cdr.detectChanges();
     }
+
+    setTimeout(() => {
+      if (this.suggestionList && this.suggestionList.length) {
+        container?.classList.add('input-search')
+        container?.classList.add('suggest-border')
+      } else {
+        container?.classList.remove('input-search');
+        container?.classList.remove('suggest-border')
+      }
+    }, 10)
 
   }
 
