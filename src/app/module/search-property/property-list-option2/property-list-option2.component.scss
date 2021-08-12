@@ -43,6 +43,7 @@ hr {
     height: 13px;
     color: #112950 !important;
     margin: -31px 25px 0 10px;
+    cursor: pointer;
   }
   #search-span {
     position: relative;
@@ -425,6 +426,7 @@ a:link {
   display: inline-block;
   margin: 1% 1% 0% 2%;
   max-width: 285px;
+  cursor: pointer;
   .suggested-text {
     padding: 5px;
     .search-icon {

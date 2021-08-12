@@ -11,23 +11,32 @@
         <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar"
           (selected)='selectEvent($event)' (keypress)="keyPress($event)" [searchKeyword]="'name'"
           (inputChanged)='onChangeSearch($event)' [data]="suggestionList" [itemTemplate]="itemTemplate"
-          [(ngModel)]="searchQuery"  [focusFirst]="true">
+          [(ngModel)]="searchQuery" [focusFirst]="true">
         </ng-autocomplete>
 
         <ng-template #itemTemplate let-item>
           <div class="d-flex" id="item-list">
-            <ng-container *ngIf="item.type=='location'; else logotemp">
+            <ng-container *ngIf="item.type=='location'">
               <span class="material-icons-outlined location-property">location_on</span>
             </ng-container>
-            <ng-template #logotemp>
+            <ng-container *ngIf="item.type=='property'">
               <span class="material-icons-outlined location-property">location_city</span>
-            </ng-template>
+            </ng-container>
+            <ng-container *ngIf="item.type=='auto'">
+
+            </ng-container>
+
             <a class="suggestion-text" [innerHTML]="item.name"></a>
           </div>
         </ng-template>
 
         <span id="search-span" class="material-icons search-icon">search</span>
-        <!-- <span id="mic-span" class="material-icons mic-icon" (click)="startVoiceRecognition()">mic_none</span> -->
+        <!-- <ng-container *ngIf="voiceActiveSectionDisabled;else micOff"> -->
+        <span id="mic-span" class="material-icons mic-icon" (click)="startStopVoiceRecognition()">mic_none</span>
+        <!-- </ng-container> -->
+        <!-- <ng-template #micOff>
+          <span id="mic-span" class="material-icons mic-icon" (click)="closeVoiceRecognition()">mic_off</span>
+        </ng-template> -->
       </div>
       <div class="search-btn" id="search-button">
         <button type="submit" class="searchButton" [disabled]="disableButton" (click)="searchFunctionFormat()">
@@ -37,29 +46,3 @@
     </div>
   </div>
 </div>
-<!-- <div *ngIf="voiceActiveSectionDisabled; else voicesection;">
-  <button type="button" (click)="startVoiceRecognition()">Record</button>
-</div>
-<ng-template #voicesection>
-  <ng-container *ngIf="!voiceActiveSectionError; else failure">
-    <ng-container *ngIf="voiceText; else start">
-        <span>{{voiceText}}</span>
-    </ng-container>
-    <ng-template #start>
-      <ng-container
-        *ngIf="voiceActiveSectionListening; else beginning">
-        <span>Listening...</span>
-      </ng-container>
-      <ng-template #beginning>
-        <span>Start talking...</span>
-      </ng-template>
-    </ng-template>
-  </ng-container>
-  <ng-template #failure>
-    <span>Didn't catch that</span>
-  </ng-template>
-  <div>
-    <button (click)="closeVoiceRecognition()">Close</button>
-    <button (click)="startVoiceRecognition()">Restart</button>
-  </div>
-</ng-template> -->

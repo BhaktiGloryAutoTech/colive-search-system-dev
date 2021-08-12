@@ -19,18 +19,21 @@
 
           <ng-template #itemTemplate let-item>
             <div class="d-flex" id="item-list">
-              <ng-container *ngIf="item.type=='location'; else logotemp">
+              <ng-container *ngIf="item.type=='location'">
                 <span class="material-icons-outlined location-property">location_on</span>
               </ng-container>
-              <ng-template #logotemp>
+              <ng-container #logotemp *ngIf="item.type=='property'">
                 <span class="material-icons-outlined location-property">location_city</span>
-              </ng-template>
+              </ng-container>
+              <ng-container *ngIf="item.type=='auto'">
+
+              </ng-container>
               <a class="suggestion-text" [innerHTML]="item.name"></a>
             </div>
 
           </ng-template>
           <span id="search-span" class="material-icons search-icon">search</span>
-          <!-- <span id="mic-span" class="material-icons mic-icon">mic_none</span> -->
+          <span id="mic-span" class="material-icons " (click)="startService()">mic_none</span>
         </div>
         <span id="search-span" class="material-icons search-icon">search</span>
         <!-- <span id="mic-span" class="material-icons mic-icon">mic_none</span> -->
@@ -450,21 +453,25 @@
   </div>
 
   <!-- related search title -->
-  <!-- <div id="relatedSearchTitle">
-    <span>Related Searches</span>
-  </div> -->
-  <!-- search cards -->
-  <!-- <div class="row mt-3">
-    <div class="col-md-8">
-      <div class="row col-md-3 search-cards search-cards-nth-child" *ngFor="let suggestion of relatedSuggestion">
-        <div class="d-flex suggested-text">
-          <span class="material-icons search-icon">search</span>
-          <span class="suggestion">{{suggestion}}</span>
-        </div>
+  <!-- <ng-container *ngIf="bottomSuggesionList && bottomSuggesionList.length">
+    <div id="relatedSearchTitle">
+      <span>Related Searches</span>
+    </div> -->
+    <!-- search cards -->
+    <!-- <div class="row mt-3">
+      <div class="col-md-8">
+        <ng-container *ngFor="let suggestion of bottomSuggesionList">
+          <div class="row col-md-3 search-cards search-cards-nth-child" (click)="searchBottomSuggestionQuery(suggestion.value)">
+            <div class="d-flex suggested-text">
+              <span class="material-icons search-icon">search</span>
+              <span class="suggestion" [innerHTML]="suggestion.displayValue | bold"></span>
+            </div>
+          </div>
+        </ng-container>
       </div>
+      <div class="col-md-4"></div>
     </div>
-    <div class="col-md-4"></div>
-  </div> -->
+  </ng-container> -->
 
 
   <div class="row col-md-12 mb-5 container-footer">

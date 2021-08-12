@@ -3,13 +3,16 @@ import { Router } from '@angular/router';
 import { SearchServiceService } from '@services/search-service.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-declare const annyang: any;
+export interface IWindow extends Window {
+  webkitSpeechRecognition: any;
+}
 @Component({
   selector: 'app-search-option2',
   templateUrl: './search-option2.component.html',
   styleUrls: ['./search-option2.component.scss']
 })
+
+
 
 export class SearchOption2Component implements OnInit {
   searchQuery: any = '';
@@ -21,16 +24,14 @@ export class SearchOption2Component implements OnInit {
   hideButtonFlag: boolean = false;
 
   //for speech
-
-  voiceActiveSectionDisabled: boolean = true;
-  voiceActiveSectionError: boolean = false;
-  voiceActiveSectionSuccess: boolean = false;
-  voiceActiveSectionListening: boolean = false;
-  voiceText: any;
+  recognition: any;
 
   constructor(private searchService: SearchServiceService,
     private router: Router, private cdr: ChangeDetectorRef,
-    private ngZone: NgZone) { }
+    private ngZone: NgZone) {
+    const { webkitSpeechRecognition }: IWindow = <IWindow><any>window;
+    this.recognition = new webkitSpeechRecognition();
+  }
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
@@ -50,7 +51,6 @@ export class SearchOption2Component implements OnInit {
     //for settings...
     let container: any = document.getElementById('auoComplete');
     let sbtn: any = document.getElementById('search-button');
-    let suggestionList: any = document.getElementById('item-list');
     if (!container.contains(e)) {
       container?.classList.remove('input-search');
       container?.classList.remove('suggest-border');
@@ -65,9 +65,6 @@ export class SearchOption2Component implements OnInit {
         container?.classList.remove('suggest-border');
         sbtn?.classList.remove('btn-display');
       }
-    }
-    if (this.voiceText) {
-      this.searchQuery = this.voiceText
     }
   }
 
@@ -160,6 +157,11 @@ export class SearchOption2Component implements OnInit {
               })
             });
           }
+          if(response && response.response && response.response.autoComplete){
+            response.response.autoComplete.forEach((element: any) => {
+              this.suggestionList.push({ name: element, type: 'auto', query: element })
+            });
+          }
           (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
           setTimeout(() => {
 
@@ -241,91 +243,47 @@ export class SearchOption2Component implements OnInit {
 
 
   //for speech to text
-  initializeVoiceRecognitionCallback(): void {
-    annyang.addCallback('error', (err: any) => {
-      if (err.error === 'network') {
-        this.voiceText = "Internet is require";
-        annyang.abort();
-        this.ngZone.run(() => this.voiceActiveSectionSuccess = true);
-      } else if (this.voiceText === undefined) {
-        this.ngZone.run(() => this.voiceActiveSectionError = true);
-        annyang.abort();
-      }
-    });
+  startService() {
+    let container: any = document.getElementById('auoComplete');
+    window.SpeechRecognition = this.recognition || window['SpeechRecognition'];
+    if ('SpeechRecognition' in window) {
+      // speech recognition API supported
 
-    annyang.addCallback('soundstart', (res: any) => {
-      this.ngZone.run(() => this.voiceActiveSectionListening = true);
-    });
+      // this.recognition = new window.SpeechRecognition();
+      this.recognition.continuous = true;
+      this.recognition.lang = 'en-US';
+      this.recognition.interimResults = true;
+      this.recognition.maxAlternatives = 3;
 
-    annyang.addCallback('end', () => {
-      if (this.voiceText === undefined) {
-        this.ngZone.run(() => this.voiceActiveSectionError = true);
-        annyang.abort();
-      }
-    });
-
-    annyang.addCallback('result', (userSaid: any) => {
-      this.ngZone.run(() => this.voiceActiveSectionError = false);
-
-      let queryText: any = userSaid[0];
-
-      annyang.abort();
-
-      this.voiceText = queryText;
-      console.log(this.voiceText)
-      this.searchQuery = queryText;
-      this.cdr.detectChanges();
-      this.ngZone.run(() => this.voiceActiveSectionListening = false);
-      this.ngZone.run(() => this.voiceActiveSectionSuccess = true);
-    });
-  }
-
-  startVoiceRecognition(): void {
-    this.voiceActiveSectionDisabled = false;
-    this.voiceActiveSectionError = false;
-    this.voiceActiveSectionSuccess = false;
-    this.voiceText = undefined;
-
-    if (annyang) {
-      let commands = {
-        'demo-annyang': () => { }
+      this.recognition.start();
+      this.recognition.onresult = (event: any) => {
+        let isFinal = event.results[0].isFinal;
+        if (!isFinal) {
+          this.ngZone.run(() => {
+            this.searchQuery = event.results[0][0].transcript;
+            container?.classList.remove('input-search');
+          });
+        } else if (isFinal) {
+          this.ngZone.run(() => {
+            this.searchQuery = event.results[0][0].transcript;
+            container?.classList.remove('input-search');
+            this.recognition.stop();
+            let search = {
+              "query": this.searchQuery
+            }
+            this.spellCheck(search);
+          });
+        }
       };
-
-      annyang.addCommands(commands);
-
-      this.initializeVoiceRecognitionCallback();
-
-      annyang.start({ autoRestart: false });
+    } else {
+      // speech recognition API not supported
+      console.log('speech recognition API not supported!!');
     }
   }
 
-  closeVoiceRecognition(): void {
-
-    this.initializeVoiceRecognitionCallback();
-    this.voiceActiveSectionDisabled = true;
-    this.voiceActiveSectionError = false;
-    this.voiceActiveSectionSuccess = false;
-    this.voiceActiveSectionListening = false;
-    this.searchQuery = this.voiceText;
-    this.cdr.detectChanges();
-
-    // annyang.addCallback('result', (userSaid: any) => {
-    //   this.ngZone.run(() => this.voiceActiveSectionError = false);
-
-    //   let queryText: any = userSaid[0];
-    //   this.searchQuery=queryText;
-    //   annyang.abort();
-
-    //   this.voiceText = queryText;
-
-    //   console.log(this.voiceText)
-    //   this.ngZone.run(() => this.voiceActiveSectionListening = false);
-    //   this.ngZone.run(() => this.voiceActiveSectionSuccess = true);
-    // });
-    // this.voiceText = undefined;
-
-    // if(annyang){
-    //   annyang.abort();
-    // }
+  startStopVoiceRecognition() {
+    this.startService();
   }
+
+
 }
