@@ -11,7 +11,7 @@
         <ng-autocomplete class="ng-autocomplete" placeholder="Search property or location" id="auto-searchbar"
           (selected)='selectEvent($event)' (keypress)="keyPress($event)" [searchKeyword]="'name'"
           (inputChanged)='onChangeSearch($event)' [data]="suggestionList" [itemTemplate]="itemTemplate"
-          [(ngModel)]="searchQuery" [focusFirst]="true">
+          [(ngModel)]="searchQuery">
         </ng-autocomplete>
 
         <ng-template #itemTemplate let-item>
