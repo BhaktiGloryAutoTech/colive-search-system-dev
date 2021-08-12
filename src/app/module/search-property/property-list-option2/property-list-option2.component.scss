@@ -432,11 +432,24 @@ a:link {
     .search-icon {
       padding: 5% 2% 5% 0;
     }
-    .suggestion {
-      text-align: left;
-      font: normal normal normal 14px/20px Montserrat;
-      letter-spacing: 0px;
-      color: #112950;
+    .suggestion-text-div {
+      width: -webkit-fill-available;
+      float: left;
+      position: relative;
+      left: 50%;
+      .wrap {
+        width: inherit;
+        float: left;
+        position: relative;
+        left: -55%;
+        padding: 1%;
+        .suggestion {
+          text-align: left;
+          font: normal normal normal 14px/20px Montserrat;
+          letter-spacing: 0px;
+          color: #112950;
+        }
+      }
     }
   }
 }
@@ -480,6 +493,16 @@ a:link {
     #totalResult {
       margin: 1.7% 0 0 3.9%;
     }
+  }
+  #relatedSearchTitle {
+    margin: 1.7% 0 0 4%;
+  }
+  .ml {
+    margin-left: 0.5rem;
+  }
+  //search cards
+  .search-cards {
+    max-width: 250px;
   }
 }
 // 768
@@ -719,8 +742,31 @@ a:link {
         }
       }
     }
-    .container-footer .footer {
-      left: 34%;
+    .container-footer {
+      margin-top: 10%;
+      .footer {
+        left: 34%;
+      }
+    }
+  }
+  #relatedSearchTitle {
+    margin: 1.7% 0 0 5%;
+    span {
+      font: normal normal 600 15px/30px Montserrat;
+    }
+  }
+  .ml {
+    margin-left: 0.5rem;
+  }
+  //search cards
+  .search-cards {
+    max-width: 310px;
+    margin: 1% 0 2.6% 3%;
+    .suggested-text .suggestion-text-div .wrap {
+      left: -57%;
+      .suggestion {
+        font: normal normal normal 12px/20px Montserrat;
+      }
     }
   }
 }
@@ -774,6 +820,9 @@ a:link {
         }
       }
     }
+    .container-footer .footer {
+      left: 31%;
+    }
   }
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
@@ -786,9 +835,13 @@ a:link {
 }
 
 @media screen and (max-width: 360px) {
-  .container-div .did-you-mean {
-    #text-div {
+  .container-div {
+    .did-you-mean #text-div {
       width: 45%;
+    }
+
+    .container-footer .footer {
+      left: 30%;
     }
   }
 }
@@ -824,6 +877,12 @@ a:link {
       padding-left: 1.099rem !important;
       padding-right: 1.099rem !important;
     }
+    .container-footer {
+      margin-top: 13%;
+      .footer {
+        left: 30%;
+      }
+    }
   }
 
   .property-card ul li #location-margin {
@@ -837,5 +896,25 @@ a:link {
   .nav-tabs .nav-link,
   .nav-tabs .nav-item.show .nav-link :hover {
     width: auto;
+  }
+  #relatedSearchTitle {
+    margin: 1.7% 0 0 5%;
+    span {
+      font: normal normal 600 15px/30px Montserrat;
+    }
+  }
+  .ml {
+    margin-left: 0rem;
+  }
+  //search cards
+  .search-cards {
+    max-width: 280px;
+    margin: 1% 0 2.6% 3%;
+    .suggested-text .suggestion-text-div .wrap {
+      left: -57%;
+      .suggestion {
+        font: normal normal normal 12px/20px Montserrat;
+      }
+    }
   }
 }

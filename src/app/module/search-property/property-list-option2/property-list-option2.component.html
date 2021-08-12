@@ -453,25 +453,30 @@
   </div>
 
   <!-- related search title -->
-  <!-- <ng-container *ngIf="bottomSuggesionList && bottomSuggesionList.length">
+  <ng-container *ngIf="bottomSuggesionList && bottomSuggesionList.length">
     <div id="relatedSearchTitle">
       <span>Related Searches</span>
-    </div> -->
+    </div>
     <!-- search cards -->
-    <!-- <div class="row mt-3">
-      <div class="col-md-8">
+    <div class="row mt-3">
+      <div class="col-lg-8 col-md-9 col-12 ml">
         <ng-container *ngFor="let suggestion of bottomSuggesionList">
-          <div class="row col-md-3 search-cards search-cards-nth-child" (click)="searchBottomSuggestionQuery(suggestion.value)">
+          <div class="row col-md-3 search-cards search-cards-nth-child"
+            (click)="searchBottomSuggestionQuery(suggestion.value)">
             <div class="d-flex suggested-text">
               <span class="material-icons search-icon">search</span>
-              <span class="suggestion" [innerHTML]="suggestion.displayValue | bold"></span>
+              <div class="suggestion-text-div">
+                <div class="wrap">
+                  <span class="suggestion" [innerHTML]="suggestion.displayValue | bold"></span>
+                </div>
+              </div>
             </div>
           </div>
         </ng-container>
       </div>
-      <div class="col-md-4"></div>
+      <div class="col-lg-4 col-md-3"></div>
     </div>
-  </ng-container> -->
+  </ng-container>
 
 
   <div class="row col-md-12 mb-5 container-footer">

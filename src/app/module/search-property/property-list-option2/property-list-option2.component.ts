@@ -106,9 +106,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         }
         if (this.searchQuery) {
           let OBJ = {
-            'query': this.searchQuery.name?this.searchQuery.name:this.searchQuery
+            'query': this.searchQuery.name ? this.searchQuery.name : this.searchQuery
           }
-          // this.bottomQuerySuggestion(OBJ)
+          this.bottomQuerySuggestion(OBJ)
         }
       }
     )
@@ -131,6 +131,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     config.max = 5;
     config.readonly = true;
   }
+
   ngAfterViewInit(): void {
     let container: any = document.getElementById('auoComplete');
     container?.classList.remove('input-search');
@@ -189,7 +190,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         if (plist.propertyID) {
           responseObj['PropertyID'] = plist.propertyID
         }
-
         //add property Info (labels and location)
         if (plist.propertyInfo) {
           responseObj['propertyDetails'] = plist.propertyInfo;
@@ -204,17 +204,14 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           }
           responseObj['badgeList'] = badgeList;
         }
-
         //add property Details (name , description , price ,etc..)
         if (plist.metaData) {
           responseObj['metaData'] = plist.metaData;
         }
-
         //push matched property detail
         if (responseObj) {
           this.matchedPropertyList.push(responseObj)
         }
-
       });
       this.matchedPropertyListDetails = this.matchedPropertyListDetails.map((item: any) => ({
         ...item,
@@ -328,7 +325,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           "query": event.name
         }
         //for bottom suggestion list
-        // this.bottomQuerySuggestion(search)
+        this.bottomQuerySuggestion(search)
         //for spell check
         this.spellCheck(search)
         //get property ids for search query
@@ -355,8 +352,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   //search property
   keyPress(event: any,) {
-    this.loading = true;
     if (this.searchQuery && event.keyCode == 13) {
+      this.loading = true;
       // this.searchQuery = this.fixedQuery;
       // this.spellCorrectedQuery = ''
       // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
@@ -367,10 +364,10 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       let search = {
-        "query": this.searchQuery.name?this.searchQuery.name:this.searchQuery
+        "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
       }
       //for bottom suggestion list
-      // this.bottomQuerySuggestion(search)
+      this.bottomQuerySuggestion(search)
       //for spell check
       this.spellCheck(search)
       this.loading = true;
@@ -388,8 +385,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           this.loading = false;
         }
       )
-    } else {
-      this.loading = false;
     }
   }
 
@@ -400,7 +395,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     localStorage.removeItem('searchQuery')
     localStorage.setItem('query', this.searchQuery)
     let searchObj = {
-      'query': this.searchQuery.name?this.searchQuery.name:this.searchQuery
+      'query': this.searchQuery.name ? this.searchQuery.name : this.searchQuery
     }
     //get property ids for search query
     this.searchService.searchPropertyFormated(searchObj).pipe(takeUntil(this.unsubscribe)).subscribe(
