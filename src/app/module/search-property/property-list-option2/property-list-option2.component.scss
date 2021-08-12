@@ -1,5 +1,9 @@
 .container-div {
   overflow-x: hidden;
+  overflow-y: hidden;
+}
+hr {
+  margin-bottom: 0 !important;
 }
 .logo-text-div {
   margin-top: 1.99rem;
@@ -39,6 +43,7 @@
     height: 13px;
     color: #112950 !important;
     margin: -31px 25px 0 10px;
+    cursor: pointer;
   }
   #search-span {
     position: relative;
@@ -73,7 +78,10 @@
 
 //did you mean class
 .did-you-mean {
-  margin: 1.2% 0 2% 2.78%;
+  margin: 1.2% 2% 2% 2.78%;
+  #text-div {
+    width: auto;
+  }
   #text {
     text-align: left;
     font: normal normal normal 18px/20px Montserrat;
@@ -88,15 +96,19 @@
     color: #112950;
   }
 }
-
+//to remove underline
+#view-property-link {
+  text-decoration: none !important;
+}
 a:hover {
   text-decoration: underline;
-  color: #ED0C6D;
+  color: #ed0c6d;
   cursor: pointer;
 }
+
 a,
 a:link {
-  color: #ED0C6D !important;
+  color: #ed0c6d !important;
   cursor: pointer;
 }
 .property-card {
@@ -254,19 +266,33 @@ a:link {
   cursor: pointer;
   display: contents;
 }
-.ng-autocomplete {
-  ::ng-deep .autocomplete-container {
-    background: #ffffff 0% 0% no-repeat padding-box;
-    box-shadow: 0px 3px 12px #00000029;
-  }
-}
+// .ng-autocomplete {
+//   ::ng-deep .autocomplete-container {
+//     background: #ffffff 0% 0% no-repeat padding-box;
+//     box-shadow: 0px 3px 12px #00000029;
+//   }
+// }
 .ng-autocomplete {
   ::ng-deep .autocomplete-container,
   ::ng-deep .autocomplete-container input {
     border-radius: 35px;
     padding-left: 25px;
     padding-right: 34px;
-    width: 100%;
+  }
+}
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container input {
+    height: inherit;
+  }
+}
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .input-container {
+    height: -webkit-fill-available;
+  }
+}
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container {
+    border: 1.8px solid #112950;
   }
 }
 
@@ -276,13 +302,21 @@ a:link {
   }
 }
 
+.suggest-border .ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container {
+    border-left: 1.8px solid #112950;
+    border-right: 1.8px solid #112950;
+    border-bottom: 1.8px solid #112950;
+  }
+}
+
 //for suggestion List
 
 .ng-autocomplete {
   ::ng-deep .autocomplete-container .suggestions-container {
     border-radius: 0px 0px 30px 30px;
-    width: 100%;
-    margin: 0px -24px;
+    width: 100.79%;
+    margin: 0px -27px;
     border-color: #112950 !important;
   }
 }
@@ -291,6 +325,15 @@ a:link {
     color: #112950 !important;
   }
 }
+
+//hover
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container ul li:last-child .complete-selected,
+  ::ng-deep .autocomplete-container .suggestions-container ul li:last-child:hover {
+    border-radius: 0 0 30px 30px;
+  }
+}
+
 .input-search .ng-autocomplete {
   ::ng-deep .autocomplete-container,
   ::ng-deep .autocomplete-container input {
@@ -307,17 +350,7 @@ a:link {
 //not found
 .ng-autocomplete {
   ::ng-deep .autocomplete-container .not-found {
-    border-radius: 0px 0px 30px 30px;
-    padding-left: 21px;
-    width: 113%;
-    margin: 0px -26px;
-    div {
-      padding: 0.4em 1.7rem;
-      a {
-        font: normal normal 700 13px/10px Montserrat;
-        color: #112950 !important;
-      }
-    }
+    border: none !important;
   }
 }
 
@@ -393,16 +426,30 @@ a:link {
   display: inline-block;
   margin: 1% 1% 0% 2%;
   max-width: 285px;
+  cursor: pointer;
   .suggested-text {
     padding: 5px;
     .search-icon {
       padding: 5% 2% 5% 0;
     }
-    .suggestion {
-      text-align: left;
-      font: normal normal normal 14px/20px Montserrat;
-      letter-spacing: 0px;
-      color: #112950;
+    .suggestion-text-div {
+      width: -webkit-fill-available;
+      float: left;
+      position: relative;
+      left: 50%;
+      .wrap {
+        width: inherit;
+        float: left;
+        position: relative;
+        left: -55%;
+        padding: 1%;
+        .suggestion {
+          text-align: left;
+          font: normal normal normal 14px/20px Montserrat;
+          letter-spacing: 0px;
+          color: #112950;
+        }
+      }
     }
   }
 }
@@ -431,9 +478,12 @@ a:link {
         }
       }
     }
+    .did-you-mean {
+      margin: 1.2% 2% 1% 3.78%;
+    }
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
-      margin: -2px 0 0 0px;
+      margin: 1px 0 0 0px;
       padding: 0px;
     }
     .nav-tabs .nav-link,
@@ -444,11 +494,15 @@ a:link {
       margin: 1.7% 0 0 3.9%;
     }
   }
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 116%;
-    }
+  #relatedSearchTitle {
+    margin: 1.7% 0 0 4%;
+  }
+  .ml {
+    margin-left: 0.5rem;
+  }
+  //search cards
+  .search-cards {
+    max-width: 250px;
   }
 }
 // 768
@@ -468,6 +522,15 @@ a:link {
         }
       }
     }
+    .did-you-mean {
+      #text-div {
+        width: 17%;
+      }
+      #query,
+      #text {
+        font-size: 16px !important;
+      }
+    }
     .nav,
     .nav-tabs {
       padding-left: 2rem !important;
@@ -476,6 +539,11 @@ a:link {
     .nav-tabs .nav-item.show .nav-link {
       padding: 0px;
       width: 15%;
+    }
+    .nav-tabs .nav-link,
+    .nav-tabs .nav-item.show .nav-link :hover {
+      width: 15%;
+      margin-top: -1%;
     }
     .similar-icon,
     .trending-up-icon,
@@ -543,73 +611,33 @@ a:link {
       width: 87%;
     }
   }
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 111%;
-    }
-  }
 }
 
-@media screen and (max-width: 696px) {
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 112%;
+@media screen and (max-width: 540px) {
+  .container-div {
+    .did-you-mean {
+      margin: 1.2% 2% 1% 5.5%;
+      #text-div {
+        width: 35%;
+      }
     }
-  }
-}
-
-@media screen and (max-width: 630px) {
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 113%;
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      padding: 0px;
+      width: 23%;
+      margin-top: 8px;
     }
-  }
-}
-
-@media screen and (max-width: 600px) {
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 114%;
+    .nav-tabs .nav-link,
+    .nav-tabs .nav-item.show .nav-link :hover {
+      width: 23%;
+      margin-top: -3%;
+      padding: 24px 0 0 0;
     }
-  }
-}
-
-@media screen and (max-width: 560px) {
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 116%;
+    hr {
+      margin-bottom: -8px !important;
     }
-  }
-}
-
-@media screen and (max-width: 500px) {
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 117%;
-    }
-  }
-}
-
-@media screen and (max-width: 475px) {
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 118%;
-    }
-  }
-}
-
-@media screen and (max-width: 450px) {
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 119%;
+    #totalResult {
+      margin-left: 5.9% !important;
     }
   }
 }
@@ -622,8 +650,18 @@ a:link {
         font-size: 2rem;
       }
     }
+    .did-you-mean {
+      margin: 1.2% 2.8% 0 5%;
+      #text-div {
+        width: 30%;
+      }
+      #query,
+      #text {
+        font-size: 12px !important;
+      }
+    }
     .search {
-      margin: 6.9% 0 0 0%;
+      margin: 6.9% 0 0 0;
       width: 367px;
       height: 57px;
       .ng-autocomplete {
@@ -633,18 +671,25 @@ a:link {
         }
       }
     }
+    hr {
+      margin-bottom: -10px !important;
+    }
     .nav,
     .nav-tabs {
-      padding-left: 2rem !important;
+      padding-left: 1.2rem !important;
+      padding-right: 1.2rem !important;
     }
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
       padding: 0px;
-      width: auto;
+      width: 33%;
+      margin-top: 12px;
     }
     .nav-tabs .nav-link,
     .nav-tabs .nav-item.show .nav-link :hover {
-      width: auto;
+      width: 33%;
+      margin-top: -3%;
+      padding: 24px 0 0 0;
     }
     .similar-icon,
     .trending-up-icon,
@@ -659,13 +704,13 @@ a:link {
       font: normal normal 600 12px/15px Montserrat;
     }
     #totalResult {
-      margin: 2.7% 0 0 4.9%;
+      margin-left: 5% !important;
       span {
         font: normal normal normal 12px/20px Montserrat;
       }
     }
     .property-card {
-      margin: 0px 22px 0px -18px;
+      margin: 0px 16px 0px -18px;
       ul li {
         div {
           #location {
@@ -697,23 +742,86 @@ a:link {
         }
       }
     }
-    .container-footer .footer {
-      left: 34%;
+    .container-footer {
+      margin-top: 10%;
+      .footer {
+        left: 34%;
+      }
+    }
+  }
+  #relatedSearchTitle {
+    margin: 1.7% 0 0 5%;
+    span {
+      font: normal normal 600 15px/30px Montserrat;
+    }
+  }
+  .ml {
+    margin-left: 0.5rem;
+  }
+  //search cards
+  .search-cards {
+    max-width: 310px;
+    margin: 1% 0 2.6% 3%;
+    .suggested-text .suggestion-text-div .wrap {
+      left: -57%;
+      .suggestion {
+        font: normal normal normal 12px/20px Montserrat;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .container-div {
+    .did-you-mean {
+      #text-div {
+        width: 35%;
+      }
     }
   }
 }
 
 @media screen and (max-width: 375px) {
-  .container-div .search {
-    width: 329px;
-  }
-  .property-card ul li #location-margin {
-    margin-left: -2.2%;
-  }
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 123%;
+  .container-div {
+    .search {
+      width: 329px;
+    }
+    .did-you-mean {
+      #text-div {
+        width: 40%;
+      }
+    }
+    .property-card ul {
+      padding-left: 2.3rem;
+      li {
+        div {
+          #locationRating {
+            font-size: 11px;
+          }
+          .dot-badge {
+            margin: 8px !important;
+          }
+        }
+        #circle {
+          margin-left: 0.5rem !important;
+        }
+        #location-margin {
+          margin-left: -1.6%;
+          margin-right: -2.3%;
+        }
+        #amenities {
+          font-size: 11.4px;
+        }
+        #price {
+          font: normal normal 600 11px/20px Montserrat;
+        }
+        #onwards {
+          font: normal normal 300 11px/20px Montserrat;
+        }
+      }
+    }
+    .container-footer .footer {
+      left: 31%;
     }
   }
   .nav-tabs .nav-link.active,
@@ -726,25 +834,87 @@ a:link {
   }
 }
 
-@media screen and (max-width: 320px) {
-  .container-div .search {
-    width: 277px;
-  }
-  .property-card ul li #location-margin {
-    margin-left: -3.2%;
-  }
-  //not found
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 128.5%;
+@media screen and (max-width: 360px) {
+  .container-div {
+    .did-you-mean #text-div {
+      width: 45%;
     }
+
+    .container-footer .footer {
+      left: 30%;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .container-div {
+    .search {
+      width: 277px;
+    }
+    .did-you-mean {
+      #text-div {
+        width: 58%;
+      }
+    }
+    .property-card {
+      margin: 0px 16px 0px -23px !important;
+      ul li {
+        div {
+          #locationRating {
+            font-size: 10px;
+          }
+        }
+        #circle {
+          margin-left: 0rem !important;
+        }
+        #price-div {
+          margin-left: 0.5rem !important;
+        }
+      }
+    }
+    .nav,
+    .nav-tabs {
+      padding-left: 1.099rem !important;
+      padding-right: 1.099rem !important;
+    }
+    .container-footer {
+      margin-top: 13%;
+      .footer {
+        left: 30%;
+      }
+    }
+  }
+
+  .property-card ul li #location-margin {
+    margin-left: -2.2%;
   }
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
     width: auto;
+    margin-top: 16px !important;
   }
   .nav-tabs .nav-link,
   .nav-tabs .nav-item.show .nav-link :hover {
     width: auto;
+  }
+  #relatedSearchTitle {
+    margin: 1.7% 0 0 5%;
+    span {
+      font: normal normal 600 15px/30px Montserrat;
+    }
+  }
+  .ml {
+    margin-left: 0rem;
+  }
+  //search cards
+  .search-cards {
+    max-width: 280px;
+    margin: 1% 0 2.6% 3%;
+    .suggested-text .suggestion-text-div .wrap {
+      left: -57%;
+      .suggestion {
+        font: normal normal normal 12px/20px Montserrat;
+      }
+    }
   }
 }

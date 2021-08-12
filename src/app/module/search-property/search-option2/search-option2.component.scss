@@ -81,25 +81,42 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+// .ng-autocomplete {
+//   ::ng-deep .autocomplete-container {
+//     background: #ffffff 0% 0% no-repeat padding-box;
+//     box-shadow: 0px 3px 12px #00000029;
+//   }
+// }
 .ng-autocomplete {
   ::ng-deep .autocomplete-container {
-    background: #ffffff 0% 0% no-repeat padding-box;
-    box-shadow: 0px 3px 12px #00000029;
-  }
-}
-.ng-autocomplete {
-  ::ng-deep .autocomplete-container,
-  ::ng-deep .autocomplete-container input {
     border-radius: 35px;
     padding-left: 25px;
     padding-right: 35px;
     width: 100%;
   }
 }
+
 .ng-autocomplete {
-  ::ng-deep .autocomplete-container:focus {
-    border: 2px solid #ed0c6d !important;
-    box-shadow: none !important;
+  ::ng-deep .autocomplete-container .input-container {
+    height: -webkit-fill-available;
+  }
+}
+
+// .ng-autocomplete {
+//   ::ng-deep .autocomplete-container:focus {
+//     border: 1.5px solid #ed0c6d !important;
+//     box-shadow: none !important;
+//   }
+// }
+
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container input {
+    height: inherit;
+  }
+}
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container {
+    border: 1.8px solid #112950;
   }
 }
 
@@ -109,9 +126,18 @@
   }
 }
 
+//hover
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container ul li:last-child .complete-selected,
+  ::ng-deep .autocomplete-container .suggestions-container ul li:last-child:hover {
+    border-radius: 0 0 30px 30px;
+  }
+}
+
 //button display
-.btn-display{
-  display: none;
+.btn-display {
+  display: none !important;
+  z-index: 999;
 }
 
 //for suggestion List
@@ -119,31 +145,29 @@
 .ng-autocomplete {
   ::ng-deep .autocomplete-container .suggestions-container {
     border-radius: 0px 0px 30px 30px;
-    width: 100%;
-    margin: 0px -24px;
-    border-color: black;
+    width: 100.79%;
+    margin: 0px -27px;
   }
 }
+
+.suggest-border .ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container {
+    border-left: 1.8px solid #112950;
+    border-right: 1.8px solid #112950;
+    border-bottom: 1.8px solid #112950;
+  }
+}
+
 .input-search .ng-autocomplete {
   ::ng-deep .autocomplete-container,
   ::ng-deep .autocomplete-container input {
     border-radius: 30px 30px 0px 0px;
-    border-color: black;
   }
 }
 //not found
 .ng-autocomplete {
   ::ng-deep .autocomplete-container .not-found {
-    border-radius: 0px 0px 30px 30px;
-    padding-left: 21px;
-    width: 112%;
-    margin: 0px -26px;
-    div {
-      padding: 0.4em 1.7rem;
-      a {
-        font: normal normal 700 13px/10px Montserrat;
-      }
-    }
+    border: none !important;
   }
 }
 
@@ -175,31 +199,40 @@
   margin-top: -20%;
 }
 
-@media screen and (max-width: 1199px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 115%;
+@media only screen and (max-width: 1199px) and (max-height: 611px) {
+  .search-body .body-container {
+    .flex-width {
+      top: 62%;
+    }
+    .search-btn {
+      top: 90%;
     }
   }
 }
 
-@media screen and (max-width: 1114px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 116%;
+@media only screen and (max-width: 1199px) and (max-height: 499px) {
+  .search-body .body-container {
+    .flex-width {
+      top: 72%;
+    }
+    .search-btn {
+      top: 112%;
     }
   }
 }
 
-@media screen and (max-width: 1047px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 117.5%;
+@media only screen and (max-width: 1199px) and (max-height: 399px) {
+  .search-body .body-container {
+    .flex-width {
+      top: 82%;
+    }
+    .search-btn {
+      top: 132%;
     }
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media only screen and (max-width: 1024px) and (max-height: 611px) {
   .search-body {
     .body-container {
       .logo-text {
@@ -207,9 +240,10 @@
       }
       .flex-width {
         width: 125%;
+        top: 60%;
       }
       .search-btn {
-        top: 80%;
+        top: 90%;
         .searchButton {
           width: 34%;
           height: 32px;
@@ -218,46 +252,22 @@
       }
     }
   }
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 113.8%;
+}
+
+@media only screen and (max-width: 1024px) and (max-height: 499px) {
+  .search-body {
+    .body-container {
+      .flex-width {
+        top: 70%;
+      }
+      .search-btn {
+        top: 112%;
+      }
     }
   }
 }
 
-@media screen and (max-width: 947px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 115%;
-    }
-  }
-}
-
-@media screen and (max-width: 880px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 116.4%;
-    }
-  }
-}
-
-@media screen and (max-width: 822px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 117.8%;
-    }
-  }
-}
-
-@media screen and (max-width: 770px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 119%;
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   .search-body {
     .body-container {
       .logo-text {
@@ -277,70 +287,9 @@
       }
     }
   }
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 115.8%;
-    }
-  }
 }
 
-@media screen and (max-width: 709px) {
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 117%;
-    }
-  }
-}
-
-@media screen and (max-width: 650px) {
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 119%;
-    }
-  }
-}
-
-@media screen and (max-width: 585px) {
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 121%;
-    }
-  }
-}
-
-@media screen and (max-width: 528px) {
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 124%;
-    }
-  }
-}
-
-@media screen and (max-width: 493px) {
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 126%;
-    }
-  }
-}
-
-@media screen and (max-width: 463px) {
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 129%;
-    }
-  }
-}
-
-@media screen and (max-width: 435px) {
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 130.6%;
-    }
-  }
-}
-
-@media screen and (max-width: 425px) {
+@media only screen and (max-width: 425px) {
   .search-body {
     .body-container {
       .logo-text {
@@ -366,22 +315,9 @@
       }
     }
   }
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 123%;
-    }
-  }
 }
 
-@media screen and (max-width: 395px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 125%;
-    }
-  }
-}
-
-@media screen and (max-width: 375px) {
+@media only screen and (max-width: 375px) {
   .search-body {
     .body-container {
       .logo-text {
@@ -405,21 +341,6 @@
           font-size: 12px;
         }
       }
-    }
-  }
-}
-@media screen and (max-width: 350px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 127%;
-    }
-  }
-}
-
-@media screen and (max-width: 330px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 130%;
     }
   }
 }
@@ -452,14 +373,6 @@
   }
 }
 
-@media screen and (max-width: 310px){
-  .ng-autocomplete {
-    ::ng-deep .autocomplete-container .not-found {
-      width: 133%;
-    }
-  }
-}
-
 // @media screen and (max-height: 700px) {
 //   .search-body {
 //     .body-container {
@@ -473,7 +386,7 @@
 //   }
 // }
 
-@media screen and (max-height: 610px) {
+@media screen and (max-width: 768px) and (max-height: 610px) {
   .search-body {
     .body-container {
       .flex-width {
@@ -486,7 +399,7 @@
   }
 }
 
-@media screen and (max-height: 510px) {
+@media screen and (max-width: 768px) and (max-height: 510px) {
   .search-body {
     .body-container {
       .flex-width {
@@ -499,7 +412,7 @@
   }
 }
 
-@media screen and (max-height: 410px) {
+@media screen and (max-width: 768px) and (max-height: 410px) {
   .search-body {
     .body-container {
       .flex-width {
@@ -512,7 +425,7 @@
   }
 }
 
-@media screen and (max-height: 375px) {
+@media screen and (max-width: 768px) and (max-height: 375px) {
   .search-body {
     margin: 4rem auto 8.1rem auto;
     .body-container {
@@ -526,7 +439,7 @@
   }
 }
 
-@media screen and (max-height: 375px) {
+@media screen and (max-width: 768px) and (max-height: 375px) {
   .search-body {
     margin: 3rem auto 8.1rem auto;
     .body-container {
@@ -540,7 +453,7 @@
   }
 }
 
-@media screen and (max-height: 225px) {
+@media screen and (max-width: 768px) and (max-height: 225px) {
   .search-body {
     margin: 3rem auto 8.1rem auto;
     .body-container {
