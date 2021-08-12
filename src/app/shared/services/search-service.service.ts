@@ -43,4 +43,8 @@ export class SearchServiceService {
     // return this.httpClient.post("http://20.198.82.4:8082/search/spellCheck/", data);
     return this.httpClient.post("http://20.198.69.138:8082/search/spellCheck/", data);
   }
+
+  bottomQuerySuggestion(data:any){
+    return this.httpClient.post("http://20.198.69.138:8082/search/queriesSuggestion/", data);
+  }
 }
