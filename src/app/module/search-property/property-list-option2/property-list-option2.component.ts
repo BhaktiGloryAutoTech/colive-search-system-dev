@@ -316,6 +316,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       this.visitedPropertyList = [];
+      this.suggestionList=[];
       this.searchQuery = event.name;
       if (event.type != 'property') {
         let search = {
@@ -360,6 +361,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.visitedPropertyList = [];
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
+      this.suggestionList=[];
       let search = {
         "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
       }

@@ -18,6 +18,7 @@
           </ng-autocomplete>
 
           <ng-template #itemTemplate let-item>
+            <ng-container *ngIf="suggestionList && suggestionList.length">
             <div class="d-flex" id="item-list">
               <ng-container *ngIf="item.type=='location'">
                 <span class="material-icons-outlined location-property">location_on</span>
@@ -30,7 +31,7 @@
               </ng-container>
               <a class="suggestion-text" [innerHTML]="item.name"></a>
             </div>
-
+          </ng-container>
           </ng-template>
           <span id="search-span" class="material-icons search-icon">search</span>
           <span id="mic-span" class="material-icons " (click)="startService()">mic_none</span>
