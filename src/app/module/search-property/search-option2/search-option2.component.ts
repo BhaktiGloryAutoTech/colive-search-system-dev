@@ -56,11 +56,11 @@ export class SearchOption2Component implements OnInit {
       container?.classList.remove('suggest-border');
       sbtn?.classList.remove('btn-display')
     } else {
-      if (this.searchQuery && this.suggestionList.length) {
+      if ((this.searchQuery && this.suggestionList.length) || (this.suggestionList && this.suggestionList.length)) {
         container?.classList.add('input-search');
         container?.classList.add('suggest-border');
         sbtn?.classList.add('btn-display');
-      } else {
+      }else{
         container?.classList.remove('input-search');
         container?.classList.remove('suggest-border');
         sbtn?.classList.remove('btn-display');
@@ -177,7 +177,7 @@ export class SearchOption2Component implements OnInit {
               sbtn?.classList.add('btn-display')
               container?.classList.add('suggest-border')
             }
-          }, 10)
+          }, 1)
           this.cdr.detectChanges();
         }, error => {
           (this.suggestionList && this.suggestionList.length) ? container?.classList.add('input-search') : container?.classList.remove('input-search');
