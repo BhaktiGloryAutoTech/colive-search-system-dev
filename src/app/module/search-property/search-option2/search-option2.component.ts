@@ -75,6 +75,7 @@ export class SearchOption2Component implements OnInit {
       ele?.classList.remove('suggest-border');
       this.loading = true;
       this.propertyDetail = [];
+      this.suggestionList=[];
       this.disableButton = true;
       let search = {
         "query": event.query
@@ -95,6 +96,7 @@ export class SearchOption2Component implements OnInit {
       ele?.classList.remove('input-search')
       this.loading = true;
       this.propertyDetail = [];
+      this.suggestionList=[];
       this.disableButton = true;
       let search = {
         "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
