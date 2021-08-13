@@ -93,7 +93,8 @@ export class SearchOption2Component implements OnInit {
   keyPress(event: any) {
     if (this.searchQuery && event.keyCode == 13) {
       let ele = document.getElementById('auoComplete');
-      ele?.classList.remove('input-search')
+      ele?.classList.remove('input-search');
+      ele?.classList.remove('suggest-border');
       this.loading = true;
       this.propertyDetail = [];
       this.suggestionList=[];
