@@ -356,7 +356,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       // this.spellCorrectedQuery = ''
       // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
       let ele = document.getElementById('auoComplete');
-      ele?.classList.remove('input-search')
+      ele?.classList.remove('input-search');
+      ele?.classList.remove('suggest-border')
       this.matchedPropertyList = [];
       this.visitedPropertyList = [];
       this.trendingPropertyList = [];
