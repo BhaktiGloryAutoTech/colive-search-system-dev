@@ -520,6 +520,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       let value = {
         'query': search
       }
+      this.searchQuery=search;
       //for bottom suggestion
       this.bottomQuerySuggestion(value)
       //get property ids for search query
