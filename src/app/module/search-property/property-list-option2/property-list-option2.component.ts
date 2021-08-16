@@ -474,7 +474,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         container?.classList.remove('input-search');
         container?.classList.remove('suggest-border')
       }
-    }, 10)
+    }, 2)
 
   }
 

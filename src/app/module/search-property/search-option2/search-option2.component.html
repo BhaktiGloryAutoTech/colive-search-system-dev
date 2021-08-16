@@ -36,7 +36,7 @@
 
         <ng-template #itemTemplate let-item>
           <ng-container *ngIf="suggestionList && suggestionList.length">
-            <div class="d-flex" id="item-list">
+            <div class="d-flex text-left" id="item-list">
               <ng-container *ngIf="item.type == 'location'">
                 <span class="material-icons-outlined location-property"
                   >location_on</span
