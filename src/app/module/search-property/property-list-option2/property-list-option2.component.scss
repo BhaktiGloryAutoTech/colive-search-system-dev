@@ -20,7 +20,7 @@ hr {
   padding: 0px;
 }
 .search {
-  margin: 5% 0 0 -3%;
+  margin: 3.5% 0 0 -3%;
   width: 523px;
   height: 60px;
   input {
@@ -278,6 +278,7 @@ a:link {
     border-radius: 35px;
     padding-left: 25px;
     padding-right: 34px;
+    height: 45px;
   }
 }
 .ng-autocomplete {
@@ -292,7 +293,9 @@ a:link {
 }
 .ng-autocomplete {
   ::ng-deep .autocomplete-container {
-    border: 1.8px solid #112950;
+    box-shadow: none;
+    outline: 0;
+    border: 1.8px solid #CED4DA;
   }
 }
 
@@ -304,9 +307,11 @@ a:link {
 
 .suggest-border .ng-autocomplete {
   ::ng-deep .autocomplete-container .suggestions-container {
-    border-left: 1.8px solid #112950;
-    border-right: 1.8px solid #112950;
-    border-bottom: 1.8px solid #112950;
+    box-shadow: none;
+    outline: 0;
+    border-left: 1.8px solid #CED4DA;
+    border-right: 1.8px solid #CED4DA;
+    border-bottom: 1.8px solid #CED4DA;
   }
 }
 
@@ -317,7 +322,7 @@ a:link {
     border-radius: 0px 0px 30px 30px;
     width: 100.79%;
     margin: 0px -27px;
-    border-color: #112950 !important;
+    border-color: #CED4DA !important;
   }
 }
 .ng-autocomplete {
@@ -338,7 +343,7 @@ a:link {
   ::ng-deep .autocomplete-container,
   ::ng-deep .autocomplete-container input {
     border-radius: 30px 30px 0px 0px;
-    border-color: #112950 !important;
+    border-color: #CED4DA !important;
   }
 }
 
@@ -522,7 +527,7 @@ a:link {
       font-size: 2rem;
     }
     .search {
-      margin: 6.9% 0 0 2%;
+      margin: 7.5% 0 0 4%;
       width: 380px;
       height: 57px;
       .ng-autocomplete {
@@ -610,6 +615,11 @@ a:link {
   .ng-autocomplete {
     ::ng-deep .autocomplete-container .not-found {
       width: 119%;
+    }
+  }
+  .ng-autocomplete {
+    ::ng-deep .autocomplete-container {
+      height: 40px;
     }
   }
 }

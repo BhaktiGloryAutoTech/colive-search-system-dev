@@ -25,10 +25,12 @@
     height: 50%;
     transform: translate(-50%, -50%);
     .logo-text {
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: #ed0c6d;
-      letter-spacing: 0.3rem;
+      // font-size: 3.5rem;
+      // font-weight: 800;
+      // color: #ed0c6d;
+      // letter-spacing: 0.3rem;
+      height: auto;
+      max-width: 100%;
     }
     .flex-width {
       // width: 100%;
@@ -50,7 +52,7 @@
         width: 13px;
         height: 13px;
         color: #112950 !important;
-        margin: -31px 25px 0 10px;
+        margin: -35px 25px 0 10px;
         cursor: pointer;
       }
       #search-span {
@@ -60,14 +62,14 @@
         color: #112950 !important;
         width: 20px;
         height: 20px;
-        margin: -31px 0px 0px 18px;
+        margin: -35px 0px 0px 18px;
       }
     }
     .search-btn {
       text-align: center;
       width: 100%;
       position: absolute;
-      top: 78%;
+      top: 84%;
       left: 50%;
       height: 50%;
       transform: translate(-50%, -50%);
@@ -93,6 +95,7 @@
     padding-left: 25px;
     padding-right: 35px;
     width: 100%;
+    height: 45px;
   }
 }
 
@@ -116,7 +119,9 @@
 }
 .ng-autocomplete {
   ::ng-deep .autocomplete-container {
-    border: 1.8px solid #112950;
+    box-shadow: none;
+    outline: 0;
+    border: 1.8px solid #CED4DA;
   }
 }
 
@@ -152,9 +157,11 @@
 
 .suggest-border .ng-autocomplete {
   ::ng-deep .autocomplete-container .suggestions-container {
-    border-left: 1.8px solid #112950;
-    border-right: 1.8px solid #112950;
-    border-bottom: 1.8px solid #112950;
+    box-shadow: none;
+    outline: 0;
+    border-left: 1.8px solid #CED4DA;
+    border-right: 1.8px solid #CED4DA;
+    border-bottom: 1.8px solid #CED4DA;
   }
 }
 
@@ -170,10 +177,14 @@
     border: none !important;
   }
 }
-.ng-autocomplete{
-  ::ng-deep .autocomplete-container .input-container input{
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .input-container input {
     padding: 0 30px 0px 20px;
+
   }
+}
+input{
+  font-family: Arial !important;
 }
 
 .location-property {
@@ -188,15 +199,15 @@
 }
 
 .searchButton {
-  width: 30%;
+  width: 32%;
   height: 40px;
   border: 1px solid #f2006c;
   background: #f2006c;
   text-align: center;
   color: #fff;
-  border-radius: 0;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 14px;
 }
 .img-fluid {
   padding: 0px;
@@ -250,7 +261,7 @@
       .search-btn {
         top: 90%;
         .searchButton {
-          width: 34%;
+          width: 36%;
           height: 32px;
           font-size: 18px;
         }
@@ -271,6 +282,20 @@
     }
   }
 }
+@media screen and (max-width: 905px) {
+  .search-body {
+    .body-container {
+      .search-btn {
+        top: 85%;
+        .searchButton {
+          width: 36%;
+          height: 37px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
 
 @media only screen and (max-width: 768px) {
   .search-body {
@@ -283,12 +308,36 @@
         top: 50%;
       }
       .search-btn {
-        top: 75%;
+        top: 80%;
         .searchButton {
-          width: 36%;
-          height: 30px;
-          font-size: 16px;
+          width: 44%;
+          height: 34px;
+          font-size: 14px;
         }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .search-body {
+    .body-container {
+      .search-btn .searchButton {
+        width: 55%;
+        height: 34px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .search-body {
+    .body-container {
+      .search-btn .searchButton {
+        width: 67%;
+        height: 34px;
+        font-size: 14px;
       }
     }
   }
@@ -309,12 +358,17 @@
             font-size: 13px;
           }
         }
+        .ng-autocomplete {
+          ::ng-deep .autocomplete-container {
+            height: 40px;
+          }
+        }
       }
       .search-btn {
         top: 69%;
         .searchButton {
-          width: 60%;
-          height: 27px;
+          width: 75%;
+          height: 32px;
           font-size: 14px;
         }
       }
@@ -341,8 +395,8 @@
       .search-btn {
         top: 68%;
         .searchButton {
-          width: 60%;
-          height: 25px;
+          width: 72%;
+          height: 30px;
           font-size: 12px;
         }
       }
@@ -369,8 +423,8 @@
       .search-btn {
         top: 68%;
         .searchButton {
-          width: 64%;
-          height: 24px;
+          width: 75%;
+          height: 28px;
           font-size: 11px;
         }
       }

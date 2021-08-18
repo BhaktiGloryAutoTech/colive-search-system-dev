@@ -71,8 +71,10 @@ export class SearchOption2Component implements OnInit {
   selectEvent(event: any) {
     if (event) {
       let ele = document.getElementById('auoComplete');
+      let sbtn: any = document.getElementById('search-button');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border');
+      sbtn?.classList.remove('btn-display');
       this.loading = true;
       this.propertyDetail = [];
       this.suggestionList=[];
