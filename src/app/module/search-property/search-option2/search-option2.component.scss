@@ -29,7 +29,7 @@
       // font-weight: 800;
       // color: #ed0c6d;
       // letter-spacing: 0.3rem;
-      height: auto;
+      height: 60px;
       max-width: 100%;
     }
     .flex-width {
@@ -41,7 +41,7 @@
       // margin: 30% 0 7% 0;
       width: 100%;
       position: absolute;
-      top: 55%;
+      top: 50%;
       left: 50%;
       height: 50%;
       transform: translate(-50%, -50%);
@@ -69,7 +69,7 @@
       text-align: center;
       width: 100%;
       position: absolute;
-      top: 84%;
+      top: 70%;
       left: 50%;
       height: 50%;
       transform: translate(-50%, -50%);
@@ -251,9 +251,6 @@ input{
 @media only screen and (max-width: 1024px) and (max-height: 611px) {
   .search-body {
     .body-container {
-      .logo-text {
-        font-size: 3rem;
-      }
       .flex-width {
         width: 125%;
         top: 60%;
@@ -286,7 +283,7 @@ input{
   .search-body {
     .body-container {
       .search-btn {
-        top: 85%;
+        top: 70%;
         .searchButton {
           width: 36%;
           height: 37px;
@@ -301,14 +298,14 @@ input{
   .search-body {
     .body-container {
       .logo-text {
-        font-size: 2.5rem;
+        height: 55px;
       }
       .flex-width {
         width: 150%;
-        top: 50%;
+        top: 58%;
       }
       .search-btn {
-        top: 80%;
+        top: 84%;
         .searchButton {
           width: 44%;
           height: 34px;
@@ -347,11 +344,11 @@ input{
   .search-body {
     .body-container {
       .logo-text {
-        font-size: 2rem;
+        height: 50px;
       }
       .flex-width {
         width: 195%;
-        top: 45%;
+        top: 50%;
         .ng-autocomplete {
           ::ng-deep .autocomplete-container,
           ::ng-deep .autocomplete-container input {
@@ -365,7 +362,7 @@ input{
         }
       }
       .search-btn {
-        top: 69%;
+        top: 72%;
         .searchButton {
           width: 75%;
           height: 32px;
@@ -379,12 +376,9 @@ input{
 @media only screen and (max-width: 375px) {
   .search-body {
     .body-container {
-      .logo-text {
-        font-size: 1.9rem;
-      }
       .flex-width {
         width: 205%;
-        top: 45%;
+        top: 50%;
         .ng-autocomplete {
           ::ng-deep .autocomplete-container,
           ::ng-deep .autocomplete-container input {
@@ -393,7 +387,6 @@ input{
         }
       }
       .search-btn {
-        top: 68%;
         .searchButton {
           width: 72%;
           height: 30px;
@@ -408,11 +401,10 @@ input{
   .search-body {
     .body-container {
       .logo-text {
-        font-size: 1.89rem;
+        height: 45px;
       }
       .flex-width {
         width: 205%;
-        top: 45%;
         .ng-autocomplete {
           ::ng-deep .autocomplete-container,
           ::ng-deep .autocomplete-container input {
@@ -421,7 +413,6 @@ input{
         }
       }
       .search-btn {
-        top: 68%;
         .searchButton {
           width: 75%;
           height: 28px;
