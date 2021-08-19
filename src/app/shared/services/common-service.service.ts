@@ -8,6 +8,6 @@ export class CommonServiceService {
   constructor() { }
 
   envUrl(){
-    return "https://colive-dev.azurewebsites.net/"
+    return "https://lenssmartsearch.polynomial.ai/"
   }
 }

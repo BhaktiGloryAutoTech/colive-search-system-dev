@@ -19,32 +19,28 @@ export class SearchServiceService {
   }
 
   searchPropertyFormated(data: any) {
-    // return this.httpClient.post("http://20.198.82.4:8082/query/v2", data);
-    return this.httpClient.post("http://20.198.69.138:8082/query/v2", data);
+    return this.httpClient.post(this.commonServiceService.envUrl() + "query/v2", data);
   }
 
   getPropertyDetail(data: any) {
     return this.httpClient.post(this.commonServiceService.envUrl() + "properties", data)
   }
-  getPropertyDetailsByString(data: any) {
-    return this.httpClient.post(this.commonServiceService.envUrl() + "", data)
-  }
 
   searchSuggestion(data: any) {
     // return this.httpClient.post("http://20.198.82.4:8082/search/suggestion/", data);
-    return this.httpClient.post("http://20.198.69.138:8082/search/suggestion/", data);
+    return this.httpClient.post(this.commonServiceService.envUrl() + "search/suggestion/", data);
   }
 
   trackedClicks(data: any) {
-    return this.httpClient.post("http://20.198.82.4:8082/", data);
+    return this.httpClient.post(this.commonServiceService.envUrl() + "", data);
   }
 
   spellCheck(data: any) {
     // return this.httpClient.post("http://20.198.82.4:8082/search/spellCheck/", data);
-    return this.httpClient.post("http://20.198.69.138:8082/search/spellCheck/", data);
+    return this.httpClient.post(this.commonServiceService.envUrl() + "search/spellCheck/", data);
   }
 
   bottomQuerySuggestion(data:any){
-    return this.httpClient.post("http://20.198.69.138:8082/search/queriesSuggestion/", data);
+    return this.httpClient.post(this.commonServiceService.envUrl() + "search/queriesSuggestion/", data);
   }
 }
