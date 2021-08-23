@@ -161,9 +161,10 @@ a:link {
         }
         .badge-text {
           text-align: left;
-          font: normal normal normal 14px/20px Montserrat;
+          font: normal normal 500 14px/20px Montserrat;
           letter-spacing: 0px;
-          color: #ed0c6d;
+          // color: #ed0c6d;
+          color: #ffffff;
           opacity: 1;
         }
         .share-text {
@@ -174,7 +175,8 @@ a:link {
           opacity: 1;
         }
         .tag-btn {
-          background-color: #fcd7e7;
+          // background-color: #fcd7e7;
+          background-color: #ed0c6d;
           border-radius: 15px;
           padding: 5px 12px;
         }
@@ -599,10 +601,10 @@ a:link {
             font-size: 13px;
           }
           .badge-text {
-            font: normal normal normal 13px/20px Montserrat;
+            font: normal normal 500 13px/20px Montserrat;
           }
           .share-text{
-            font: normal normal normal 13px/20px Montserrat;
+            font: normal normal 600 13px/20px Montserrat;
           }
         }
         #propertyName {
@@ -762,10 +764,10 @@ a:link {
             font-size: 12px;
           }
           .badge-text {
-            font: normal normal normal 12px/20px Montserrat;
+            font: normal normal 500 12px/20px Montserrat;
           }
           .share-text{
-            font: normal normal normal 12px/20px Montserrat;
+            font: normal normal 600 12px/20px Montserrat;
           }
         }
 
@@ -824,6 +826,8 @@ a:link {
     }
   }
 }
+
+
 
 @media screen and (max-width: 375px) {
   .container-div {
@@ -885,6 +889,9 @@ a:link {
 
 @media screen and (max-width: 360px) {
   .container-div {
+    .search{
+      width: 315px;
+    }
     .did-you-mean #text-div {
       width: 27%;
     }
