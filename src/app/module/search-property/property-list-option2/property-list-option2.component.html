@@ -213,8 +213,8 @@
                   >
                 </span>
               </li>
-              <li class="justify-content-center">
-                <ng-container *ngIf="property.metaData.locationHighlights">
+              <li class="justify-content-center ">
+                <div *ngIf="property.metaData.locationHighlights" class="mt-1">
                   <span id="propertyDescription">
                     <span *ngIf="!property.showMore">
                       {{
@@ -233,7 +233,7 @@
                       <span>{{ property.showMore ? "less" : "More" }}</span>
                     </div>
                   </span>
-                </ng-container>
+                </div>
               </li>
               <li class="mt-1">
                 <span id="amenities">{{ property.metaData.topAmenity }}</span>
