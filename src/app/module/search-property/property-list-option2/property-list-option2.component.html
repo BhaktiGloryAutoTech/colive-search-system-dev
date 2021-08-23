@@ -519,21 +519,13 @@
                   class="m-1 d-flex text-center"
                   *ngFor="
                     let badge of property.badgeList;
-                    let i = index;
-                    let last = last
                   "
                 >
                   <span
                     id="badge"
-                    class="badge-text"
+                    class="badge-text tag-btn mr-3"
                     [innerHTML]="badge"
                   ></span>
-                  <!-- <ng-container *ngIf="i+1<property.badgeList.length">
-                    <span id="dot"></span>
-                  </ng-container> -->
-                  <ng-container *ngIf="!last">
-                    <span id="dot"></span>
-                  </ng-container>
                 </div>
               </li>
               <li class="d-flex m-0">
@@ -732,21 +724,13 @@
                   class="m-1 d-flex text-center"
                   *ngFor="
                     let badge of property.badgeList;
-                    let i = index;
-                    let last = last
                   "
                 >
                   <span
                     id="badge"
-                    class="badge-text"
+                    class="badge-text tag-btn mr-3"
                     [innerHTML]="badge"
                   ></span>
-                  <!-- <ng-container *ngIf="i+1<property.badgeList.length">
-                    <span id="dot"></span>
-                  </ng-container> -->
-                  <ng-container *ngIf="!last">
-                    <span id="dot"></span>
-                  </ng-container>
                 </div>
               </li>
               <li class="d-flex m-0">
