@@ -443,6 +443,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         property = propertyDetail.filter((x: any) => (x.propertyName).toLowerCase() === (this.searchQuery.name ? this.searchQuery.name : this.searchQuery).toLowerCase())
       }
       if (property) {
+        this.spellCorrectedQuery=''
         let obj: any = {}
         obj['metaData'] = property[0];
         obj['propertyDetails'] = property[0];
