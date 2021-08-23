@@ -59,7 +59,7 @@ hr {
 #dot {
   width: 3px;
   height: 3px;
-  background: #ed0c6d 0% 0% no-repeat padding-box;
+  background: #112950 0% 0% no-repeat padding-box;
   opacity: 1;
   margin: 10px;
 }
@@ -102,13 +102,13 @@ hr {
 }
 a:hover {
   text-decoration: underline;
-  color: #ed0c6d;
+  color: #112950;
   cursor: pointer;
 }
 
 a,
 a:link {
-  color: #ed0c6d !important;
+  color: #112950 !important;
   cursor: pointer;
 }
 .property-card {
@@ -133,11 +133,11 @@ a:link {
           text-align: left;
           font: normal normal normal 14px/21px Montserrat;
           letter-spacing: 0px;
-          color: #415473;
+          color: #8E9AAC;
           opacity: 1;
         }
         .location-icon {
-          padding: 1px 0 0 10px;
+          padding: 1px 0 0 7px;
           font-size: 22px;
           line-height: 20px;
           color: #112950;
@@ -166,6 +166,13 @@ a:link {
           color: #ed0c6d;
           opacity: 1;
         }
+        .share-text {
+          text-align: center;
+          font: normal normal 600 14px/20px Montserrat;
+          letter-spacing: 0px;
+          color: #112950;
+          opacity: 1;
+        }
         .tag-btn {
           background-color: #fcd7e7;
           border-radius: 15px;
@@ -173,7 +180,7 @@ a:link {
         }
         .view-video-share-icon {
           font-size: 18px;
-          color: #ed0c6d;
+          color: #112950;
           cursor: pointer;
           margin-top: 1px;
         }
@@ -183,9 +190,9 @@ a:link {
       }
       #propertyName {
         text-align: left;
-        font: normal normal 600 20px/30px Montserrat;
+        font: normal normal 600 20px/24px Montserrat;
         letter-spacing: 0px;
-        color: #ed0c6d;
+        color: #112950;
         opacity: 1;
       }
       #propertyDescription {
@@ -594,6 +601,9 @@ a:link {
           .badge-text {
             font: normal normal normal 13px/20px Montserrat;
           }
+          .share-text{
+            font: normal normal normal 13px/20px Montserrat;
+          }
         }
         #propertyName {
           font: normal normal 600 19px/30px Montserrat;
@@ -752,6 +762,9 @@ a:link {
             font-size: 12px;
           }
           .badge-text {
+            font: normal normal normal 12px/20px Montserrat;
+          }
+          .share-text{
             font: normal normal normal 12px/20px Montserrat;
           }
         }

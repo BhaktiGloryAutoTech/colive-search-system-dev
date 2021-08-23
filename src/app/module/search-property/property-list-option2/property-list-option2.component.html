@@ -263,14 +263,6 @@
                     }}</span>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="property.metaData.price">
-                  <div class="d-flex ml-3" id="price-div">
-                    <span id="price"
-                      >₹ {{ property.metaData.price
-                      }}<span id="onwards">&nbsp;&nbsp;onwards</span></span
-                    >
-                  </div>
-                </ng-container>
                 <ng-container
                   *ngIf="
                     property &&
@@ -307,6 +299,15 @@
                     >
                   </div>
                 </ng-container>
+                <ng-container *ngIf="property.metaData.price">
+                  <div class="d-flex ml-3" id="price-div">
+                    <span id="price"
+                      >₹ {{ property.metaData.price
+                      }}<span id="onwards">&nbsp;&nbsp;onwards</span></span
+                    >
+                  </div>
+                </ng-container>
+
               </li>
               <li class="d-flex mt-1">
                 <div
@@ -337,7 +338,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >maps_home_work</span
                     >&nbsp;
-                    <span class="badge-text">View Property</span>
+                    <span class="share-text">View Property</span>
                   </div>
                 </a>
                 <span id="dot"></span>
@@ -354,7 +355,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >videocam</span
                     >&nbsp;
-                    <span class="badge-text">Schedule Video Visit</span>
+                    <span class="share-text">Schedule Video Visit</span>
                   </div>
                 </a>
                 <span id="dot"></span>
@@ -371,7 +372,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >share</span
                     >&nbsp;
-                    <span class="badge-text">Share</span>
+                    <span class="share-text">Share</span>
                   </div>
                 </a>
               </li>
@@ -473,12 +474,6 @@
                     }}</span>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="property.metaData.price">
-                  <div class="d-flex ml-3">
-                    <span id="price">₹ {{ property.metaData.price }}</span>
-                    <span id="onwards">&nbsp;&nbsp;onwards</span>
-                  </div>
-                </ng-container>
                 <ng-container *ngIf="property.propertyDetails.matchPercentage">
                   <div class="d-flex ml-3">
                     <!-- property.propertyDetails.matchPercentage -->
@@ -509,6 +504,13 @@
                     >
                   </div>
                 </ng-container>
+                <ng-container *ngIf="property.metaData.price">
+                  <div class="d-flex ml-3">
+                    <span id="price">₹ {{ property.metaData.price }}</span>
+                    <span id="onwards">&nbsp;&nbsp;onwards</span>
+                  </div>
+                </ng-container>
+
               </li>
               <li class="d-flex mt-1">
                 <div
@@ -546,7 +548,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >maps_home_work</span
                     >&nbsp;
-                    <span class="badge-text">View Property</span>
+                    <span class="share-text">View Property</span>
                   </div>
                 </a>
                 <span id="dot"></span>
@@ -563,7 +565,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >videocam</span
                     >&nbsp;
-                    <span class="badge-text">Schedule Video Visit</span>
+                    <span class="share-text">Schedule Video Visit</span>
                   </div>
                 </a>
                 <span id="dot"></span>
@@ -580,7 +582,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >share</span
                     >&nbsp;
-                    <span class="badge-text">Share</span>
+                    <span class="share-text">Share</span>
                   </div>
                 </a>
               </li>
@@ -685,12 +687,6 @@
                     }}</span>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="property.metaData.price">
-                  <div class="d-flex ml-3">
-                    <span id="price">₹ {{ property.metaData.price }}</span>
-                    <span id="onwards">&nbsp;&nbsp;onwards</span>
-                  </div>
-                </ng-container>
                 <ng-container *ngIf="property.propertyDetails.matchPercentage">
                   <div class="d-flex ml-3">
                     <circle-progress
@@ -720,6 +716,13 @@
                     >
                   </div>
                 </ng-container>
+                <ng-container *ngIf="property.metaData.price">
+                  <div class="d-flex ml-3">
+                    <span id="price">₹ {{ property.metaData.price }}</span>
+                    <span id="onwards">&nbsp;&nbsp;onwards</span>
+                  </div>
+                </ng-container>
+
               </li>
               <li class="d-flex mt-1">
                 <div
@@ -757,7 +760,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >maps_home_work</span
                     >&nbsp;
-                    <span class="badge-text">View Property</span>
+                    <span class="share-text">View Property</span>
                   </div>
                 </a>
                 <span id="dot"></span>
@@ -774,7 +777,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >videocam</span
                     >&nbsp;
-                    <span class="badge-text">Schedule Video Visit</span>
+                    <span class="share-text">Schedule Video Visit</span>
                   </div>
                 </a>
                 <span id="dot"></span>
@@ -791,7 +794,7 @@
                     <span class="material-icons-outlined view-video-share-icon"
                       >share</span
                     >&nbsp;
-                    <span class="badge-text">Share</span>
+                    <span class="share-text">Share</span>
                   </div>
                 </a>
               </li>
