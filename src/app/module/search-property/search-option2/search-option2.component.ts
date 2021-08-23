@@ -85,7 +85,6 @@ export class SearchOption2Component implements OnInit {
       if (event.type == 'property') {
         this.spellCheck(search, 'property');
         localStorage.setItem('PropertyDetail', JSON.stringify(event));
-        localStorage.removeItem('list')
       } else {
         this.spellCheck(search)
       };
@@ -95,8 +94,10 @@ export class SearchOption2Component implements OnInit {
   keyPress(event: any) {
     if (this.searchQuery && event.keyCode == 13) {
       let ele = document.getElementById('auoComplete');
+      let sbtn: any = document.getElementById('search-button');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border');
+      sbtn?.classList.remove('btn-display');
       this.loading = true;
       this.propertyDetail = [];
       this.suggestionList=[];
@@ -108,31 +109,6 @@ export class SearchOption2Component implements OnInit {
       // this.getPropertyList(search);
 
     }
-  }
-
-  //get property list
-  getPropertyList(search: any) {
-    this.loading = true;
-    //get property IDs
-    this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-      (response: any) => {
-        let searchData = []
-        if (response) {
-          searchData = response
-          this.searchService.searchedPropertyList.next(searchData);
-          localStorage.setItem("list", JSON.stringify(searchData))
-          localStorage.removeItem('PropertyDetail')
-          this.disableButton = false;
-          this.router.navigate(['/propertyv2'])
-        }
-        this.loading = false;
-      }, (error: any) => {
-        this.loading = false;
-        this.disableButton = false;
-      }
-    )
-
-
   }
 
   //suggestion list
@@ -225,15 +201,16 @@ export class SearchOption2Component implements OnInit {
               this.searchService.searchQuerySpell.next('');
               localStorage.setItem('searchQuery', JSON.stringify(''))
             }
-            this.searchService.searchQuery.next(this.searchQuery);
+            this.searchService.searchQuery.next(this.searchQuery.name?this.searchQuery.name:this.searchQuery);
             this.searchService.fixedQuery.next(response.response.fixedQuery)
-            localStorage.setItem("query", JSON.stringify(this.searchQuery))
+            localStorage.setItem("query", JSON.stringify(this.searchQuery.name?this.searchQuery.name:this.searchQuery))
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
             if (!property) {
-              this.getPropertyList(value);
+              localStorage.removeItem('PropertyDetail')
+              this.router.navigate(['/smartsearch'],{queryParams: {'':this.searchQuery.name?this.searchQuery.name:this.searchQuery}})
             } else {
               this.disableButton = false;
-              this.router.navigate(['/propertyv2'])
+              this.router.navigate(['/smartsearch'],{queryParams: {'':this.searchQuery.name?this.searchQuery.name:this.searchQuery}})
             }
           } else {
             this.loading = false;
