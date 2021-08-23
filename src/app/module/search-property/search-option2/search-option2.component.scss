@@ -48,18 +48,20 @@
       #mic-span {
         position: relative;
         float: right;
+        font-weight: 200;
         z-index: 999;
         width: 13px;
         height: 13px;
-        color: #112950 !important;
+        color: #f2006c !important;
         margin: -35px 25px 0 10px;
         cursor: pointer;
       }
       #search-span {
         position: relative;
         float: left;
+        font-weight: 100;
         z-index: 999;
-        color: #112950 !important;
+        color: #f2006c !important;
         width: 20px;
         height: 20px;
         margin: -35px 0px 0px 18px;
@@ -67,7 +69,7 @@
     }
     .search-btn {
       text-align: center;
-      width: 100%;
+      width: fit-content;
       position: absolute;
       top: 70%;
       left: 50%;
@@ -121,7 +123,7 @@
   ::ng-deep .autocomplete-container {
     box-shadow: none;
     outline: 0;
-    border: 1.8px solid #CED4DA;
+    border: 2px solid #ced4da;
   }
 }
 
@@ -136,6 +138,14 @@
   ::ng-deep .autocomplete-container .suggestions-container ul li:last-child .complete-selected,
   ::ng-deep .autocomplete-container .suggestions-container ul li:last-child:hover {
     border-radius: 0 0 30px 30px;
+    background-color: #f9dbe9;
+  }
+}
+
+.ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container .complete-selected,
+  ::ng-deep .autocomplete-container .suggestions-container ul li:hover {
+    background-color: #f9dbe9;
   }
 }
 
@@ -159,9 +169,9 @@
   ::ng-deep .autocomplete-container .suggestions-container {
     box-shadow: none;
     outline: 0;
-    border-left: 1.8px solid #CED4DA;
-    border-right: 1.8px solid #CED4DA;
-    border-bottom: 1.8px solid #CED4DA;
+    border-left: 2px solid #ced4da;
+    border-right: 2px solid #ced4da;
+    border-bottom: 2px solid #ced4da;
   }
 }
 
@@ -180,15 +190,14 @@
 .ng-autocomplete {
   ::ng-deep .autocomplete-container .input-container input {
     padding: 0 30px 0px 20px;
-
   }
 }
-input{
+input {
   font-family: Arial !important;
 }
 
 .location-property {
-  color: #112950;
+  color: #ed0c6d;
   font-size: 24px;
   margin: 2% 0 0 4%;
 }
@@ -199,15 +208,22 @@ input{
 }
 
 .searchButton {
-  width: 32%;
-  height: 40px;
-  border: 1px solid #f2006c;
-  background: #f2006c;
+  width: 120px;
+  height: fit-content;
   text-align: center;
-  color: #fff;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  padding: 6px;
+}
+.recommened{
+  border: 1px solid #f2006c;
+  background: #f2006c;
+  color: #fff;
+}
+.colive-search{
+  background: #CCCCCC;
+  border: 1px solid #CCCCCC;
 }
 .img-fluid {
   padding: 0px;
@@ -258,8 +274,6 @@ input{
       .search-btn {
         top: 90%;
         .searchButton {
-          width: 36%;
-          height: 32px;
           font-size: 18px;
         }
       }
@@ -284,11 +298,6 @@ input{
     .body-container {
       .search-btn {
         top: 70%;
-        .searchButton {
-          width: 36%;
-          height: 37px;
-          font-size: 14px;
-        }
       }
     }
   }
@@ -306,11 +315,6 @@ input{
       }
       .search-btn {
         top: 84%;
-        .searchButton {
-          width: 44%;
-          height: 34px;
-          font-size: 14px;
-        }
       }
     }
   }
@@ -319,10 +323,13 @@ input{
 @media only screen and (max-width: 580px) {
   .search-body {
     .body-container {
-      .search-btn .searchButton {
-        width: 55%;
-        height: 34px;
-        font-size: 14px;
+      .search-btn {
+        width: 165%;
+        .searchButton {
+          width: 33%;
+          // height: 34px;
+          font-size: 14px;
+        }
       }
     }
   }
@@ -332,8 +339,8 @@ input{
   .search-body {
     .body-container {
       .search-btn .searchButton {
-        width: 67%;
-        height: 34px;
+        // width: 67%;
+        // height: 34px;
         font-size: 14px;
       }
     }
@@ -364,8 +371,8 @@ input{
       .search-btn {
         top: 72%;
         .searchButton {
-          width: 75%;
-          height: 32px;
+          width: 103px;
+          // height: 32px;
           font-size: 14px;
         }
       }
@@ -387,9 +394,10 @@ input{
         }
       }
       .search-btn {
+        width: 158%;
         .searchButton {
-          width: 72%;
-          height: 30px;
+          width: 100%;
+          // height: 30px;
           font-size: 12px;
         }
       }
@@ -415,7 +423,7 @@ input{
       .search-btn {
         .searchButton {
           width: 75%;
-          height: 28px;
+          // height: 28px;
           font-size: 11px;
         }
       }

@@ -149,6 +149,22 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     this.searchQuery = this.activatedRoute.snapshot.queryParams['']
     // this.searchQuery = this.activatedRoute.snapshot.paramMap.get('query');
     console.log(this.searchQuery)
+    if(!this.searchQuery){
+      this.searchService.searchQuery.subscribe(
+          (response: any) => {
+            if (response) {
+              this.searchQuery = response;
+            } else {
+              if (localStorage.getItem('query')) {
+                const queery: any = localStorage.getItem('query')
+                if (JSON.parse(queery)) {
+                  this.searchQuery = JSON.parse(queery);
+                }
+              }
+            }
+          }
+        )
+    }
     let ele = document.getElementById('auoComplete');
     ele?.classList.remove('input-search');
     ele?.classList.remove('suggest-border')
@@ -357,6 +373,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         let search = {
           "query": event.name
         }
+        localStorage.setItem('query',event.name);
         //for bottom suggestion list
         this.bottomQuerySuggestion(search)
         //for spell check
@@ -396,6 +413,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       this.suggestionList = [];
+      localStorage.setItem('query',this.searchQuery.name ? this.searchQuery.name : this.searchQuery)
       let search = {
         "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
       }

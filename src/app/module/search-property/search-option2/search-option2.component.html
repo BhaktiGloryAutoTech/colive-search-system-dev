@@ -44,7 +44,7 @@
               </ng-container>
               <ng-container *ngIf="item.type == 'property'">
                 <span class="material-icons-outlined location-property"
-                  >location_city</span
+                  >maps_home_work</span
                 >
               </ng-container>
               <ng-container *ngIf="item.type == 'auto'"> </ng-container>
@@ -67,14 +67,22 @@
           <span id="mic-span" class="material-icons mic-icon" (click)="closeVoiceRecognition()">mic_off</span>
         </ng-template> -->
       </div>
-      <div class="search-btn" id="search-button">
+      <div class="search-btn d-flex justify-content-center" id="search-button">
         <button
           type="submit"
-          class="searchButton"
+          class="searchButton colive-search mr-3"
           [disabled]="disableButton"
           (click)="searchFunctionFormat()"
         >
          Colive Search
+        </button>
+        <button
+          type="submit"
+          class="searchButton recommened"
+          [disabled]="disableButton"
+          (click)="searchFunctionFormat()"
+        >
+         Recommened
         </button>
       </div>
     </div>

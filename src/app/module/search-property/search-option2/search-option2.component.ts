@@ -201,16 +201,16 @@ export class SearchOption2Component implements OnInit {
               this.searchService.searchQuerySpell.next('');
               localStorage.setItem('searchQuery', JSON.stringify(''))
             }
-            this.searchService.searchQuery.next(this.searchQuery);
+            this.searchService.searchQuery.next(this.searchQuery.name?this.searchQuery.name:this.searchQuery);
             this.searchService.fixedQuery.next(response.response.fixedQuery)
-            localStorage.setItem("query", JSON.stringify(this.searchQuery))
+            localStorage.setItem("query", JSON.stringify(this.searchQuery.name?this.searchQuery.name:this.searchQuery))
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
             if (!property) {
               localStorage.removeItem('PropertyDetail')
-              this.router.navigate(['/property'],{queryParams: {'':this.searchQuery}})
+              this.router.navigate(['/smartsearch'],{queryParams: {'':this.searchQuery.name?this.searchQuery.name:this.searchQuery}})
             } else {
               this.disableButton = false;
-              this.router.navigate(['/property'],{queryParams: {'':this.searchQuery}})
+              this.router.navigate(['/smartsearch'],{queryParams: {'':this.searchQuery.name?this.searchQuery.name:this.searchQuery}})
             }
           } else {
             this.loading = false;
