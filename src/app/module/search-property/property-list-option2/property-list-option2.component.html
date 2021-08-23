@@ -50,7 +50,7 @@
                 </ng-container>
                 <ng-container #logotemp *ngIf="item.type == 'property'">
                   <span class="material-icons-outlined location-property"
-                    >location_city</span
+                    >maps_home_work</span
                   >
                 </ng-container>
                 <ng-container *ngIf="item.type == 'auto'"> </ng-container>
@@ -91,7 +91,7 @@
             >
               <div class="d-flex justify-content-center m-3">
                 <span class="material-icons-outlined check-circle-icon"
-                  >check_circle_outline</span
+                  >task_alt</span
                 >
                 <span
                   class="tab-title"
@@ -190,11 +190,8 @@
           >
             <ul>
               <li class="d-flex mt-3">
-                <ng-container *ngIf="property && property.propertyDetails">
-                  <div
-                    class="d-flex"
-                    *ngIf="property.propertyDetails.isSponsered"
-                  >
+                <ng-container *ngIf="property && property.metaData">
+                  <div class="d-flex" *ngIf="property.metaData.isSponsored">
                     <span id="sponsered">Sponsored</span>
                     <span id="dot"></span>
                   </div>
@@ -316,21 +313,14 @@
                   class="d-flex text-center"
                   *ngFor="
                     let badge of property.badgeList;
-                    let i = index;
-                    let last = last
                   "
                 >
                   <span
                     id="badge"
-                    class="badge-text"
+                    class="badge-text tag-btn mr-3"
                     [innerHTML]="badge"
                   ></span>
-                  <!-- <ng-container *ngIf="i+1<property.badgeList.length">
-                    <span id="dot"></span>
-                  </ng-container> -->
-                  <ng-container *ngIf="!last">
-                    <span id="dot" class="dot-badge"></span>
-                  </ng-container>
+
                 </div>
               </li>
               <li class="d-flex mt-2">
@@ -345,7 +335,7 @@
                 >
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon"
-                      >location_city</span
+                      >maps_home_work</span
                     >&nbsp;
                     <span class="badge-text">View Property</span>
                   </div>
@@ -416,10 +406,9 @@
           >
             <ul>
               <li class="d-flex mt-3">
-                <div
-                  class="d-flex"
-                  *ngIf="property.propertyDetails.isSponsered"
-                >
+                <ng-container *ngIf=" property && property.metaData"></ng-container>
+
+                <div class="d-flex" *ngIf="property.metaData.isSponsored">
                   <span id="sponsered">Sponsored</span>
                   <span id="dot"></span>
                 </div>
@@ -555,7 +544,7 @@
                 >
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon"
-                      >location_city</span
+                      >maps_home_work</span
                     >&nbsp;
                     <span class="badge-text">View Property</span>
                   </div>
@@ -626,16 +615,18 @@
           >
             <ul>
               <li class="d-flex mt-3">
-                <div
-                  class="d-flex"
-                  *ngIf="property.propertyDetails.isSponsered"
-                >
-                  <span id="sponsered">Sponsored</span>
-                  <span id="dot"></span>
-                </div>
-                <div>
-                  <span id="location">{{ property.metaData.subLocation }}</span>
-                </div>
+
+                <ng-container *ngIf="property && property.metaData">
+                  <div class="d-flex" *ngIf="property.metaData.isSponsored">
+                    <span id="sponsered">Sponsored</span>
+                    <span id="dot"></span>
+                  </div>
+                  <div>
+                    <span id="location">{{
+                      property.metaData.subLocation
+                    }}</span>
+                  </div>
+                </ng-container>
               </li>
               <li>
                 <span id="propertyName">
@@ -764,7 +755,7 @@
                 >
                   <div class="d-flex">
                     <span class="material-icons-outlined view-video-share-icon"
-                      >location_city</span
+                      >maps_home_work</span
                     >&nbsp;
                     <span class="badge-text">View Property</span>
                   </div>
@@ -812,14 +803,14 @@
   </div>
 
   <!-- related search title -->
-  <ng-container
+  <div class="mb-5"
     *ngIf="
-      matchedPropertyList &&
-      matchedPropertyList.length &&
-      trendingPropertyList &&
-      trendingPropertyList.length &&
-      similarPropertyList &&
-      similarPropertyList.length
+      (matchedPropertyList &&
+      matchedPropertyList.length) ||
+      (trendingPropertyList &&
+      trendingPropertyList.length) ||
+      (similarPropertyList &&
+      similarPropertyList.length)
     "
   >
     <ng-container *ngIf="bottomSuggesionList && bottomSuggesionList.length">
@@ -828,7 +819,7 @@
       </div>
       <!-- search cards -->
       <div class="row mt-3">
-        <div class="col-lg-8 col-md-9 col-12 ml">
+        <div class="col-lg-9 col-md-9 col-12 ml">
           <ng-container *ngFor="let suggestion of bottomSuggesionList">
             <div
               class="row col-md-3 search-cards search-cards-nth-child"
@@ -836,30 +827,36 @@
             >
               <div class="d-flex suggested-text">
                 <span class="material-icons search-icon">search</span>
-                <div class="suggestion-text-div">
+                <span
+                class="suggestion"
+                [innerHTML]="suggestion.displayValue | bold"
+              ></span>
+                <!-- <div class="suggestion-text-div">
                   <div class="wrap">
-                    <span
-                      class="suggestion"
-                      [innerHTML]="suggestion.displayValue | bold"
-                    ></span>
+
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </ng-container>
         </div>
-        <div class="col-lg-4 col-md-3"></div>
+        <div class="col-lg-3 col-md-3"></div>
       </div>
     </ng-container>
-  </ng-container>
+  </div>
 
-  <div class="row col-md-12 mb-5 container-footer">
+  <!-- <div class="row col-md-12 mb-5 container-footer">
     <div class="footer">
       <img
         alt="Colive"
         src="./../../../../assets/Colive Product Sans Logo 160x45.png"
       />
-      <!-- <img src="./../../../../assets/paginator.png" alt=""> -->
+
+    </div>
+  </div> -->
+</div>
+
+ <!-- <img src="./../../../../assets/paginator.png" alt=""> -->
       <!-- <div id="page">
         <ng-container *ngFor="let value of numbers;let i=index">
           <ng-container *ngIf="i+1<6; else next">
@@ -874,6 +871,3 @@
           </ng-template>
         </ng-container>
       </div> -->
-    </div>
-  </div>
-</div>
