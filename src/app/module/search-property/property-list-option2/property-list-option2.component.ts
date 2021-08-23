@@ -146,41 +146,44 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   }
 
   ngOnInit(): void {
-    this.searchQuery = this.activatedRoute.snapshot.paramMap.get('query');
+    this.searchQuery = this.activatedRoute.snapshot.queryParams['']
+    // this.searchQuery = this.activatedRoute.snapshot.paramMap.get('query');
     console.log(this.searchQuery)
     let ele = document.getElementById('auoComplete');
-      ele?.classList.remove('input-search');
-      ele?.classList.remove('suggest-border')
-      this.matchedPropertyList = [];
-      this.visitedPropertyList = [];
-      this.trendingPropertyList = [];
-      this.similarPropertyList = [];
-      this.suggestionList = [];
-      let search = {
-        "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
-      }
-      //for bottom suggestion list
-      this.bottomQuerySuggestion(search)
-      //for spell check
-      this.spellCheck(search)
-      this.loading = true;
-      //get property ids for search query
-      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-        (response: any) => {
-          if (response) {
-            this.queryId = response.queryID;
-            localStorage.setItem('queryId', JSON.stringify(response.queryID))
-            this.getPropertyDetails(response)
-          }
-          this.loading = false;
-        }, (error: any) => {
-          this.loading = false;
+    ele?.classList.remove('input-search');
+    ele?.classList.remove('suggest-border')
+    this.matchedPropertyList = [];
+    this.visitedPropertyList = [];
+    this.trendingPropertyList = [];
+    this.similarPropertyList = [];
+    this.suggestionList = [];
+    let search = {
+      "query": this.searchQuery
+    }
+    //for bottom suggestion list
+    this.bottomQuerySuggestion(search)
+    //for spell check
+    this.spellCheck(search)
+    this.loading = true;
+    //get property ids for search query
+    this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+      (response: any) => {
+        if (response) {
+          this.queryId = response.queryID;
+          localStorage.setItem('queryId', JSON.stringify(response.queryID))
+          this.getPropertyDetails(response)
         }
-      )
+        this.loading = false;
+      }, (error: any) => {
+        this.loading = false;
+      }
+    )
     //get QueryId
     if (localStorage.getItem('queryId')) {
       let qid: any = localStorage.getItem('queryId');
-      this.queryId = JSON.parse(qid);
+      if (qid) {
+        this.queryId = JSON.parse(qid);
+      }
     }
   }
 

@@ -207,10 +207,10 @@ export class SearchOption2Component implements OnInit {
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
             if (!property) {
               localStorage.removeItem('PropertyDetail')
-              this.router.navigate(['/property',this.searchQuery])
+              this.router.navigate(['/property'],{queryParams: {'':this.searchQuery}})
             } else {
               this.disableButton = false;
-              this.router.navigate(['/property',this.searchQuery])
+              this.router.navigate(['/property'],{queryParams: {'':this.searchQuery}})
             }
           } else {
             this.loading = false;

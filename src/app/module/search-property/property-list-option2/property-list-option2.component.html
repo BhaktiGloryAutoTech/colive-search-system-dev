@@ -190,11 +190,8 @@
           >
             <ul>
               <li class="d-flex mt-3">
-                <ng-container *ngIf="property && property.propertyDetails">
-                  <div
-                    class="d-flex"
-                    *ngIf="property.propertyDetails.isSponsered"
-                  >
+                <ng-container *ngIf="property && property.metaData">
+                  <div class="d-flex" *ngIf="property.metaData.isSponsored">
                     <span id="sponsered">Sponsored</span>
                     <span id="dot"></span>
                   </div>
@@ -416,10 +413,9 @@
           >
             <ul>
               <li class="d-flex mt-3">
-                <div
-                  class="d-flex"
-                  *ngIf="property.propertyDetails.isSponsered"
-                >
+                <ng-container *ngIf=" property && property.metaData"></ng-container>
+
+                <div class="d-flex" *ngIf="property.metaData.isSponsored">
                   <span id="sponsered">Sponsored</span>
                   <span id="dot"></span>
                 </div>
@@ -626,16 +622,18 @@
           >
             <ul>
               <li class="d-flex mt-3">
-                <div
-                  class="d-flex"
-                  *ngIf="property.propertyDetails.isSponsered"
-                >
-                  <span id="sponsered">Sponsored</span>
-                  <span id="dot"></span>
-                </div>
-                <div>
-                  <span id="location">{{ property.metaData.subLocation }}</span>
-                </div>
+
+                <ng-container *ngIf="property && property.metaData">
+                  <div class="d-flex" *ngIf="property.metaData.isSponsored">
+                    <span id="sponsered">Sponsored</span>
+                    <span id="dot"></span>
+                  </div>
+                  <div>
+                    <span id="location">{{
+                      property.metaData.subLocation
+                    }}</span>
+                  </div>
+                </ng-container>
               </li>
               <li>
                 <span id="propertyName">
