@@ -10,7 +10,6 @@
 <div class="container-div" id="search">
   <div class="row col-md-12 search-body">
     <div class="body-container text-center">
-      <!-- <span class="logo-text">COLIVE</span> -->
       <img class="logo-text" alt="Colive" src="./../../../../assets/Colive Product Sans HDPI Logo.png">
       <div
         class="flex-width"
@@ -55,17 +54,12 @@
         </ng-template>
 
         <span id="search-span" class="material-icons search-icon">search</span>
-        <!-- <ng-container *ngIf="voiceActiveSectionDisabled;else micOff"> -->
         <span
           id="mic-span"
           class="material-icons mic-icon"
           (click)="startStopVoiceRecognition()"
           >mic_none</span
         >
-        <!-- </ng-container> -->
-        <!-- <ng-template #micOff>
-          <span id="mic-span" class="material-icons mic-icon" (click)="closeVoiceRecognition()">mic_off</span>
-        </ng-template> -->
       </div>
       <div class="search-btn d-flex justify-content-center" id="search-button">
         <button

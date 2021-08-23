@@ -147,8 +147,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   ngOnInit(): void {
     this.searchQuery = this.activatedRoute.snapshot.queryParams['']
-    // this.searchQuery = this.activatedRoute.snapshot.paramMap.get('query');
-    console.log(this.searchQuery)
     if(!this.searchQuery){
       this.searchService.searchQuery.subscribe(
           (response: any) => {
