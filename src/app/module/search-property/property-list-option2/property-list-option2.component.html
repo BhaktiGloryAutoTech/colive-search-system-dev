@@ -37,6 +37,7 @@
             [data]="suggestionList"
             [itemTemplate]="itemTemplate"
             [(ngModel)]="searchQuery"
+            (inputCleared)="onClearSearchQuery()"
           >
           </ng-autocomplete>
 

@@ -60,7 +60,7 @@ export class SearchOption2Component implements OnInit {
         container?.classList.add('input-search');
         container?.classList.add('suggest-border');
         sbtn?.classList.add('btn-display');
-      }else{
+      } else {
         container?.classList.remove('input-search');
         container?.classList.remove('suggest-border');
         sbtn?.classList.remove('btn-display');
@@ -77,7 +77,7 @@ export class SearchOption2Component implements OnInit {
       sbtn?.classList.remove('btn-display');
       this.loading = true;
       this.propertyDetail = [];
-      this.suggestionList=[];
+      this.suggestionList = [];
       this.disableButton = true;
       let search = {
         "query": event.query
@@ -100,7 +100,7 @@ export class SearchOption2Component implements OnInit {
       sbtn?.classList.remove('btn-display');
       this.loading = true;
       this.propertyDetail = [];
-      this.suggestionList=[];
+      this.suggestionList = [];
       this.disableButton = true;
       let search = {
         "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
@@ -108,6 +108,24 @@ export class SearchOption2Component implements OnInit {
       this.spellCheck(search);
       // this.getPropertyList(search);
 
+    }
+  }
+
+  onClearSearchQuery() {
+    let container: any = document.getElementById('auoComplete');
+    let sbtn: any = document.getElementById('search-button');
+    if (this.suggestionList && this.suggestionList.length) {
+      setInterval(() => {
+        container?.classList.add('input-search');
+        container?.classList.add('suggest-border');
+        sbtn?.classList.add('btn-display');
+        this.cdr.detectChanges()
+      }, 1)
+      this.suggestionList=this.suggestionList.filter((x:any)=>x.name!=="")
+    } else {
+      container?.classList.remove('input-search');
+      container?.classList.remove('suggest-border');
+      sbtn?.classList.remove('btn-display');
     }
   }
 
@@ -138,7 +156,7 @@ export class SearchOption2Component implements OnInit {
               })
             });
           }
-          if(response && response.response && response.response.autoComplete){
+          if (response && response.response && response.response.autoComplete) {
             response.response.autoComplete.forEach((element: any) => {
               this.suggestionList.push({ name: element, type: 'auto', query: element })
             });
@@ -201,16 +219,16 @@ export class SearchOption2Component implements OnInit {
               this.searchService.searchQuerySpell.next('');
               localStorage.setItem('searchQuery', JSON.stringify(''))
             }
-            this.searchService.searchQuery.next(this.searchQuery.name?this.searchQuery.name:this.searchQuery);
+            this.searchService.searchQuery.next(this.searchQuery.name ? this.searchQuery.name : this.searchQuery);
             this.searchService.fixedQuery.next(response.response.fixedQuery)
-            localStorage.setItem("query", JSON.stringify(this.searchQuery.name?this.searchQuery.name:this.searchQuery))
+            localStorage.setItem("query", JSON.stringify(this.searchQuery.name ? this.searchQuery.name : this.searchQuery))
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
             if (!property) {
               localStorage.removeItem('PropertyDetail')
-              this.router.navigate(['/smartsearch'],{queryParams: {'':this.searchQuery.name?this.searchQuery.name:this.searchQuery}})
+              this.router.navigate(['/smartsearch'], { queryParams: { '': this.searchQuery.name ? this.searchQuery.name : this.searchQuery } })
             } else {
               this.disableButton = false;
-              this.router.navigate(['/smartsearch'],{queryParams: {'':this.searchQuery.name?this.searchQuery.name:this.searchQuery}})
+              this.router.navigate(['/smartsearch'], { queryParams: { '': this.searchQuery.name ? this.searchQuery.name : this.searchQuery } })
             }
           } else {
             this.loading = false;
