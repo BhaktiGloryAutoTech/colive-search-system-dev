@@ -1,3 +1,4 @@
+import { NgxUiLoaderModule, NgxUiLoaderService } from 'ngx-ui-loader';
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, HostListener, AfterViewInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -54,10 +55,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   bottomSuggesionList: any = [];
 
   constructor(private searchService: SearchServiceService, config: NgbRatingConfig,
-    private cdr: ChangeDetectorRef, private ngZone: NgZone, private activatedRoute: ActivatedRoute) {
+    private cdr: ChangeDetectorRef, private ngZone: NgZone, private activatedRoute: ActivatedRoute,
+    private ngxService:NgxUiLoaderService) {
     const { webkitSpeechRecognition }: IWindow = <IWindow><any>window;
     this.recognition = new webkitSpeechRecognition();
-    this.loading = true;
+    this.ngxService.start();
     // //subscribing property Id list
     // this.searchService.searchedPropertyList.pipe(takeUntil(this.unsubscribe)).subscribe(
     //   (response) => {
@@ -71,7 +73,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     //         if (localStorage.getItem('PropertyDetail')) {
     //           const property: any = localStorage.getItem('PropertyDetail');
     //           this.matchedPropertyList.push({ metaData: JSON.parse(property) })
-    //           this.loading = false;
+    //           this.ngxService.stop();
     //         }
     //       }
     //     }
@@ -149,7 +151,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
     this.searchQuery = this.activatedRoute.snapshot.queryParams['']
     if (!this.searchQuery) {
-      this.loading = true;
+      this.ngxService.start();
       this.searchService.searchQuery.subscribe(
         (response: any) => {
           if (response) {
@@ -164,23 +166,23 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           }
         }
       )
-      this.loading = false;
+      this.ngxService.stop();
     }
     if (localStorage.getItem('PropertyDetail')) {
       let obj: any = {}
       this.matchedPropertyList = []
-      this.loading = true;
+      this.ngxService.start();
       let propertyDetail: any = localStorage.getItem('PropertyDetail')
       let propertyDetails: any = JSON.parse(propertyDetail)
       obj['metaData'] = propertyDetails;
       obj['propertyDetails'] = propertyDetails;
       this.matchedPropertyList[0] = obj
-      this.loading = false;
+      this.ngxService.stop();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border')
     } else {
-      this.loading = true;
+      this.ngxService.start();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border')
@@ -190,7 +192,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.similarPropertyList = [];
       this.suggestionList = [];
       let search = {
-        "query": this.searchQuery
+        "query": this.searchQuery.name?this.searchQuery.name:this.searchQuery
       }
       //for bottom suggestion list
       this.bottomQuerySuggestion(search)
@@ -205,9 +207,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             localStorage.removeItem('PropertyDetail')
             this.getPropertyDetails(response)
           }
-          this.loading = false;
+          this.ngxService.stop();
         }, (error: any) => {
-          this.loading = false;
+          this.ngxService.stop();
         }
       )
     }
@@ -247,7 +249,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     this.similarPropertyList = [];
     //for matched properties
     if (response1 && response1.matchedProperties && response1.matchedProperties.length) {
-      this.loading = true;
+      this.ngxService.start();
       response1.matchedProperties.forEach((plist: any, i: any) => {
         let responseObj: any = {}
         let badgeList = [];
@@ -282,13 +284,13 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         ...item,
         showMore: false,
       }));
-      this.loading = false;
+      this.ngxService.stop();
     }
 
 
     //for trending properties
     if (response1 && response1.trendingProperties && response1.trendingProperties.length) {
-      this.loading = true;
+      this.ngxService.start();
       response1.trendingProperties.forEach((plist: any, i: any) => {
         let responseObj: any = {}
         let badgeList = [];
@@ -326,12 +328,12 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         ...item,
         showMore: false,
       }));
-      this.loading = false;
+      this.ngxService.stop();
     }
 
     //for similar properties
     if (response1 && response1.similarProperties && response1.similarProperties.length) {
-      this.loading = true;
+      this.ngxService.start();
       response1.similarProperties.forEach((plist: any, i: any) => {
         let responseObj: any = {}
         let badgeList = [];
@@ -403,15 +405,15 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
               localStorage.removeItem('PropertyDetail')
               this.getPropertyDetails(response)
             }
-            this.loading = false;
+            this.ngxService.stop();
           }, (error: any) => {
-            this.loading = false;
+            this.ngxService.stop();
           }
         )
       } else {
         localStorage.setItem('PropertyDetail', JSON.stringify(event))
         this.matchedPropertyList.push({ metaData: event })
-        this.loading = false;
+        this.ngxService.stop();
       }
     }
   }
@@ -426,7 +428,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   //search property
   keyPress(event: any,) {
     if (this.searchQuery && event.keyCode == 13) {
-      this.loading = true;
+      this.ngxService.start();
       // this.searchQuery = this.fixedQuery;
       // this.spellCorrectedQuery = ''
       // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
@@ -455,7 +457,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         obj['metaData'] = property[0];
         obj['propertyDetails'] = property[0];
         this.matchedPropertyList[0] = obj;
-        this.loading = false;
+        this.ngxService.stop();
       } else {
         let search = {
           "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
@@ -464,7 +466,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         this.bottomQuerySuggestion(search)
         //for spell check
         this.spellCheck(search)
-        this.loading = true;
+        this.ngxService.start();
         //get property ids for search query
         this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
           (response: any) => {
@@ -474,9 +476,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
               localStorage.removeItem('PropertyDetail')
               this.getPropertyDetails(response)
             }
-            this.loading = false;
+            this.ngxService.stop();
           }, (error: any) => {
-            this.loading = false;
+            this.ngxService.stop();
           }
         )
       }
@@ -484,7 +486,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   }
 
   changeDidyouMean() {
-    this.loading = true;
+    this.ngxService.start();
     this.searchQuery = this.fixedQuery;
     this.spellCorrectedQuery = ''
     localStorage.removeItem('searchQuery')
@@ -498,9 +500,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         if (response) {
           this.getPropertyDetails(response)
         }
-        this.loading = false;
+        this.ngxService.stop();
       }, (error: any) => {
-        this.loading = false;
+        this.ngxService.stop();
       }
     )
   }
@@ -581,7 +583,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   //for spellCheck
   spellCheck(value: any) {
     if (value) {
-      this.loading = true;
+      this.ngxService.start();
       this.spellCorrectedQuery = ''
       this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
@@ -598,7 +600,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           }
         },
         error => {
-          this.loading = false;
+          this.ngxService.stop();
         }
       )
     }
@@ -609,7 +611,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   //searchBottomQuery
   searchBottomSuggestionQuery(search: any) {
     if (search) {
-      this.loading = true;
+      this.ngxService.start();
       this.matchedPropertyList = [];
       this.visitedPropertyList = [];
       this.trendingPropertyList = [];
@@ -632,9 +634,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             this.searchService.searchedPropertyList.next(response);
             this.getPropertyDetails(response)
           }
-          this.loading = false;
+          this.ngxService.stop();
         }, (error: any) => {
-          this.loading = false;
+          this.ngxService.stop();
         }
       )
     }
@@ -693,9 +695,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
                   localStorage.setItem('queryId', JSON.stringify(response.queryID))
                   this.getPropertyDetails(response)
                 }
-                this.loading = false;
+                this.ngxService.stop();
               }, (error: any) => {
-                this.loading = false;
+                this.ngxService.stop();
               }
             )
           });

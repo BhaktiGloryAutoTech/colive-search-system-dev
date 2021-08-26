@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchServiceService } from '@services/search-service.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 export interface IWindow extends Window {
@@ -28,6 +29,7 @@ export class SearchOption2Component implements OnInit {
 
   constructor(private searchService: SearchServiceService,
     private router: Router, private cdr: ChangeDetectorRef,
+    private ngxService:NgxUiLoaderService,
     private ngZone: NgZone) {
     const { webkitSpeechRecognition }: IWindow = <IWindow><any>window;
     this.recognition = new webkitSpeechRecognition();
@@ -75,7 +77,7 @@ export class SearchOption2Component implements OnInit {
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border');
       sbtn?.classList.remove('btn-display');
-      this.loading = true;
+      this.ngxService.start();
       this.propertyDetail = [];
       this.suggestionList = [];
       this.disableButton = true;
@@ -98,7 +100,7 @@ export class SearchOption2Component implements OnInit {
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border');
       sbtn?.classList.remove('btn-display');
-      this.loading = true;
+      this.ngxService.start();
       this.propertyDetail = [];
       this.suggestionList = [];
       this.disableButton = true;
@@ -182,7 +184,7 @@ export class SearchOption2Component implements OnInit {
   }
 
   searchFunctionFormat() {
-    this.loading = true;
+    this.ngxService.start();
     if (this.searchQuery) {
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search')
@@ -200,7 +202,7 @@ export class SearchOption2Component implements OnInit {
   //for spellCheck
   spellCheck(value: any, property?: any) {
     if (value) {
-      this.loading = true;
+      this.ngxService.start();
       this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(
         (response: any) => {
           if (response && response.response) {
@@ -223,11 +225,11 @@ export class SearchOption2Component implements OnInit {
               this.router.navigate(['/smartsearch'], { queryParams: { '': this.searchQuery.name ? this.searchQuery.name : this.searchQuery } })
             }
           } else {
-            this.loading = false;
+            this.ngxService.stop();
           }
         },
         error => {
-          this.loading = false;
+          this.ngxService.stop();
         }
       )
     }

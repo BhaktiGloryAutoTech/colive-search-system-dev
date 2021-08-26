@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { NgxLoadingModule } from 'ngx-loading';
 import { BoldPipe } from './pipes/bold.pipe';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 // let loader: any = require('./json/loader.json');
 
 // const PIPES = [];
@@ -24,7 +25,7 @@ const FORMS = [
   declarations: [PagenotfoundComponent, BoldPipe],
   imports: [
     CommonModule,
-    // NgxUiLoaderModule,
+    NgxUiLoaderModule,
     ...FORMS,
     AutocompleteLibModule,
     HttpClientModule,
@@ -37,7 +38,7 @@ const FORMS = [
   ],
   exports: [
     CommonModule,
-    // NgxUiLoaderModule,
+    NgxUiLoaderModule,
     AutocompleteLibModule,
     HttpClientModule,
     NgSelectModule,
