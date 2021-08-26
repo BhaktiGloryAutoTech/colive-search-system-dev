@@ -417,18 +417,10 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   }
 
   onClearSearchQuery() {
+    this.suggestionList = []
     let container: any = document.getElementById('auoComplete');
-    if (this.suggestionList && this.suggestionList.length) {
-      setInterval(() => {
-        container?.classList.add('input-search');
-        container?.classList.add('suggest-border');
-        this.cdr.detectChanges()
-      }, 1)
-      this.suggestionList=this.suggestionList.filter((x:any)=>x.name!=="")
-    } else {
-      container?.classList.remove('input-search');
-      container?.classList.remove('suggest-border');
-    }
+    container?.classList.remove('input-search');
+    container?.classList.remove('suggest-border');
   }
 
   //search property

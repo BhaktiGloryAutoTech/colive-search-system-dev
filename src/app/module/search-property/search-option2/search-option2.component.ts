@@ -112,21 +112,13 @@ export class SearchOption2Component implements OnInit {
   }
 
   onClearSearchQuery() {
+    this.suggestionList = []
     let container: any = document.getElementById('auoComplete');
     let sbtn: any = document.getElementById('search-button');
-    if (this.suggestionList && this.suggestionList.length) {
-      setInterval(() => {
-        container?.classList.add('input-search');
-        container?.classList.add('suggest-border');
-        sbtn?.classList.add('btn-display');
-        this.cdr.detectChanges()
-      }, 1)
-      this.suggestionList=this.suggestionList.filter((x:any)=>x.name!=="")
-    } else {
-      container?.classList.remove('input-search');
-      container?.classList.remove('suggest-border');
-      sbtn?.classList.remove('btn-display');
-    }
+    container?.classList.remove('input-search');
+    container?.classList.remove('suggest-border');
+    sbtn?.classList.remove('btn-display');
+
   }
 
   //suggestion list
