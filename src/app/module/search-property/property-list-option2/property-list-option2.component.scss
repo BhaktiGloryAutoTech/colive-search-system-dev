@@ -324,6 +324,7 @@ a:link {
     border-left: 1.8px solid #ced4da;
     border-right: 1.8px solid #ced4da;
     border-bottom: 1.8px solid #ced4da;
+    padding-bottom: 15px;
   }
 }
 
@@ -343,14 +344,19 @@ a:link {
   }
 }
 
-//hover
 .ng-autocomplete {
-  ::ng-deep .autocomplete-container .suggestions-container ul li:last-child .complete-selected,
-  ::ng-deep .autocomplete-container .suggestions-container ul li:last-child:hover {
-    border-radius: 0 0 30px 30px;
-    background-color: #f9dbe9;
+  ::ng-deep .autocomplete-container .suggestions-container ul {
+    max-height: 130px;
   }
 }
+//hover
+// .ng-autocomplete {
+//   ::ng-deep .autocomplete-container .suggestions-container ul li:last-child .complete-selected,
+//   ::ng-deep .autocomplete-container .suggestions-container ul li:last-child:hover {
+//     border-radius: 0 0 30px 30px;
+//     background-color: #f9dbe9;
+//   }
+// }
 .ng-autocomplete {
   ::ng-deep .autocomplete-container .suggestions-container .complete-selected,
   ::ng-deep .autocomplete-container .suggestions-container ul li:hover {
