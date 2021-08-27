@@ -216,14 +216,27 @@ input {
   font-size: 14px;
   padding: 6px;
 }
-.recommened{
-  border: 1px solid #f2006c;
-  background: #f2006c;
+.recommened {
+  border: 1px solid #ef0073;
+  background: #ef0073;
   color: #fff;
+  font-weight: 600;
 }
-.colive-search{
-  background: #CCCCCC;
-  border: 1px solid #CCCCCC;
+.recommened:hover {
+  background: #ccc !important;
+  border: 1px solid #ef0073 !important;
+  color: #ef0073;
+}
+.colive-search {
+  background: #cccccc;
+  border: 1px solid #cccccc;
+  font-weight: 600;
+  color: #333;
+}
+.colive-search:hover {
+  border: 1px solid #ef0073;
+  background: #ccc !important;
+  color: #ef0073;
 }
 .img-fluid {
   padding: 0px;
