@@ -30,10 +30,10 @@
 .ml-30px {
   margin-left: 30px;
 }
-.font-16{
+.font-16 {
   font-size: 16px;
 }
-.mt--5{
+.mt--5 {
   margin-top: -5%;
 }
 .search-header {
@@ -67,5 +67,15 @@ input[type="checkbox"] {
   color: #ed0c6d;
   opacity: 1;
 }
-
-
+::-webkit-scrollbar{
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 0 5px #c7216b;
+  background: #e69dbf;
+}
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  border-radius: 4px;
+}
