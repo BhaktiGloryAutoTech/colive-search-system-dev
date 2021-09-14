@@ -8,6 +8,7 @@ export class CommonServiceService {
   constructor() { }
 
   envUrl(){
-    return "https://lenssmartsearch.polynomial.ai/"
+    // return "https://lenssmartsearch.polynomial.ai/"
+    return "https://lenssmartsearch.polynomial.ai/nodejs/"
   }
 }

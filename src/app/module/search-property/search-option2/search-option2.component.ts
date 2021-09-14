@@ -217,6 +217,7 @@ export class SearchOption2Component implements OnInit {
             this.searchService.fixedQuery.next(response.response.fixedQuery)
             localStorage.setItem("query", JSON.stringify(this.searchQuery.name ? this.searchQuery.name : this.searchQuery))
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
+            localStorage.setItem("queryId",JSON.stringify(response.queryID))
             if (!property) {
               localStorage.removeItem('PropertyDetail')
               this.router.navigate(['/smartsearch'], { queryParams: { '': this.searchQuery.name ? this.searchQuery.name : this.searchQuery } })
@@ -236,48 +237,48 @@ export class SearchOption2Component implements OnInit {
   }
 
 
-  //for speech to text
-  startService() {
-    let container: any = document.getElementById('auoComplete');
-    window.SpeechRecognition = this.recognition || window['SpeechRecognition'];
-    if ('SpeechRecognition' in window) {
-      // speech recognition API supported
+  // //for speech to text
+  // startService() {
+  //   let container: any = document.getElementById('auoComplete');
+  //   window.SpeechRecognition = this.recognition || window['SpeechRecognition'];
+  //   if ('SpeechRecognition' in window) {
+  //     // speech recognition API supported
 
-      // this.recognition = new window.SpeechRecognition();
-      this.recognition.continuous = true;
-      this.recognition.lang = 'en-US';
-      this.recognition.interimResults = true;
-      this.recognition.maxAlternatives = 3;
+  //     // this.recognition = new window.SpeechRecognition();
+  //     this.recognition.continuous = true;
+  //     this.recognition.lang = 'en-US';
+  //     this.recognition.interimResults = true;
+  //     this.recognition.maxAlternatives = 3;
 
-      this.recognition.start();
-      this.recognition.onresult = (event: any) => {
-        let isFinal = event.results[0].isFinal;
-        if (!isFinal) {
-          this.ngZone.run(() => {
-            this.searchQuery = event.results[0][0].transcript;
-            container?.classList.remove('input-search');
-          });
-        } else if (isFinal) {
-          this.ngZone.run(() => {
-            this.searchQuery = event.results[0][0].transcript;
-            container?.classList.remove('input-search');
-            this.recognition.stop();
-            let search = {
-              "query": this.searchQuery
-            }
-            this.spellCheck(search);
-          });
-        }
-      };
-    } else {
-      // speech recognition API not supported
-      console.log('speech recognition API not supported!!');
-    }
-  }
+  //     this.recognition.start();
+  //     this.recognition.onresult = (event: any) => {
+  //       let isFinal = event.results[0].isFinal;
+  //       if (!isFinal) {
+  //         this.ngZone.run(() => {
+  //           this.searchQuery = event.results[0][0].transcript;
+  //           container?.classList.remove('input-search');
+  //         });
+  //       } else if (isFinal) {
+  //         this.ngZone.run(() => {
+  //           this.searchQuery = event.results[0][0].transcript;
+  //           container?.classList.remove('input-search');
+  //           this.recognition.stop();
+  //           let search = {
+  //             "query": this.searchQuery
+  //           }
+  //           this.spellCheck(search);
+  //         });
+  //       }
+  //     };
+  //   } else {
+  //     // speech recognition API not supported
+  //     console.log('speech recognition API not supported!!');
+  //   }
+  // }
 
-  startStopVoiceRecognition() {
-    this.startService();
-  }
+  // startStopVoiceRecognition() {
+  //   this.startService();
+  // }
 
 
 }

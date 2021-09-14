@@ -166,6 +166,18 @@
 }
 
 .ng-autocomplete {
+  ::ng-deep .autocomplete-container .suggestions-container ul li a {
+    color: #112950 !important;
+    padding: 5px 5px;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    // color: rgba(0,0,0,.87);
+    font-size: 12px;
+  }
+}
+
+.ng-autocomplete {
   ::ng-deep .autocomplete-container .suggestions-container ul {
     max-height: 130px;
   }
@@ -205,8 +217,8 @@ input {
 
 .location-property {
   color: #ed0c6d;
-  font-size: 24px;
-  margin: 2% 0 0 4%;
+  font-size: 18px;
+  margin: 1% 0 0 4%;
 }
 
 .suggestion-text {

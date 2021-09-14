@@ -32,7 +32,7 @@ export class SearchServiceService {
   }
 
   trackedClicks(data: any) {
-    return this.httpClient.post(this.commonServiceService.envUrl() + "", data);
+    return this.httpClient.post(this.commonServiceService.envUrl() + "logs/clicksTracker", data);
   }
 
   spellCheck(data: any) {

@@ -67,15 +67,16 @@ input[type="checkbox"] {
   color: #ed0c6d;
   opacity: 1;
 }
+//for scroll
 ::-webkit-scrollbar{
   width: 8px;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 0 5px #c7216b;
-  background: #e69dbf;
+  -webkit-box-shadow: inset 0 0 5px #fff;
+  background: #fff;
 }
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  -webkit-box-shadow: inset 0 0 6px #fff;
   border-radius: 4px;
 }

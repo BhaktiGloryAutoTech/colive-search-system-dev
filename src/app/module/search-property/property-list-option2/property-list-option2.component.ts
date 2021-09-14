@@ -24,18 +24,14 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   public loading = false;
   numbers: any = [1, 2, 3, 4, 5, 6];
   searchQuery: any = null;
-  meanQuery = "2bhk room in koramangala"
-  relatedSuggestion = ['2 bhk for rent in koramanagala 2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala',
-    '2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala',
-    '2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala',
-    '2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala 2 bhk for rent in koramanagala',
-    '2 bhk for rent in koramanagala', '2 bhk for rent in koramanagala',]
   matchedPropertyList: any = [];
   trendingPropertyList: any = [];
   similarPropertyList: any = [];
+  allPropertyList: any = [];
 
   //to track user clicks
   visitedPropertyList: any = [];
+  trackClicksObj: any = {}
 
   //for request
   matchedPropertyListRequest: any = '';
@@ -56,7 +52,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   constructor(private searchService: SearchServiceService, config: NgbRatingConfig,
     private cdr: ChangeDetectorRef, private ngZone: NgZone, private activatedRoute: ActivatedRoute,
-    private ngxService:NgxUiLoaderService) {
+    private ngxService: NgxUiLoaderService) {
     const { webkitSpeechRecognition }: IWindow = <IWindow><any>window;
     this.recognition = new webkitSpeechRecognition();
     this.ngxService.start();
@@ -143,8 +139,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-    // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
+    this.searchService.trackedClicks(this.trackClicksObj).subscribe();
     this.visitedPropertyList = [];
+    this.allPropertyList = [];
   }
 
   ngOnInit(): void {
@@ -167,6 +164,13 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         }
       )
       this.ngxService.stop();
+    }
+    if (localStorage.getItem('queryId')) {
+      let qId: any = localStorage.getItem('queryId');
+      let QID: any = JSON.parse(qId);
+      if (QID) {
+        this.queryId = QID
+      }
     }
     if (localStorage.getItem('PropertyDetail')) {
       let obj: any = {}
@@ -192,26 +196,26 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.similarPropertyList = [];
       this.suggestionList = [];
       let search = {
-        "query": this.searchQuery.name?this.searchQuery.name:this.searchQuery
+        "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
       }
       //for bottom suggestion list
-      this.bottomQuerySuggestion(search)
+      // this.bottomQuerySuggestion(search)
       //for spell check
       this.spellCheck(search)
       //get property ids for search query
-      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-        (response: any) => {
-          if (response) {
-            this.queryId = response.queryID;
-            localStorage.setItem('queryId', JSON.stringify(response.queryID))
-            localStorage.removeItem('PropertyDetail')
-            this.getPropertyDetails(response)
-          }
-          this.ngxService.stop();
-        }, (error: any) => {
-          this.ngxService.stop();
-        }
-      )
+      // this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+      //   (response: any) => {
+      //     if (response) {
+      //       // this.queryId = response.queryID;
+      //       // localStorage.setItem('queryId', JSON.stringify(response.queryID))
+      //       localStorage.removeItem('PropertyDetail')
+      //       this.getPropertyDetails(response)
+      //     }
+      //     this.ngxService.stop();
+      //   }, (error: any) => {
+      //     this.ngxService.stop();
+      //   }
+      // )
     }
     //get QueryId
     if (localStorage.getItem('queryId')) {
@@ -271,6 +275,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           }
           responseObj['badgeList'] = badgeList;
         }
+        responseObj['labels'] = plist.labels;
+        responseObj['type'] = 'MATCHING';
         //add property Details (name , description , price ,etc..)
         if (plist.metaData) {
           responseObj['metaData'] = plist.metaData;
@@ -313,7 +319,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           }
           responseObj['badgeList'] = badgeList;
         }
-
+        responseObj['labels'] = plist.labels;
+        responseObj['type'] = 'TRENDING';
         //add property Details (name , description , price ,etc..)
         if (plist.metaData) {
           responseObj['metaData'] = plist.metaData;
@@ -356,7 +363,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           }
           responseObj['badgeList'] = badgeList;
         }
-
+        responseObj['labels'] = plist.labels;
+        responseObj['type'] = 'SIMILAR';
         //add property Details (name , description , price ,etc..)
         if (plist.metaData) {
           responseObj['metaData'] = plist.metaData;
@@ -378,7 +386,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   selectEvent(event: any) {
     if (event) {
-      // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
+      this.searchService.trackedClicks(this.trackClicksObj).subscribe();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search')
       ele?.classList.remove('suggest-border');
@@ -386,6 +394,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       this.visitedPropertyList = [];
+      this.allPropertyList = [];
       this.suggestionList = [];
       this.searchQuery = event.name;
       if (event.type != 'property') {
@@ -394,22 +403,22 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         }
         localStorage.setItem('query', event.name);
         //for bottom suggestion list
-        this.bottomQuerySuggestion(search)
+        // this.bottomQuerySuggestion(search)
         //for spell check
         this.spellCheck(search)
         //get property ids for search query
-        this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-          (response: any) => {
-            if (response) {
-              this.searchService.searchedPropertyList.next(response);
-              localStorage.removeItem('PropertyDetail')
-              this.getPropertyDetails(response)
-            }
-            this.ngxService.stop();
-          }, (error: any) => {
-            this.ngxService.stop();
-          }
-        )
+        // this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+        //   (response: any) => {
+        //     if (response) {
+        //       this.searchService.searchedPropertyList.next(response);
+        //       localStorage.removeItem('PropertyDetail')
+        //       this.getPropertyDetails(response)
+        //     }
+        //     this.ngxService.stop();
+        //   }, (error: any) => {
+        //     this.ngxService.stop();
+        //   }
+        // )
       } else {
         localStorage.setItem('PropertyDetail', JSON.stringify(event))
         this.matchedPropertyList.push({ metaData: event })
@@ -431,28 +440,29 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.ngxService.start();
       // this.searchQuery = this.fixedQuery;
       // this.spellCorrectedQuery = ''
-      // this.searchService.trackedClicks(this.visitedPropertyList).subscribe();
+      this.searchService.trackedClicks(this.trackClicksObj).subscribe();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border')
       this.matchedPropertyList = [];
       this.visitedPropertyList = [];
+      this.allPropertyList = [];
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       this.suggestionList = [];
       localStorage.setItem('query', this.searchQuery.name ? this.searchQuery.name : this.searchQuery)
-      let propertyList:any
-      let propertyDetail:any
+      let propertyList: any
+      let propertyDetail: any
       if (localStorage.getItem('propertyDetailList')) {
-         propertyList = localStorage.getItem('propertyDetailList');
-         propertyDetail = JSON.parse(propertyList);
+        propertyList = localStorage.getItem('propertyDetailList');
+        propertyDetail = JSON.parse(propertyList);
       }
       let property
       if (propertyDetail && propertyDetail.length) {
         property = propertyDetail.filter((x: any) => (x.propertyName).toLowerCase() === (this.searchQuery.name ? this.searchQuery.name : this.searchQuery).toLowerCase())
       }
-      if (property) {
-        this.spellCorrectedQuery=''
+      if (property && property.length) {
+        this.spellCorrectedQuery = ''
         let obj: any = {}
         obj['metaData'] = property[0];
         obj['propertyDetails'] = property[0];
@@ -463,24 +473,24 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
         }
         //for bottom suggestion list
-        this.bottomQuerySuggestion(search)
+        // this.bottomQuerySuggestion(searchQuery)
         //for spell check
         this.spellCheck(search)
         this.ngxService.start();
         //get property ids for search query
-        this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-          (response: any) => {
-            if (response) {
-              this.queryId = response.queryID;
-              localStorage.setItem('queryId', JSON.stringify(response.queryID))
-              localStorage.removeItem('PropertyDetail')
-              this.getPropertyDetails(response)
-            }
-            this.ngxService.stop();
-          }, (error: any) => {
-            this.ngxService.stop();
-          }
-        )
+        // this.searchService.searchPropertyFormated(searchQuery).pipe(takeUntil(this.unsubscribe)).subscribe(
+        //   (response: any) => {
+        //     if (response) {
+        //       // this.queryId = response.queryID;
+        //       // localStorage.setItem('queryId', JSON.stringify(response.queryID))
+        //       localStorage.removeItem('PropertyDetail')
+        //       this.getPropertyDetails(response)
+        //     }
+        //     this.ngxService.stop();
+        //   }, (error: any) => {
+        //     this.ngxService.stop();
+        //   }
+        // )
       }
     }
   }
@@ -577,7 +587,21 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   //tracks clicks of user
   trackClicks(propertyId: any) {
     let timeStamp = new Date()
-    this.visitedPropertyList.push({ 'PropertyID': propertyId, 'queryID': this.queryId, 'timeStamp': timeStamp.toString() });
+    let labels = {}
+    let type = ''
+    let itm = this.allPropertyList.filter((x: any) => x.PropertyID == propertyId);
+    if (itm) {
+      itm.forEach((element: any) => {
+        labels = element.labels;
+        type = element.type;
+        this.visitedPropertyList.push({ 'propertyID': propertyId ? propertyId : '', 'type': type ? type : '', 'labels': labels ? labels : '', 'timeStamp': timeStamp.toString() });
+      });
+
+    } else {
+      this.visitedPropertyList.push({ 'propertyID': propertyId ? propertyId : '', 'type': type ? type : '', 'labels': labels ? labels : '', 'timeStamp': timeStamp.toString() });
+    }
+    this.trackClicksObj['queryID'] = this.queryId;
+    this.trackClicksObj['clicks'] = this.visitedPropertyList;
   }
 
   //for spellCheck
@@ -598,6 +622,28 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             localStorage.setItem("query", JSON.stringify(this.searchQuery))
             localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
           }
+          if (response) {
+            localStorage.setItem("queryId", JSON.stringify(response.queryID));
+            this.queryId = response.queryID;
+            value['queryId'] = this.queryId;
+            console.log(value)
+            this.bottomQuerySuggestion(value)
+            this.searchService.searchPropertyFormated(value).pipe(takeUntil(this.unsubscribe)).subscribe(
+              (response: any) => {
+                if (response) {
+                  this.allPropertyList = [];
+                  // this.queryId = response.queryID;
+                  // localStorage.setItem('queryId', JSON.stringify(response.queryID))
+                  localStorage.removeItem('PropertyDetail')
+                  this.getPropertyDetails(response)
+                  this.allPropertyList = [...this.allPropertyList].concat(this.matchedPropertyList, this.trendingPropertyList, this.similarPropertyList)
+                }
+                this.ngxService.stop();
+              }, (error: any) => {
+                this.ngxService.stop();
+              }
+            )
+          }
         },
         error => {
           this.ngxService.stop();
@@ -617,7 +663,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       let value = {
-        'query': search
+        'query': search,
+        'queryID': this.queryId
       }
       this.searchQuery = search;
       //for bottom suggestion
@@ -629,8 +676,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             this.spellCorrectedQuery = '';
             localStorage.setItem('query', JSON.stringify(search));
             localStorage.removeItem('searchQuery')
-            this.queryId = response.queryID;
-            localStorage.setItem('queryId', JSON.stringify(response.queryID))
+            // this.queryId = response.queryID;
+            // localStorage.setItem('queryId', JSON.stringify(response.queryID))
             this.searchService.searchedPropertyList.next(response);
             this.getPropertyDetails(response)
           }
@@ -654,64 +701,64 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     )
   }
 
-  //for speech to text
-  startService() {
-    let container: any = document.getElementById('auoComplete');
-    window.SpeechRecognition = this.recognition || window['SpeechRecognition'];
-    if ('SpeechRecognition' in window) {
-      // speech recognition API supported
+  // //for speech to text
+  // startService() {
+  //   let container: any = document.getElementById('auoComplete');
+  //   window.SpeechRecognition = this.recognition || window['SpeechRecognition'];
+  //   if ('SpeechRecognition' in window) {
+  //     // speech recognition API supported
 
-      // this.recognition = new window.SpeechRecognition();
-      this.recognition.continuous = true;
-      this.recognition.lang = 'en-US';
-      this.recognition.interimResults = true;
-      this.recognition.maxAlternatives = 3;
+  //     // this.recognition = new window.SpeechRecognition();
+  //     this.recognition.continuous = true;
+  //     this.recognition.lang = 'en-US';
+  //     this.recognition.interimResults = true;
+  //     this.recognition.maxAlternatives = 3;
 
-      this.recognition.start();
-      this.recognition.onresult = (event: any) => {
-        let isFinal = event.results[0].isFinal;
-        if (!isFinal) {
-          this.ngZone.run(() => {
-            this.searchQuery = event.results[0][0].transcript;
-            container?.classList.remove('input-search');
-          });
-        } else if (isFinal) {
-          this.ngZone.run(() => {
-            this.searchQuery = event.results[0][0].transcript;
-            container?.classList.remove('input-search');
-            this.recognition.stop();
-            let search = {
-              "query": this.searchQuery
-            }
-            this.spellCheck(search);
-            this.matchedPropertyList = [];
-            this.visitedPropertyList = [];
-            this.trendingPropertyList = [];
-            this.similarPropertyList = [];
-            this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-              (response: any) => {
-                if (response) {
-                  this.queryId = response.queryID;
-                  localStorage.setItem('queryId', JSON.stringify(response.queryID))
-                  this.getPropertyDetails(response)
-                }
-                this.ngxService.stop();
-              }, (error: any) => {
-                this.ngxService.stop();
-              }
-            )
-          });
-        }
-      };
-    } else {
-      // speech recognition API not supported
-      console.log('speech recognition API not supported!!');
-    }
-  }
+  //     this.recognition.start();
+  //     this.recognition.onresult = (event: any) => {
+  //       let isFinal = event.results[0].isFinal;
+  //       if (!isFinal) {
+  //         this.ngZone.run(() => {
+  //           this.searchQuery = event.results[0][0].transcript;
+  //           container?.classList.remove('input-search');
+  //         });
+  //       } else if (isFinal) {
+  //         this.ngZone.run(() => {
+  //           this.searchQuery = event.results[0][0].transcript;
+  //           container?.classList.remove('input-search');
+  //           this.recognition.stop();
+  //           let search = {
+  //             "query": this.searchQuery
+  //           }
+  //           this.spellCheck(search);
+  //           this.matchedPropertyList = [];
+  //           this.visitedPropertyList = [];
+  //           this.trendingPropertyList = [];
+  //           this.similarPropertyList = [];
+  //           this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
+  //             (response: any) => {
+  //               if (response) {
+  //                 this.queryId = response.queryID;
+  //                 localStorage.setItem('queryId', JSON.stringify(response.queryID))
+  //                 this.getPropertyDetails(response)
+  //               }
+  //               this.ngxService.stop();
+  //             }, (error: any) => {
+  //               this.ngxService.stop();
+  //             }
+  //           )
+  //         });
+  //       }
+  //     };
+  //   } else {
+  //     // speech recognition API not supported
+  //     console.log('speech recognition API not supported!!');
+  //   }
+  // }
 
-  startStopVoiceRecognition() {
-    this.startService();
-  }
+  // startStopVoiceRecognition() {
+  //   this.startService();
+  // }
 
   // PG near sadhashiv nagar
 }
