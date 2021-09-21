@@ -29,7 +29,7 @@ export class SearchOption2Component implements OnInit {
 
   constructor(private searchService: SearchServiceService,
     private router: Router, private cdr: ChangeDetectorRef,
-    private ngxService:NgxUiLoaderService,
+    private ngxService: NgxUiLoaderService,
     private ngZone: NgZone) {
     const { webkitSpeechRecognition }: IWindow = <IWindow><any>window;
     this.recognition = new webkitSpeechRecognition();
@@ -202,37 +202,40 @@ export class SearchOption2Component implements OnInit {
   //for spellCheck
   spellCheck(value: any, property?: any) {
     if (value) {
+
       this.ngxService.start();
-      this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(
-        (response: any) => {
-          if (response && response.response) {
-            if (String(response.response.originalQuery).toLowerCase() != String(response.response.formattedString).toLowerCase()) {
-              this.searchService.searchQuerySpell.next(response.response.formattedString);
-              localStorage.setItem('searchQuery', JSON.stringify(response.response.formattedString))
-            } else {
-              this.searchService.searchQuerySpell.next('');
-              localStorage.setItem('searchQuery', JSON.stringify(''))
-            }
-            this.searchService.searchQuery.next(this.searchQuery.name ? this.searchQuery.name : this.searchQuery);
-            this.searchService.fixedQuery.next(response.response.fixedQuery)
-            localStorage.setItem("query", JSON.stringify(this.searchQuery.name ? this.searchQuery.name : this.searchQuery))
-            localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
-            localStorage.setItem("queryId",JSON.stringify(response.queryID))
-            if (!property) {
-              localStorage.removeItem('PropertyDetail')
-              this.router.navigate(['/smartsearch'], { queryParams: { '': this.searchQuery.name ? this.searchQuery.name : this.searchQuery } })
-            } else {
-              this.disableButton = false;
-              this.router.navigate(['/smartsearch'], { queryParams: { '': this.searchQuery.name ? this.searchQuery.name : this.searchQuery } })
-            }
-          } else {
-            this.ngxService.stop();
-          }
-        },
-        error => {
-          this.ngxService.stop();
-        }
-      )
+      if (!property) {
+        localStorage.removeItem('PropertyDetail')
+        this.router.navigate(['/smartsearch'], { queryParams: { '': this.searchQuery.name ? this.searchQuery.name : this.searchQuery } })
+      } else {
+        this.disableButton = false;
+        this.router.navigate(['/smartsearch'], { queryParams: { '': this.searchQuery.name ? this.searchQuery.name : this.searchQuery } })
+      }
+      this.ngxService.stop();
+      // this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(
+      //   (response: any) => {
+      //     if (response && response.response) {
+      //       if (String(response.response.originalQuery).toLowerCase() != String(response.response.formattedString).toLowerCase()) {
+      //         this.searchService.searchQuerySpell.next(response.response.formattedString);
+      //         localStorage.setItem('searchQuery', JSON.stringify(response.response.formattedString))
+      //       } else {
+      //         this.searchService.searchQuerySpell.next('');
+      //         localStorage.setItem('searchQuery', JSON.stringify(''))
+      //       }
+      //       this.searchService.searchQuery.next(this.searchQuery.name ? this.searchQuery.name : this.searchQuery);
+      //       this.searchService.fixedQuery.next(response.response.fixedQuery)
+      //       localStorage.setItem("query", JSON.stringify(this.searchQuery.name ? this.searchQuery.name : this.searchQuery))
+      //       localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
+      //       localStorage.setItem("queryId",JSON.stringify(response.queryID))
+
+      //     } else {
+      //       this.ngxService.stop();
+      //     }
+      //   },
+      //   error => {
+      //     this.ngxService.stop();
+      //   }
+      // )
     }
   }
 

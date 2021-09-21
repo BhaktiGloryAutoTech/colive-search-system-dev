@@ -56,76 +56,6 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
     const { webkitSpeechRecognition }: IWindow = <IWindow><any>window;
     this.recognition = new webkitSpeechRecognition();
     this.ngxService.start();
-    // //subscribing property Id list
-    // this.searchService.searchedPropertyList.pipe(takeUntil(this.unsubscribe)).subscribe(
-    //   (response) => {
-    //     if (response) {
-    //       this.getPropertyDetails(response);
-    //     } else {
-    //       if (localStorage.getItem('list')) {
-    //         const list: any = localStorage.getItem('list');
-    //         this.getPropertyDetails(JSON.parse(list));
-    //       } else {
-    //         if (localStorage.getItem('PropertyDetail')) {
-    //           const property: any = localStorage.getItem('PropertyDetail');
-    //           this.matchedPropertyList.push({ metaData: JSON.parse(property) })
-    //           this.ngxService.stop();
-    //         }
-    //       }
-    //     }
-    //   }
-    // )
-    //subscribing spell formatted Query
-    this.searchService.searchQuerySpell.subscribe(
-      (response: any) => {
-        if (response) {
-          this.spellCorrectedQuery = response;
-        } else {
-          if (localStorage.getItem('searchQuery')) {
-            const queery: any = localStorage.getItem('searchQuery')
-            if (JSON.parse(queery)) {
-              this.spellCorrectedQuery = JSON.parse(queery);
-            }
-          }
-        }
-      }
-    )
-    //subscribing search Query
-    // this.searchService.searchQuery.subscribe(
-    //   (response: any) => {
-    //     if (response) {
-    //       this.searchQuery = response;
-    //     } else {
-    //       if (localStorage.getItem('query')) {
-    //         const queery: any = localStorage.getItem('query')
-    //         if (JSON.parse(queery)) {
-    //           this.searchQuery = JSON.parse(queery);
-    //         }
-    //       }
-    //     }
-    //     if (this.searchQuery) {
-    //       let OBJ = {
-    //         'query': this.searchQuery.name ? this.searchQuery.name : this.searchQuery
-    //       }
-    //       this.bottomQuerySuggestion(OBJ)
-    //     }
-    //   }
-    // )
-    //subscribing fixed Query
-    this.searchService.fixedQuery.subscribe(
-      (response: any) => {
-        if (response) {
-          this.fixedQuery = response;
-        } else {
-          if (localStorage.getItem('fiexQuery')) {
-            const queery: any = localStorage.getItem('fiexQuery')
-            if (JSON.parse(queery)) {
-              this.fixedQuery = JSON.parse(queery);
-            }
-          }
-        }
-      }
-    )
     //for rating
     config.max = 5;
     config.readonly = true;
@@ -139,9 +69,10 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-    this.searchService.trackedClicks(this.trackClicksObj).subscribe();
+    this.trackClicksObj['queryID'] ? this.searchService.trackedClicks(this.trackClicksObj).subscribe() : '';
     this.visitedPropertyList = [];
     this.allPropertyList = [];
+    this.trackClicksObj = {};
   }
 
   ngOnInit(): void {
@@ -165,13 +96,13 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       )
       this.ngxService.stop();
     }
-    if (localStorage.getItem('queryId')) {
-      let qId: any = localStorage.getItem('queryId');
-      let QID: any = JSON.parse(qId);
-      if (QID) {
-        this.queryId = QID
-      }
-    }
+    // if (localStorage.getItem('queryId')) {
+    //   let qId: any = localStorage.getItem('queryId');
+    //   let QID: any = JSON.parse(qId);
+    //   if (QID) {
+    //     this.queryId = QID
+    //   }
+    // }
     if (localStorage.getItem('PropertyDetail')) {
       let obj: any = {}
       this.matchedPropertyList = []
@@ -198,32 +129,16 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       let search = {
         "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
       }
-      //for bottom suggestion list
-      // this.bottomQuerySuggestion(search)
       //for spell check
       this.spellCheck(search)
-      //get property ids for search query
-      // this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-      //   (response: any) => {
-      //     if (response) {
-      //       // this.queryId = response.queryID;
-      //       // localStorage.setItem('queryId', JSON.stringify(response.queryID))
-      //       localStorage.removeItem('PropertyDetail')
-      //       this.getPropertyDetails(response)
-      //     }
-      //     this.ngxService.stop();
-      //   }, (error: any) => {
-      //     this.ngxService.stop();
-      //   }
-      // )
     }
     //get QueryId
-    if (localStorage.getItem('queryId')) {
-      let qid: any = localStorage.getItem('queryId');
-      if (qid) {
-        this.queryId = JSON.parse(qid);
-      }
-    }
+    // if (localStorage.getItem('queryId')) {
+    //   let qid: any = localStorage.getItem('queryId');
+    //   if (qid) {
+    //     this.queryId = JSON.parse(qid);
+    //   }
+    // }
   }
 
 
@@ -248,11 +163,9 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
   //to get property Details
   getPropertyDetails(response1: any) {
-    this.matchedPropertyList = [];
-    this.trendingPropertyList = [];
-    this.similarPropertyList = [];
     //for matched properties
     if (response1 && response1.matchedProperties && response1.matchedProperties.length) {
+      this.matchedPropertyList = [];
       this.ngxService.start();
       response1.matchedProperties.forEach((plist: any, i: any) => {
         let responseObj: any = {}
@@ -276,7 +189,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           responseObj['badgeList'] = badgeList;
         }
         responseObj['labels'] = plist.labels;
-        responseObj['type'] = 'MATCHING';
+        responseObj['type'] = 'MATCHED';
         //add property Details (name , description , price ,etc..)
         if (plist.metaData) {
           responseObj['metaData'] = plist.metaData;
@@ -296,7 +209,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
 
     //for trending properties
     if (response1 && response1.trendingProperties && response1.trendingProperties.length) {
-      this.ngxService.start();
+      this.trendingPropertyList = [];
       response1.trendingProperties.forEach((plist: any, i: any) => {
         let responseObj: any = {}
         let badgeList = [];
@@ -335,12 +248,11 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         ...item,
         showMore: false,
       }));
-      this.ngxService.stop();
     }
 
     //for similar properties
     if (response1 && response1.similarProperties && response1.similarProperties.length) {
-      this.ngxService.start();
+      this.similarPropertyList = [];
       response1.similarProperties.forEach((plist: any, i: any) => {
         let responseObj: any = {}
         let badgeList = [];
@@ -379,14 +291,18 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         ...item,
         showMore: false,
       }));
-      this.loading = false
     }
 
   }
 
   selectEvent(event: any) {
     if (event) {
-      this.searchService.trackedClicks(this.trackClicksObj).subscribe();
+      let trackFlag = false
+      if (this.trackClicksObj['queryID']) {
+        this.searchService.trackedClicks(this.trackClicksObj).subscribe();
+        trackFlag = true
+      };
+      trackFlag ? this.trackClicksObj = {} : '';
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search')
       ele?.classList.remove('suggest-border');
@@ -402,23 +318,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
           "query": event.name
         }
         localStorage.setItem('query', event.name);
-        //for bottom suggestion list
-        // this.bottomQuerySuggestion(search)
         //for spell check
         this.spellCheck(search)
-        //get property ids for search query
-        // this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-        //   (response: any) => {
-        //     if (response) {
-        //       this.searchService.searchedPropertyList.next(response);
-        //       localStorage.removeItem('PropertyDetail')
-        //       this.getPropertyDetails(response)
-        //     }
-        //     this.ngxService.stop();
-        //   }, (error: any) => {
-        //     this.ngxService.stop();
-        //   }
-        // )
       } else {
         localStorage.setItem('PropertyDetail', JSON.stringify(event))
         this.matchedPropertyList.push({ metaData: event })
@@ -438,9 +339,12 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
   keyPress(event: any,) {
     if (this.searchQuery && event.keyCode == 13) {
       this.ngxService.start();
-      // this.searchQuery = this.fixedQuery;
-      // this.spellCorrectedQuery = ''
-      this.searchService.trackedClicks(this.trackClicksObj).subscribe();
+      let trackFlag = false
+      if (this.trackClicksObj['queryID']) {
+        this.searchService.trackedClicks(this.trackClicksObj).subscribe();
+        trackFlag = true
+      };
+      trackFlag ? this.trackClicksObj = {} : '';
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border')
@@ -450,6 +354,7 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
       this.trendingPropertyList = [];
       this.similarPropertyList = [];
       this.suggestionList = [];
+      this.trackClicksObj
       localStorage.setItem('query', this.searchQuery.name ? this.searchQuery.name : this.searchQuery)
       let propertyList: any
       let propertyDetail: any
@@ -472,25 +377,8 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         let search = {
           "query": this.searchQuery.name ? this.searchQuery.name : this.searchQuery
         }
-        //for bottom suggestion list
-        // this.bottomQuerySuggestion(searchQuery)
         //for spell check
         this.spellCheck(search)
-        this.ngxService.start();
-        //get property ids for search query
-        // this.searchService.searchPropertyFormated(searchQuery).pipe(takeUntil(this.unsubscribe)).subscribe(
-        //   (response: any) => {
-        //     if (response) {
-        //       // this.queryId = response.queryID;
-        //       // localStorage.setItem('queryId', JSON.stringify(response.queryID))
-        //       localStorage.removeItem('PropertyDetail')
-        //       this.getPropertyDetails(response)
-        //     }
-        //     this.ngxService.stop();
-        //   }, (error: any) => {
-        //     this.ngxService.stop();
-        //   }
-        // )
       }
     }
   }
@@ -626,23 +514,34 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             localStorage.setItem("queryId", JSON.stringify(response.queryID));
             this.queryId = response.queryID;
             value['queryId'] = this.queryId;
-            console.log(value)
             this.bottomQuerySuggestion(value)
-            this.searchService.searchPropertyFormated(value).pipe(takeUntil(this.unsubscribe)).subscribe(
-              (response: any) => {
-                if (response) {
-                  this.allPropertyList = [];
-                  // this.queryId = response.queryID;
-                  // localStorage.setItem('queryId', JSON.stringify(response.queryID))
-                  localStorage.removeItem('PropertyDetail')
-                  this.getPropertyDetails(response)
-                  this.allPropertyList = [...this.allPropertyList].concat(this.matchedPropertyList, this.trendingPropertyList, this.similarPropertyList)
+            let obj = [{
+              query: value['query'],
+              category: 'direct'
+            }, {
+              query: value['query'],
+              category: 'trending'
+            }, {
+              query: value['query'],
+              category: 'similar'
+            }]
+            for (let i = 0; i < obj.length; i++) {
+              this.searchService.searchPropertyFormated(obj[i]).pipe(takeUntil(this.unsubscribe)).subscribe(
+                (response: any) => {
+                  if (response) {
+                    this.allPropertyList = [];
+                    // this.queryId = response.queryID;
+                    // localStorage.setItem('queryId', JSON.stringify(response.queryID))
+                    localStorage.removeItem('PropertyDetail')
+                    this.getPropertyDetails(response)
+                    this.allPropertyList = [...this.allPropertyList].concat(this.matchedPropertyList, this.trendingPropertyList, this.similarPropertyList)
+                  }
+                  this.ngxService.stop();
+                }, (error: any) => {
+                  this.ngxService.stop();
                 }
-                this.ngxService.stop();
-              }, (error: any) => {
-                this.ngxService.stop();
-              }
-            )
+              )
+            }
           }
         },
         error => {

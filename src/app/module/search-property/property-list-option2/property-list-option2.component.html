@@ -217,13 +217,13 @@
               <li class="justify-content-center ">
                 <div *ngIf="property.metaData.locationHighlights" class="mt-1">
                   <span id="propertyDescription">
-                    <span *ngIf="!property.showMore">
-                      {{
+                    <span *ngIf="!property.showMore" [innerHTML]="trimString(property.metaData.locationHighlights, 300)">
+                      <!-- {{
                         trimString(property.metaData.locationHighlights, 300)
-                      }}
+                      }} -->
                     </span>
-                    <span *ngIf="property.showMore">
-                      {{ property.metaData.locationHighlights }}
+                    <span *ngIf="property.showMore" [innerHTML]="property.metaData.locationHighlights">
+                      <!-- {{ property.metaData.locationHighlights }} -->
                     </span>
                     <div
                       *ngIf="property.metaData.locationHighlights.length > 300"
@@ -436,13 +436,13 @@
               <li class="justify-content-center">
                 <ng-container *ngIf="property.metaData.locationHighlights">
                   <span id="propertyDescription">
-                    <span *ngIf="!property.showMore">
-                      {{
+                    <span *ngIf="!property.showMore" [innerHTML]="trimString(property.metaData.locationHighlights, 300)">
+                      <!-- {{
                         trimString(property.metaData.locationHighlights, 300)
-                      }}
+                      }} -->
                     </span>
-                    <span *ngIf="property.showMore">
-                      {{ property.metaData.locationHighlights }}
+                    <span *ngIf="property.showMore" [innerHTML]="property.metaData.locationHighlights">
+                      <!-- {{ property.metaData.locationHighlights }} -->
                     </span>
                     <div
                       *ngIf="property.metaData.locationHighlights.length > 300"
@@ -642,13 +642,13 @@
               <li class="justify-content-center">
                 <ng-container *ngIf="property.metaData.locationHighlights">
                   <span id="propertyDescription">
-                    <span *ngIf="!property.showMore">
-                      {{
+                    <span *ngIf="!property.showMore" [innerHTML]=" trimString(property.metaData.locationHighlights, 300)">
+                      <!-- {{
                         trimString(property.metaData.locationHighlights, 300)
-                      }}
+                      }} -->
                     </span>
-                    <span *ngIf="property.showMore">
-                      {{ property.metaData.locationHighlights }}
+                    <span *ngIf="property.showMore" [innerHTML]="property.metaData.locationHighlights">
+                      <!-- {{ property.metaData.locationHighlights }} -->
                     </span>
                     <div
                       *ngIf="property.metaData.locationHighlights.length > 300"
