@@ -515,33 +515,28 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
             this.queryId = response.queryID;
             value['queryId'] = this.queryId;
             this.bottomQuerySuggestion(value)
-            let obj = [{
+            let obj = {
               query: value['query'],
               category: 'direct'
-            }, {
-              query: value['query'],
-              category: 'trending'
-            }, {
-              query: value['query'],
-              category: 'similar'
-            }]
-            for (let i = 0; i < obj.length; i++) {
-              this.searchService.searchPropertyFormated(obj[i]).pipe(takeUntil(this.unsubscribe)).subscribe(
-                (response: any) => {
-                  if (response) {
-                    this.allPropertyList = [];
-                    // this.queryId = response.queryID;
-                    // localStorage.setItem('queryId', JSON.stringify(response.queryID))
-                    localStorage.removeItem('PropertyDetail')
-                    this.getPropertyDetails(response)
-                    this.allPropertyList = [...this.allPropertyList].concat(this.matchedPropertyList, this.trendingPropertyList, this.similarPropertyList)
-                  }
-                  this.ngxService.stop();
-                }, (error: any) => {
-                  this.ngxService.stop();
-                }
-              )
             }
+
+            this.searchService.searchPropertyFormated(obj).pipe(takeUntil(this.unsubscribe)).subscribe(
+              (response: any) => {
+                if (response) {
+                  this.allPropertyList = [];
+                  // this.queryId = response.queryID;
+                  // localStorage.setItem('queryId', JSON.stringify(response.queryID))
+                  localStorage.removeItem('PropertyDetail')
+                  this.getPropertyDetails(response);
+                  this.getTrendingProperties(value['query']);
+                }
+                this.ngxService.stop();
+              }, (error: any) => {
+                this.getTrendingProperties(value['query']);
+                this.ngxService.stop();
+              }
+            )
+
           }
         },
         error => {
@@ -549,6 +544,39 @@ export class PropertyListOption2Component implements OnInit, OnDestroy, AfterVie
         }
       )
     }
+  }
+
+  getTrendingProperties(value: any) {
+    let obj = {
+      query: value,
+      category: 'trending'
+    }
+    this.searchService.searchPropertyFormated(obj).pipe(takeUntil(this.unsubscribe)).subscribe(
+      (response: any) => {
+        this.allPropertyList = [];
+        this.getPropertyDetails(response);
+        this.getSimilarProperties(value);
+      }, (error: any) => {
+        this.getSimilarProperties(value);
+        this.ngxService.stop();
+      }
+    )
+  }
+
+  getSimilarProperties(value: any) {
+    let obj = {
+      query: value,
+      category: 'similar'
+    }
+    this.searchService.searchPropertyFormated(obj).pipe(takeUntil(this.unsubscribe)).subscribe(
+      (response: any) => {
+        this.allPropertyList = [];
+        this.getPropertyDetails(response);
+        this.allPropertyList = [...this.allPropertyList].concat(this.matchedPropertyList, this.trendingPropertyList, this.similarPropertyList)
+      }, (error: any) => {
+        this.ngxService.stop();
+      }
+    )
   }
 
 
