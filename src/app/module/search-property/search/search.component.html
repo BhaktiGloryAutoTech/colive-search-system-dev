@@ -1,17 +1,32 @@
-<ngx-loading [show]="loading" [config]="{
-  primaryColour: '#ED0C6D', secondaryColour: '#ED0C6D', tertiaryColour: '#ED0C6D'}">
+<ngx-loading
+  [show]="loading"
+  [config]="{
+    primaryColour: '#ED0C6D',
+    secondaryColour: '#ED0C6D',
+    tertiaryColour: '#ED0C6D'
+  }"
+>
 </ngx-loading>
 <div>
-  <div class="row col-md-12 search-header">
-  </div>
+  <div class="row col-md-12 search-header"></div>
   <div class="row col-md-12 search-body">
     <div class="body-container">
-      <img class="img-fluid auto-center" alt="Colive" src="./../../../../assets/ColiveLogo2x.png">
+      <img
+        class="img-fluid auto-center"
+        alt="Colive"
+        src="./../../../../assets/ColiveLogo2x.png"
+      />
       <span class="title">Your search for a perfect home ends here!</span>
       <div class="searchBar">
         <div class="flex-width">
-          <ng-autocomplete id="auto-searchbar" (selected)='selectEvent($event)' (keypress)="keyPress($event)" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
-            [(ngModel)]="searchQuery">
+          <ng-autocomplete
+            id="auto-searchbar"
+            (selected)="selectEvent($event)"
+            (keypress)="keyPress($event)"
+            [itemTemplate]="itemTemplate"
+            [notFoundTemplate]="notFoundTemplate"
+            [(ngModel)]="searchQuery"
+          >
           </ng-autocomplete>
 
           <ng-template #itemTemplate let-item>
@@ -23,12 +38,16 @@
           </ng-template>
         </div>
         <div class="search-btn">
-          <button type="submit" class="searchButton" [disabled]="disableButton" (click)="searchFunctionFormat()">
+          <button
+            type="submit"
+            class="searchButton"
+            [disabled]="disableButton"
+            (click)="searchFunctionFormat()"
+          >
             Search
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </div>

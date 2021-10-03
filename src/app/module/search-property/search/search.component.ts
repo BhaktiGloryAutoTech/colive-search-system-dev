@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchQuery: any;
@@ -14,30 +14,28 @@ export class SearchComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject<void>();
   propertyDetail: any = [];
   public loading = false;
-  constructor(private searchService: SearchServiceService,
-    private router: Router) { }
+  constructor(
+    private searchService: SearchServiceService,
+    private router: Router
+  ) {}
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 
   selectEvent(event: any) {
-    console.log("select event", event)
+    console.log('select event', event);
   }
   onChangeSearch(event: any) {
-    console.log("on change search", event)
+    console.log('on change search', event);
   }
 
   onFocused(event: any) {
-    console.log("on focus", event)
+    console.log('on focus', event);
   }
-  myFunction() {
-
-  }
+  myFunction() {}
   // searchFunction() {
   //   console.log("search query", this.searchQuery)
   //   this.loading = true;
@@ -94,30 +92,34 @@ export class SearchComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  keyPress(event:any){
-    if (this.searchQuery && event.keyCode==13) {
+  keyPress(event: any) {
+    if (this.searchQuery && event.keyCode == 13) {
       this.loading = true;
       this.propertyDetail = [];
       this.disableButton = true;
       let search = {
-        "query": this.searchQuery
-      }
-      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-        (response: any) => {
-          let searchData = []
-          if (response) {
-            searchData = response
-            this.searchService.searchedPropertyList.next(searchData);
-            localStorage.setItem("list", JSON.stringify(searchData))
+        query: this.searchQuery,
+      };
+      this.searchService
+        .searchPropertyFormated(search)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe(
+          (response: any) => {
+            let searchData = [];
+            if (response) {
+              searchData = response;
+              this.searchService.searchedPropertyList.next(searchData);
+              localStorage.setItem('list', JSON.stringify(searchData));
+              this.disableButton = false;
+              this.router.navigate(['/propertyv1']);
+            }
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
             this.disableButton = false;
-            this.router.navigate(['/propertyv1'])
           }
-          this.loading = false;
-        }, (error: any) => {
-          this.loading = false;
-          this.disableButton = false;
-        }
-      )
+        );
     }
   }
 
@@ -127,25 +129,28 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.propertyDetail = [];
       this.disableButton = true;
       let search = {
-        "query": this.searchQuery
-      }
-      this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-        (response: any) => {
-          let searchData = []
-          if (response) {
-            searchData = response
-            this.searchService.searchedPropertyList.next(searchData);
-            localStorage.setItem("list", JSON.stringify(searchData))
+        query: this.searchQuery,
+      };
+      this.searchService
+        .searchPropertyFormated(search)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe(
+          (response: any) => {
+            let searchData = [];
+            if (response) {
+              searchData = response;
+              this.searchService.searchedPropertyList.next(searchData);
+              localStorage.setItem('list', JSON.stringify(searchData));
+              this.disableButton = false;
+              this.router.navigate(['/propertyv1']);
+            }
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
             this.disableButton = false;
-            this.router.navigate(['/propertyv1'])
           }
-          this.loading = false;
-        }, (error: any) => {
-          this.loading = false;
-          this.disableButton = false;
-        }
-      )
+        );
     }
   }
-
 }

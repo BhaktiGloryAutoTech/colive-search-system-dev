@@ -7,7 +7,7 @@
   }"
 >
 </ngx-loading>
-<div class="container-div">
+<div class="container-div prop-list">
   <div class="row ml-2">
     <div class="col-md-2 logo-text-div text-center">
       <!-- <span class="logo-text">COLIVE</span> -->
@@ -214,15 +214,23 @@
                   >
                 </span>
               </li>
-              <li class="justify-content-center ">
+              <li class="justify-content-center">
                 <div *ngIf="property.metaData.locationHighlights" class="mt-1">
                   <span id="propertyDescription">
-                    <span *ngIf="!property.showMore" [innerHTML]="trimString(property.metaData.locationHighlights, 300)">
+                    <span
+                      *ngIf="!property.showMore"
+                      [innerHTML]="
+                        trimString(property.metaData.locationHighlights, 300)
+                      "
+                    >
                       <!-- {{
                         trimString(property.metaData.locationHighlights, 300)
                       }} -->
                     </span>
-                    <span *ngIf="property.showMore" [innerHTML]="property.metaData.locationHighlights">
+                    <span
+                      *ngIf="property.showMore"
+                      [innerHTML]="property.metaData.locationHighlights"
+                    >
                       <!-- {{ property.metaData.locationHighlights }} -->
                     </span>
                     <div
@@ -310,21 +318,20 @@
                     >
                   </div>
                 </ng-container>
-
               </li>
-              <li class="d-flex">
-                <div
-                  class="d-flex text-center"
-                  *ngFor="
-                    let badge of property.badgeList;
-                  "
-                >
-                  <span
-                    id="badge"
-                    class="badge-text tag-btn mr-3"
-                    [innerHTML]="badge"
-                  ></span>
-
+              <li class="row mt-2">
+                <div class="col-md-12">
+                  <div
+                    style="height: 30px; display: inline-block !important"
+                    class="text-center"
+                    *ngFor="let badge of property.badgeList"
+                  >
+                    <span
+                      id="badge"
+                      class="badge-text tag-btn mr-3"
+                      [innerHTML]="badge"
+                    ></span>
+                  </div>
                 </div>
               </li>
               <li class="d-flex mt-2">
@@ -410,7 +417,9 @@
           >
             <ul>
               <li class="d-flex mt-3">
-                <ng-container *ngIf=" property && property.metaData"></ng-container>
+                <ng-container
+                  *ngIf="property && property.metaData"
+                ></ng-container>
 
                 <div class="d-flex" *ngIf="property.metaData.isSponsored">
                   <span id="sponsered">Sponsored</span>
@@ -436,12 +445,20 @@
               <li class="justify-content-center">
                 <ng-container *ngIf="property.metaData.locationHighlights">
                   <span id="propertyDescription">
-                    <span *ngIf="!property.showMore" [innerHTML]="trimString(property.metaData.locationHighlights, 300)">
+                    <span
+                      *ngIf="!property.showMore"
+                      [innerHTML]="
+                        trimString(property.metaData.locationHighlights, 300)
+                      "
+                    >
                       <!-- {{
                         trimString(property.metaData.locationHighlights, 300)
                       }} -->
                     </span>
-                    <span *ngIf="property.showMore" [innerHTML]="property.metaData.locationHighlights">
+                    <span
+                      *ngIf="property.showMore"
+                      [innerHTML]="property.metaData.locationHighlights"
+                    >
                       <!-- {{ property.metaData.locationHighlights }} -->
                     </span>
                     <div
@@ -514,20 +531,21 @@
                     >
                   </div>
                 </ng-container>
-
               </li>
-              <li class="d-flex">
-                <div
-                  class="m-1 d-flex text-center"
-                  *ngFor="
-                    let badge of property.badgeList;
-                  "
-                >
-                  <span
-                    id="badge"
-                    class="badge-text tag-btn mr-3"
-                    [innerHTML]="badge"
-                  ></span>
+
+              <li class="row mt-2">
+                <div class="col-md-12">
+                  <div
+                    style="height: 30px; display: inline-block !important"
+                    class="text-center"
+                    *ngFor="let badge of property.badgeList"
+                  >
+                    <span
+                      id="badge"
+                      class="badge-text tag-btn mr-3"
+                      [innerHTML]="badge"
+                    ></span>
+                  </div>
                 </div>
               </li>
               <li class="d-flex m-0">
@@ -613,7 +631,6 @@
           >
             <ul>
               <li class="d-flex mt-3">
-
                 <ng-container *ngIf="property && property.metaData">
                   <div class="d-flex" *ngIf="property.metaData.isSponsored">
                     <span id="sponsered">Sponsored</span>
@@ -642,12 +659,20 @@
               <li class="justify-content-center">
                 <ng-container *ngIf="property.metaData.locationHighlights">
                   <span id="propertyDescription">
-                    <span *ngIf="!property.showMore" [innerHTML]=" trimString(property.metaData.locationHighlights, 300)">
+                    <span
+                      *ngIf="!property.showMore"
+                      [innerHTML]="
+                        trimString(property.metaData.locationHighlights, 300)
+                      "
+                    >
                       <!-- {{
                         trimString(property.metaData.locationHighlights, 300)
                       }} -->
                     </span>
-                    <span *ngIf="property.showMore" [innerHTML]="property.metaData.locationHighlights">
+                    <span
+                      *ngIf="property.showMore"
+                      [innerHTML]="property.metaData.locationHighlights"
+                    >
                       <!-- {{ property.metaData.locationHighlights }} -->
                     </span>
                     <div
@@ -719,20 +744,20 @@
                     >
                   </div>
                 </ng-container>
-
               </li>
-              <li class="d-flex">
-                <div
-                  class="m-1 d-flex text-center"
-                  *ngFor="
-                    let badge of property.badgeList;
-                  "
-                >
-                  <span
-                    id="badge"
-                    class="badge-text tag-btn mr-3"
-                    [innerHTML]="badge"
-                  ></span>
+              <li class="row mt-2">
+                <div class="col-md-12">
+                  <div
+                    style="height: 30px; display: inline-block !important"
+                    class="text-center"
+                    *ngFor="let badge of property.badgeList"
+                  >
+                    <span
+                      id="badge"
+                      class="badge-text tag-btn mr-3"
+                      [innerHTML]="badge"
+                    ></span>
+                  </div>
                 </div>
               </li>
               <li class="d-flex m-0">
@@ -795,14 +820,12 @@
   </div>
 
   <!-- related search title -->
-  <div class="mb-5"
+  <div
+    class="mb-5"
     *ngIf="
-      (matchedPropertyList &&
-      matchedPropertyList.length) ||
-      (trendingPropertyList &&
-      trendingPropertyList.length) ||
-      (similarPropertyList &&
-      similarPropertyList.length)
+      (matchedPropertyList && matchedPropertyList.length) ||
+      (trendingPropertyList && trendingPropertyList.length) ||
+      (similarPropertyList && similarPropertyList.length)
     "
   >
     <ng-container *ngIf="bottomSuggesionList && bottomSuggesionList.length">
@@ -820,9 +843,9 @@
               <div class="d-flex suggested-text">
                 <span class="material-icons search-icon">search</span>
                 <span
-                class="suggestion"
-                [innerHTML]="suggestion.displayValue | bold"
-              ></span>
+                  class="suggestion"
+                  [innerHTML]="suggestion.displayValue | bold"
+                ></span>
                 <!-- <div class="suggestion-text-div">
                   <div class="wrap">
 
@@ -848,8 +871,8 @@
   </div> -->
 </div>
 
- <!-- <img src="./../../../../assets/paginator.png" alt=""> -->
-      <!-- <div id="page">
+<!-- <img src="./../../../../assets/paginator.png" alt=""> -->
+<!-- <div id="page">
         <ng-container *ngFor="let value of numbers;let i=index">
           <ng-container *ngIf="i+1<6; else next">
             <div id="pagination-width">

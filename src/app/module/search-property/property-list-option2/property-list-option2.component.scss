@@ -2,6 +2,14 @@
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
+.prop-list {
+  ::ng-deep {
+    p {
+      margin-bottom: 0px !important;
+    }
+  }
+}
 hr {
   margin-bottom: 0 !important;
 }
@@ -14,6 +22,7 @@ hr {
     letter-spacing: 0.1rem;
   }
 }
+
 .img-fluid {
   width: 222px;
   height: 101px;
@@ -102,13 +111,13 @@ hr {
 }
 a:hover {
   text-decoration: underline;
-  color: #ED0C6D;
+  color: #ed0c6d;
   cursor: pointer;
 }
 
 a,
 a:link {
-  color: #ED0C6D !important;
+  color: #ed0c6d !important;
   cursor: pointer;
 }
 .property-card {
@@ -133,7 +142,7 @@ a:link {
           text-align: left;
           font: normal normal normal 14px/21px Montserrat;
           letter-spacing: 0px;
-          color: #8E9AAC;
+          color: #8e9aac;
           opacity: 1;
         }
         .location-icon {
@@ -192,7 +201,7 @@ a:link {
         text-align: left;
         font: normal normal 600 20px/24px Montserrat;
         letter-spacing: 0px;
-        color: #ED0C6D;
+        color: #ed0c6d;
         opacity: 1;
       }
       #propertyDescription {
@@ -201,6 +210,12 @@ a:link {
         letter-spacing: 0px;
         color: #112950;
         opacity: 1;
+        span p {
+          margin-bottom: 0px !important;
+          p {
+            margin-bottom: 0px !important;
+          }
+        }
       }
       #amenities {
         text-align: left;
@@ -613,7 +628,7 @@ a:link {
           .badge-text {
             font: normal normal 500 13px/20px Montserrat;
           }
-          .share-text{
+          .share-text {
             font: normal normal 600 13px/20px Montserrat;
           }
         }
@@ -776,7 +791,7 @@ a:link {
           .badge-text {
             font: normal normal 500 12px/20px Montserrat;
           }
-          .share-text{
+          .share-text {
             font: normal normal 600 12px/20px Montserrat;
           }
         }
@@ -836,8 +851,6 @@ a:link {
     }
   }
 }
-
-
 
 @media screen and (max-width: 375px) {
   .container-div {
@@ -899,7 +912,7 @@ a:link {
 
 @media screen and (max-width: 360px) {
   .container-div {
-    .search{
+    .search {
       width: 315px;
     }
     .did-you-mean #text-div {

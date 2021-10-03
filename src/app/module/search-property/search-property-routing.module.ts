@@ -6,13 +6,14 @@ import { SearchComponent } from './search/search.component';
 import { PropertyListOption2Component } from './property-list-option2/property-list-option2.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "search", pathMatch: "full" },
+  { path: '', redirectTo: 'search', pathMatch: 'full' },
   { path: 'smartsearch', component: PropertyListOption2Component },
+  { path: 'smartsearch/:id', component: PropertyListOption2Component },
   { path: 'search', component: SearchOption2Component },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SearchPropertyRoutingModule { }
+export class SearchPropertyRoutingModule {}
