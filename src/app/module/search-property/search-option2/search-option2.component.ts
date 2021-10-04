@@ -54,7 +54,8 @@ export class SearchOption2Component implements OnInit {
     this.activatedRoute.queryParams.subscribe((res: any) => {
       console.log('Query params :-', res);
       if (res?.sourceDomain) {
-        this.domain = res?.sourceDomain;
+        this.domain = res?.sourceDomain.replace(/^"|"$/g, '');
+        console.log('Domain : -', this.domain);
       }
     });
   }
@@ -298,19 +299,12 @@ export class SearchOption2Component implements OnInit {
         //   //     : this.searchQuery,
         //   // },
 
-        //   queryParams: {
-        //     '': value?.query ? value?.query : this.searchQuery.name,
-        //   },
-        // });
-
-        let query = (
+        localStorage.setItem(
+          'queryString',
           value?.query ? value?.query : this.searchQuery.name
-        ).toString();
-        let url = this.domain + '/' + query;
+        );
 
-        console.log('url :-', url);
-
-        window.open(url, '_blank');
+        window.open(this.domain, '_blank');
       } else {
         // this.disableButton = false;
         // this.router.navigate(['/smartsearch'], {
@@ -320,12 +314,13 @@ export class SearchOption2Component implements OnInit {
         //       : this.searchQuery,
         //   },
         // });
-        let query = (
-          this.searchQuery.name ? this.searchQuery.name : this.searchQuery
-        ).toString();
-        let url = this.domain + '/' + query;
-        console.log('url :-', url);
-        window.open(url, '_blank');
+
+        localStorage.setItem(
+          'queryString',
+          value?.query ? value?.query : this.searchQuery.name
+        );
+
+        window.open(this.domain, '_blank');
       }
       this.ngxService.stop();
       // this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(

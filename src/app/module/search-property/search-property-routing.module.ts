@@ -7,8 +7,8 @@ import { PropertyListOption2Component } from './property-list-option2/property-l
 
 const routes: Routes = [
   { path: '', redirectTo: 'search', pathMatch: 'full' },
+  // { path: 'smartsearch', component: PropertyListOption2Component },
   { path: 'smartsearch', component: PropertyListOption2Component },
-  { path: 'smartsearch/:id', component: PropertyListOption2Component },
   { path: 'search', component: SearchOption2Component },
 ];
 

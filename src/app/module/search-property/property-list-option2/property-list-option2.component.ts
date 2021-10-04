@@ -72,28 +72,31 @@ export class PropertyListOption2Component
     //for rating
     config.max = 5;
     config.readonly = true;
+    let queryString = localStorage.getItem('queryString');
+    console.log('QuerySTring in constructor : - ', queryString);
+    if (queryString) {
+      this.searchQuery = queryString;
+    }
+
+    // this.activatedRoute?.queryParams.subscribe((res: any) => {
+    //   console.log(res);
+    //   console.log('Window location', window.location);
+    //   if (res?.q) {
+    //     this.searchQuery = res?.q;
+    //   }
+    // });
   }
 
   ngAfterViewInit(): void {
     let container: any = document.getElementById('auoComplete');
     container?.classList.remove('input-search');
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-    this.trackClicksObj['queryID']
-      ? this.searchService.trackedClicks(this.trackClicksObj).subscribe()
-      : '';
-    this.visitedPropertyList = [];
-    this.allPropertyList = [];
-    this.trackClicksObj = {};
-  }
-
-  ngOnInit(): void {
     this.ngxService.start();
-    this.searchQuery = this.activatedRoute.snapshot.paramMap.get('id');
-
+    // this.searchQuery = this.activatedRoute.snapshot.paramMap.get('id');
+    let queryString = localStorage.getItem('queryString');
+    console.log('QuerySTring in afterViewInit : - ', queryString);
+    if (queryString) {
+      this.searchQuery = queryString;
+    }
     console.log('Search String : -- ', this.searchQuery);
     if (!this.searchQuery) {
       this.searchService.searchQuery.subscribe((response: any) => {
@@ -150,6 +153,25 @@ export class PropertyListOption2Component
     //     this.queryId = JSON.parse(qid);
     //   }
     // }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+    this.trackClicksObj['queryID']
+      ? this.searchService.trackedClicks(this.trackClicksObj).subscribe()
+      : '';
+    this.visitedPropertyList = [];
+    this.allPropertyList = [];
+    this.trackClicksObj = {};
+  }
+
+  ngOnInit(): void {
+    let queryString = localStorage.getItem('queryString');
+    console.log('QuerySTring in onInit : - ', queryString);
+    if (queryString) {
+      this.searchQuery = queryString;
+    }
   }
 
   @HostListener('click', ['$event.target'])
