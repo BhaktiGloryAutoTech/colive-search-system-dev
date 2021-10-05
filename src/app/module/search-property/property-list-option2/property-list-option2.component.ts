@@ -72,13 +72,15 @@ export class PropertyListOption2Component
     //for rating
     config.max = 5;
     config.readonly = true;
-    let queryString = localStorage.getItem('queryString');
+    let queryString = localStorage.getItem('query');
+    // let queryString = localStorage.getItem('queryString');
     console.log('QuerySTring in constructor : - ', queryString);
     if (queryString) {
       this.searchQuery = queryString;
     } else {
       this.searchQuery = 'pgs in marathalli';
-      localStorage.setItem('queryString', this.searchQuery);
+      // localStorage.setItem('queryString', this.searchQuery);
+      localStorage.setItem('query', this.searchQuery);
     }
 
     // this.activatedRoute?.queryParams.subscribe((res: any) => {
@@ -95,13 +97,15 @@ export class PropertyListOption2Component
     container?.classList.remove('input-search');
     this.ngxService.start();
     // this.searchQuery = this.activatedRoute.snapshot.paramMap.get('id');
-    let queryString = localStorage.getItem('queryString');
+    let queryString = localStorage.getItem('query');
+    // let queryString = localStorage.getItem('queryString');
     console.log('QuerySTring in afterViewInit : - ', queryString);
     if (queryString) {
       this.searchQuery = queryString;
     } else {
       this.searchQuery = 'pgs in marathalli';
-      localStorage.setItem('queryString', this.searchQuery);
+      // localStorage.setItem('queryString', this.searchQuery);
+      localStorage.setItem('query', this.searchQuery);
     }
     console.log('Search String : -- ', this.searchQuery);
     if (!this.searchQuery) {
@@ -173,13 +177,15 @@ export class PropertyListOption2Component
   }
 
   ngOnInit(): void {
-    let queryString = localStorage.getItem('queryString');
+    let queryString = localStorage.getItem('query');
+    // let queryString = localStorage.getItem('queryString');
     console.log('QuerySTring in onInit : - ', queryString);
     if (queryString) {
       this.searchQuery = queryString;
     } else {
       this.searchQuery = 'pgs in marathalli';
-      localStorage.setItem('queryString', this.searchQuery);
+      // localStorage.setItem('queryString', this.searchQuery);
+      localStorage.setItem('query', this.searchQuery);
     }
   }
 

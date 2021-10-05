@@ -31,8 +31,11 @@ export class SearchOption2Component implements OnInit {
   //for speech
   recognition: any;
   showMic = false;
+
   domain = '';
   isMobile = false;
+  isRecommendation = false;
+  searchButtonValue='Colive Search'
   constructor(
     private searchService: SearchServiceService,
     private router: Router,
@@ -63,6 +66,12 @@ export class SearchOption2Component implements OnInit {
       } else {
         this.isMobile = false;
       }
+      if (res?.isRecommendation) {
+        String(res.isRecommendation) == '1' ? this.isRecommendation = true : this.isRecommendation = false;
+      }
+      if(res?.buttonText){
+        this.searchButtonValue=res?.buttonText
+      }
     });
   }
   iOS() {
@@ -89,7 +98,7 @@ export class SearchOption2Component implements OnInit {
     console.log('Window url : -', window.location);
   }
 
-  myFunction() {}
+  myFunction() { }
 
   @HostListener('click', ['$event.target'])
   onClick(e: any) {
@@ -305,8 +314,12 @@ export class SearchOption2Component implements OnInit {
         //   //     : this.searchQuery,
         //   // },
 
+        // localStorage.setItem(
+        //   'queryString',
+        //   value?.query ? value?.query : this.searchQuery.name
+        // );
         localStorage.setItem(
-          'queryString',
+          'query',
           value?.query ? value?.query : this.searchQuery.name
         );
 
@@ -325,11 +338,14 @@ export class SearchOption2Component implements OnInit {
         //   },
         // });
 
+        // localStorage.setItem(
+        //   'queryString',
+        //   value?.query ? value?.query : this.searchQuery.name
+        // );
         localStorage.setItem(
-          'queryString',
+          'query',
           value?.query ? value?.query : this.searchQuery.name
         );
-
         if (this.isMobile) {
           window.open(this.domain, '_self');
         } else {
