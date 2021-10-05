@@ -32,7 +32,7 @@ export class SearchOption2Component implements OnInit {
   recognition: any;
   showMic = false;
   domain = '';
-
+  isMobile = false;
   constructor(
     private searchService: SearchServiceService,
     private router: Router,
@@ -56,6 +56,12 @@ export class SearchOption2Component implements OnInit {
       if (res?.sourceDomain) {
         this.domain = res?.sourceDomain.replace(/^"|"$/g, '');
         console.log('Domain : -', this.domain);
+      }
+
+      if (res?.isMobile) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
       }
     });
   }
@@ -304,7 +310,11 @@ export class SearchOption2Component implements OnInit {
           value?.query ? value?.query : this.searchQuery.name
         );
 
-        window.open(this.domain, '_blank');
+        if (this.isMobile) {
+          window.open(this.domain, '_self');
+        } else {
+          window.open(this.domain, '_blank');
+        }
       } else {
         // this.disableButton = false;
         // this.router.navigate(['/smartsearch'], {
@@ -320,7 +330,11 @@ export class SearchOption2Component implements OnInit {
           value?.query ? value?.query : this.searchQuery.name
         );
 
-        window.open(this.domain, '_blank');
+        if (this.isMobile) {
+          window.open(this.domain, '_self');
+        } else {
+          window.open(this.domain, '_blank');
+        }
       }
       this.ngxService.stop();
       // this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(
