@@ -76,6 +76,9 @@ export class PropertyListOption2Component
     console.log('QuerySTring in constructor : - ', queryString);
     if (queryString) {
       this.searchQuery = queryString;
+    } else {
+      this.searchQuery = 'pgs in marathalli';
+      localStorage.setItem('queryString', this.searchQuery);
     }
 
     // this.activatedRoute?.queryParams.subscribe((res: any) => {
@@ -96,6 +99,9 @@ export class PropertyListOption2Component
     console.log('QuerySTring in afterViewInit : - ', queryString);
     if (queryString) {
       this.searchQuery = queryString;
+    } else {
+      this.searchQuery = 'pgs in marathalli';
+      localStorage.setItem('queryString', this.searchQuery);
     }
     console.log('Search String : -- ', this.searchQuery);
     if (!this.searchQuery) {
@@ -171,6 +177,9 @@ export class PropertyListOption2Component
     console.log('QuerySTring in onInit : - ', queryString);
     if (queryString) {
       this.searchQuery = queryString;
+    } else {
+      this.searchQuery = 'pgs in marathalli';
+      localStorage.setItem('queryString', this.searchQuery);
     }
   }
 
