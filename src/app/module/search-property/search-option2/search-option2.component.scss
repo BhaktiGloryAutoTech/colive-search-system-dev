@@ -15,12 +15,15 @@
   // z-index: 999 !important;
   border-radius: 8px;
   // box-shadow: 1px 2px 8px rgba(156, 149, 149, 0.65);
-  margin: 5rem auto 8.1rem auto;
+  //PC-  margin: 5rem auto 8.1rem auto;
+  margin: 0 auto 0 auto;
   min-width: 300px;
   .body-container {
-    width: 40%;
+    //PC- width: 40%;
+    width: 100%;
     position: absolute;
-    top: 50%;
+    //PC- top: 50%;
+    top: 0%;
     left: 50%;
     height: 50%;
     transform: translate(-50%, -50%);
@@ -300,7 +303,8 @@ input {
   .search-body {
     .body-container {
       .flex-width {
-        width: 125%;
+        //PC- width: 125%;
+        width: 100%;
         top: 60%;
       }
       .search-btn {
@@ -342,7 +346,8 @@ input {
         height: 55px;
       }
       .flex-width {
-        width: 150%;
+        //PC- width: 150%;
+        width: 100%;
         top: 58%;
       }
       .search-btn {
@@ -356,9 +361,11 @@ input {
   .search-body {
     .body-container {
       .search-btn {
-        width: 165%;
+        //PC- width: 165%;
+        width: 85%;
         .searchButton {
-          width: 37%;
+          //PC- width: 37%;
+          width: 31%;
           // height: 34px;
           font-size: 14px;
         }
@@ -386,7 +393,8 @@ input {
         height: 50px;
       }
       .flex-width {
-        width: 195%;
+        // PC-width: 195%;
+        width: 100%;
         top: 50%;
         .ng-autocomplete {
           ::ng-deep .autocomplete-container,
@@ -403,7 +411,8 @@ input {
       .search-btn {
         top: 72%;
         .searchButton {
-          width: 108px;
+          // PC- width: 108px;
+          width: 100%;
           // height: 32px;
           font-size: 14px;
         }
@@ -416,7 +425,8 @@ input {
   .search-body {
     .body-container {
       .flex-width {
-        width: 205%;
+        // PC- width: 205%;
+        width: 100%;
         top: 50%;
         .ng-autocomplete {
           ::ng-deep .autocomplete-container,
@@ -426,7 +436,8 @@ input {
         }
       }
       .search-btn {
-        width: 158%;
+        //PC- width: 158%;
+        width: 75%;
         .searchButton {
           width: 100%;
           // height: 30px;
@@ -444,7 +455,8 @@ input {
         height: 45px;
       }
       .flex-width {
-        width: 205%;
+        // PC- width: 205%;
+        width: 100%;
         .ng-autocomplete {
           ::ng-deep .autocomplete-container,
           ::ng-deep .autocomplete-container input {
@@ -517,7 +529,8 @@ input {
 
 @media screen and (max-width: 768px) and (max-height: 375px) {
   .search-body {
-    margin: 4rem auto 8.1rem auto;
+    // PC- margin: 4rem auto 8.1rem auto;
+    margin: 0 auto;
     .body-container {
       .flex-width {
         top: 65%;
@@ -531,7 +544,8 @@ input {
 
 @media screen and (max-width: 768px) and (max-height: 375px) {
   .search-body {
-    margin: 3rem auto 8.1rem auto;
+    //PC-  margin: 3rem auto 8.1rem auto;
+    margin: 0 auto;
     .body-container {
       .flex-width {
         top: 80%;
@@ -545,7 +559,8 @@ input {
 
 @media screen and (max-width: 768px) and (max-height: 225px) {
   .search-body {
-    margin: 3rem auto 8.1rem auto;
+    //PC- margin: 3rem auto 8.1rem auto;
+    margin: 0 auto;
     .body-container {
       .flex-width {
         top: 80%;

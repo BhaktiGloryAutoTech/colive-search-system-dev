@@ -62,12 +62,10 @@ export class SearchOption2Component implements OnInit {
       }
 
       if (res?.isMobile) {
-        this.isMobile = true;
-      } else {
-        this.isMobile = false;
+        String(res?.isMobile).toString()=='1'?this.isMobile = true: this.isMobile = false;
       }
       if (res?.isRecommendation) {
-        String(res.isRecommendation) == '1' ? this.isRecommendation = true : this.isRecommendation = false;
+        String(res.isRecommendation).toString() == '1' ? this.isRecommendation = true : this.isRecommendation = false;
       }
       if(res?.buttonText){
         this.searchButtonValue=res?.buttonText
