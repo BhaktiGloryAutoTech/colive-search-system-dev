@@ -312,10 +312,10 @@ export class SearchOption2Component implements OnInit {
         //   //     : this.searchQuery,
         //   // },
 
-        // localStorage.setItem(
-        //   'queryString',
-        //   value?.query ? value?.query : this.searchQuery.name
-        // );
+        localStorage.setItem(
+          'queryString',
+          value?.query ? value?.query : this.searchQuery.name
+        );
         localStorage.setItem(
           'query',
           value?.query ? value?.query : this.searchQuery.name
@@ -336,10 +336,10 @@ export class SearchOption2Component implements OnInit {
         //   },
         // });
 
-        // localStorage.setItem(
-        //   'queryString',
-        //   value?.query ? value?.query : this.searchQuery.name
-        // );
+        localStorage.setItem(
+          'queryString',
+          value?.query ? value?.query : this.searchQuery.name
+        );
         localStorage.setItem(
           'query',
           value?.query ? value?.query : this.searchQuery.name
