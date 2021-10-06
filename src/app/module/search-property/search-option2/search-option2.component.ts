@@ -35,7 +35,8 @@ export class SearchOption2Component implements OnInit {
   domain = '';
   isMobile = false;
   isRecommendation = false;
-  searchButtonValue='Colive Search'
+  searchButtonValue = 'Colive Search';
+  recommendationURL = 'https://www.colive.com/Trending-Categories/Most-Popular';
   constructor(
     private searchService: SearchServiceService,
     private router: Router,
@@ -62,13 +63,16 @@ export class SearchOption2Component implements OnInit {
       }
 
       if (res?.isMobile) {
-        String(res?.isMobile).toString()=='1'?this.isMobile = true: this.isMobile = false;
+        String(res?.isMobile).toString() == '1' ? this.isMobile = true : this.isMobile = false;
       }
       if (res?.isRecommendation) {
         String(res.isRecommendation).toString() == '1' ? this.isRecommendation = true : this.isRecommendation = false;
       }
-      if(res?.buttonText){
-        this.searchButtonValue=res?.buttonText
+      if (res?.buttonText) {
+        this.searchButtonValue = res?.buttonText
+      }
+      if (res?.recommendationUrl) {
+        this.recommendationURL = res?.recommendationUrl
       }
     });
   }
@@ -377,6 +381,15 @@ export class SearchOption2Component implements OnInit {
       //     this.ngxService.stop();
       //   }
       // )
+    }
+  }
+
+  recommendationRediret(){
+    if (this.isMobile) {
+      console.log("inside Mobile");
+      window.open(this.recommendationURL, '_self');
+    } else {
+      window.open(this.recommendationURL, '_blank');
     }
   }
 
