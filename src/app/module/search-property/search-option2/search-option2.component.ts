@@ -322,6 +322,7 @@ export class SearchOption2Component implements OnInit {
         );
 
         if (this.isMobile) {
+          console.log("inside Mobile");
           window.open(this.domain, '_self');
         } else {
           window.open(this.domain, '_blank');
@@ -345,6 +346,7 @@ export class SearchOption2Component implements OnInit {
           value?.query ? value?.query : this.searchQuery.name
         );
         if (this.isMobile) {
+          console.log("inside Mobile");
           window.open(this.domain, '_self');
         } else {
           window.open(this.domain, '_blank');
