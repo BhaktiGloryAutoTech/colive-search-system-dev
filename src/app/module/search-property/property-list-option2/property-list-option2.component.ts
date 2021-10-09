@@ -13,6 +13,7 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SearchServiceService } from '@services/search-service.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -23,8 +24,7 @@ export interface IWindow extends Window {
   styleUrls: ['./property-list-option2.component.scss'],
 })
 export class PropertyListOption2Component
-  implements OnInit, OnDestroy, AfterViewInit
-{
+  implements OnInit, OnDestroy, AfterViewInit {
   unsubscribe = new Subject<void>();
   public tab: string = 'matchedProerties';
   matchedPropertyListDetails: any = [];
@@ -58,30 +58,115 @@ export class PropertyListOption2Component
   recognition: any;
   msg: any;
   bottomSuggesionList: any = [];
+  hostName: string = ''
+
+  deviceInfo: any = '';
+  openType: any = '_blank';
+  showMic: any = false
+  isMobile = false
+
+  qPropertyId = '';
+  showColive = false;
+  showNonColive = false;
+
 
   constructor(
     private searchService: SearchServiceService,
     config: NgbRatingConfig,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
     private activatedRoute: ActivatedRoute,
-    private ngxService: NgxUiLoaderService
+    private ngxService: NgxUiLoaderService,
+    private deviceService: DeviceDetectorService,
+    private ngZone: NgZone,
   ) {
-    const { webkitSpeechRecognition }: IWindow = <IWindow>(<any>window);
-    this.recognition = new webkitSpeechRecognition();
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    const isDesktopDevice = this.deviceService.isDesktop();
+    const isMobile = this.deviceService.isMobile();
+    console.log(isDesktopDevice || isMobile); // returns if the app is running on a Desktop or mobile browser.
+    if (isDesktopDevice) {
+      if (this.deviceInfo.browser == "Chrome") {
+        const { webkitSpeechRecognition }: IWindow = <IWindow>(<any>window);
+        this.recognition = new webkitSpeechRecognition();
+        this.showMic = true;
+      } else {
+        this.showMic = false;
+      }
+    } else {
+      this.showMic = false;
+    }
+
+
     //for rating
     config.max = 5;
     config.readonly = true;
+    this.activatedRoute.queryParams.subscribe((res: any) => {
+      console.log('Query params :-', res);
+      if (res?.redirectHost) {
+        this.hostName = res?.redirectHost.replace(/^"|"$/g, '');
+        console.log('Domain : -', this.hostName);
+        let url = this.hostName;
+        if (url.substr(url.length - 1) != '/') {
+          this.hostName = this.hostName + '/';
+        }
+      }
+
+      if (res?.isMobile) {
+        // String(res?.isMobile).toString() == '1' ? this.openType='_parent' : this.openType='_blank';
+        String(res?.isMobile).toString() == '1' ? this.isMobile = true : this.isMobile = false;
+      }
+
+      if (res?.sQuery) {
+        this.searchQuery = res?.sQuery;
+      } else {
+        this.searchQuery = 'pgs in marathalli';
+      }
+
+      if (res?.pId) {
+        this.qPropertyId = res?.pId;
+      }
+
+      if (res?.propertyType) {
+        switch (res?.propertyType) {
+          case '1':
+            this.showColive = true;
+            console.log(res?.propertyType);
+            break;
+
+          case '0':
+            this.showNonColive = true;
+            console.log(res?.propertyType);
+            break;
+
+          case 'all':
+            this.showColive = false;
+            this.showNonColive = false;
+            console.log(res?.propertyType);
+            break;
+        }
+      }
+
+    });
+
+
     // let queryString = localStorage.getItem('query');
-    let queryString = localStorage.getItem('queryString');
-    console.log('QuerySTring in constructor : - ', queryString);
-    if (queryString) {
-      this.searchQuery = queryString;
-    } else {
-      this.searchQuery = 'pgs in marathalli';
-      localStorage.setItem('queryString', this.searchQuery);
-      localStorage.setItem('query', this.searchQuery);
-    }
+
+
+    // if (!this.searchQuery) {
+    //   let queryString = localStorage.getItem('queryString');
+    //   console.log('QuerySTring in constructor : - ', queryString);
+    //   if (queryString) {
+    //     this.searchQuery = queryString;
+    //   } else {
+    //     this.searchQuery = 'pgs in marathalli';
+    //     localStorage.setItem('queryString', this.searchQuery);
+    //     localStorage.setItem('query', this.searchQuery);
+    //   }
+    // }
+
+
+    // else {
+    //   this.searchQuery = null;
+    // }
 
     // this.activatedRoute?.queryParams.subscribe((res: any) => {
     //   console.log(res);
@@ -92,70 +177,92 @@ export class PropertyListOption2Component
     // });
   }
 
+
+
   ngAfterViewInit(): void {
     let container: any = document.getElementById('auoComplete');
     container?.classList.remove('input-search');
-    this.ngxService.start();
+
     // this.searchQuery = this.activatedRoute.snapshot.paramMap.get('id');
     // let queryString = localStorage.getItem('query');
-    let queryString = localStorage.getItem('queryString');
-    console.log('QuerySTring in afterViewInit : - ', queryString);
-    if (queryString) {
-      this.searchQuery = queryString;
-    } else {
-      this.searchQuery = 'pgs in marathalli';
-      localStorage.setItem('queryString', this.searchQuery);
-      localStorage.setItem('query', this.searchQuery);
-    }
-    console.log('Search String : -- ', this.searchQuery);
-    if (!this.searchQuery) {
-      this.searchService.searchQuery.subscribe((response: any) => {
-        if (response) {
-          this.searchQuery = response;
-        } else {
-          if (localStorage.getItem('query')) {
-            const queery: any = localStorage.getItem('query');
-            if (JSON.parse(queery)) {
-              this.searchQuery = JSON.parse(queery);
-            }
-          }
-        }
-      });
-    }
-    // if (localStorage.getItem('queryId')) {
-    //   let qId: any = localStorage.getItem('queryId');
-    //   let QID: any = JSON.parse(qId);
-    //   if (QID) {
-    //     this.queryId = QID
+    // if (!this.searchQuery) {
+    //   this.ngxService.start();
+    //   let queryString = localStorage.getItem('queryString');
+    //   console.log('QuerySTring in afterViewInit : - ', queryString);
+    //   if (queryString) {
+    //     this.searchQuery = queryString;
+    //   } else {
+    //     this.searchQuery = 'pgs in marathalli';
+    //     localStorage.setItem('queryString', this.searchQuery);
+    //     localStorage.setItem('query', this.searchQuery);
     //   }
+    //   console.log('Search String : -- ', this.searchQuery);
+    //   if (!this.searchQuery) {
+    //     this.searchService.searchQuery.subscribe((response: any) => {
+    //       if (response) {
+    //         this.searchQuery = response;
+    //       } else {
+    //         if (localStorage.getItem('query')) {
+    //           const queery: any = localStorage.getItem('query');
+    //           if (JSON.parse(queery)) {
+    //             this.searchQuery = JSON.parse(queery);
+    //           }
+    //         }
+    //       }
+    //     });
+    //   }
+    //   // if (localStorage.getItem('queryId')) {
+    //   //   let qId: any = localStorage.getItem('queryId');
+    //   //   let QID: any = JSON.parse(qId);
+    //   //   if (QID) {
+    //   //     this.queryId = QID
+    //   //   }
+    //   // }
+    //   if (localStorage.getItem('PropertyDetail')) {
+    //     let obj: any = {};
+    //     this.matchedPropertyList = [];
+    //     let propertyDetail: any = localStorage.getItem('PropertyDetail');
+    //     let propertyDetails: any = JSON.parse(propertyDetail);
+    //     obj['metaData'] = propertyDetails;
+    //     obj['propertyDetails'] = propertyDetails;
+    //     this.matchedPropertyList[0] = obj;
+    //     let ele = document.getElementById('auoComplete');
+    //     ele?.classList.remove('input-search');
+    //     ele?.classList.remove('suggest-border');
+    //     this.ngxService.stop();
+    //   } else {
+    //     let ele = document.getElementById('auoComplete');
+    //     ele?.classList.remove('input-search');
+    //     ele?.classList.remove('suggest-border');
+    //     this.matchedPropertyList = [];
+    //     this.visitedPropertyList = [];
+    //     this.trendingPropertyList = [];
+    //     this.similarPropertyList = [];
+    //     this.suggestionList = [];
+    //     let search = {
+    //       query: this.searchQuery.name ? this.searchQuery.name : this.searchQuery,
+    //     };
+    //     //for spell check
+    //     this.spellCheck(search);
+    //   }}
+
+    let ele = document.getElementById('auoComplete');
+    ele?.classList.remove('input-search');
+    ele?.classList.remove('suggest-border');
+    this.matchedPropertyList = [];
+    this.visitedPropertyList = [];
+    this.trendingPropertyList = [];
+    this.similarPropertyList = [];
+    this.suggestionList = [];
+    let search = {
+      query: this.searchQuery.name ? this.searchQuery.name : this.searchQuery,
+    };
+    //for spell check
+    this.spellCheck(search);
+
+    // } else {
+    //   this.searchQuery = null;
     // }
-    if (localStorage.getItem('PropertyDetail')) {
-      let obj: any = {};
-      this.matchedPropertyList = [];
-      let propertyDetail: any = localStorage.getItem('PropertyDetail');
-      let propertyDetails: any = JSON.parse(propertyDetail);
-      obj['metaData'] = propertyDetails;
-      obj['propertyDetails'] = propertyDetails;
-      this.matchedPropertyList[0] = obj;
-      let ele = document.getElementById('auoComplete');
-      ele?.classList.remove('input-search');
-      ele?.classList.remove('suggest-border');
-      this.ngxService.stop();
-    } else {
-      let ele = document.getElementById('auoComplete');
-      ele?.classList.remove('input-search');
-      ele?.classList.remove('suggest-border');
-      this.matchedPropertyList = [];
-      this.visitedPropertyList = [];
-      this.trendingPropertyList = [];
-      this.similarPropertyList = [];
-      this.suggestionList = [];
-      let search = {
-        query: this.searchQuery.name ? this.searchQuery.name : this.searchQuery,
-      };
-      //for spell check
-      this.spellCheck(search);
-    }
     //get QueryId
     // if (localStorage.getItem('queryId')) {
     //   let qid: any = localStorage.getItem('queryId');
@@ -177,16 +284,20 @@ export class PropertyListOption2Component
   }
 
   ngOnInit(): void {
-    let queryString = localStorage.getItem('query');
-    // let queryString = localStorage.getItem('queryString');
-    console.log('QuerySTring in onInit : - ', queryString);
-    if (queryString) {
-      this.searchQuery = queryString;
-    } else {
-      this.searchQuery = 'pgs in marathalli';
-      // localStorage.setItem('queryString', this.searchQuery);
-      localStorage.setItem('query', this.searchQuery);
-    }
+    // if (!this.isMobile) {
+    // let queryString = localStorage.getItem('query');
+    // // let queryString = localStorage.getItem('queryString');
+    // console.log('QuerySTring in onInit : - ', queryString);
+    // if (queryString) {
+    //   this.searchQuery = queryString;
+    // } else {
+    //   this.searchQuery = 'pgs in marathalli';
+    //   // localStorage.setItem('queryString', this.searchQuery);
+    //   localStorage.setItem('query', this.searchQuery);
+    // }
+    // } else {
+    //   this.searchQuery = null;
+    // }
   }
 
   @HostListener('click', ['$event.target'])
@@ -247,6 +358,10 @@ export class PropertyListOption2Component
         if (plist.metaData) {
           responseObj['metaData'] = plist.metaData;
         }
+        if (plist.isPropertyObject) {
+          responseObj['metaData'] = plist
+          this.searchQuery=plist.propertyName;
+        }
         //push matched property detail
         if (responseObj) {
           this.matchedPropertyList.push(responseObj);
@@ -295,6 +410,11 @@ export class PropertyListOption2Component
         //add property Details (name , description , price ,etc..)
         if (plist.metaData) {
           responseObj['metaData'] = plist.metaData;
+        }
+
+        if (plist.isPropertyObject) {
+          responseObj['metaData'] = plist;
+          this.searchQuery=plist.propertyName;
         }
 
         //push matched property detail
@@ -346,6 +466,11 @@ export class PropertyListOption2Component
           responseObj['metaData'] = plist.metaData;
         }
 
+        if (plist.isPropertyObject) {
+          responseObj['metaData'] = plist;
+          this.searchQuery=plist.propertyName;
+        }
+
         //push matched property detail
         if (responseObj) {
           this.similarPropertyList.push(responseObj);
@@ -378,15 +503,17 @@ export class PropertyListOption2Component
       this.allPropertyList = [];
       this.suggestionList = [];
       this.searchQuery = event.name;
+      this.qPropertyId = '';
       if (event.type != 'property') {
         let search = {
           query: event.name,
         };
-        localStorage.setItem('query', event.name);
+        // localStorage.setItem('query', event.name);
         //for spell check
         this.spellCheck(search);
       } else {
-        localStorage.setItem('PropertyDetail', JSON.stringify(event));
+        // localStorage.setItem('PropertyDetail', JSON.stringify(event));
+        this.qPropertyId = event.propertyId;
         this.matchedPropertyList.push({ metaData: event });
         this.ngxService.stop();
       }
@@ -398,6 +525,7 @@ export class PropertyListOption2Component
     let container: any = document.getElementById('auoComplete');
     container?.classList.remove('input-search');
     container?.classList.remove('suggest-border');
+    this.qPropertyId = ''
   }
 
   //search property
@@ -420,16 +548,17 @@ export class PropertyListOption2Component
       this.similarPropertyList = [];
       this.suggestionList = [];
       this.trackClicksObj;
-      localStorage.setItem(
-        'query',
-        this.searchQuery.name ? this.searchQuery.name : this.searchQuery
-      );
+      this.qPropertyId = ''
+      // localStorage.setItem(
+      //   'query',
+      //   this.searchQuery.name ? this.searchQuery.name : this.searchQuery
+      // );
       let propertyList: any;
       let propertyDetail: any;
-      if (localStorage.getItem('propertyDetailList')) {
-        propertyList = localStorage.getItem('propertyDetailList');
-        propertyDetail = JSON.parse(propertyList);
-      }
+      // if (localStorage.getItem('propertyDetailList')) {
+      //   propertyList = localStorage.getItem('propertyDetailList');
+      //   propertyDetail = JSON.parse(propertyList);
+      // }
       let property;
       if (propertyDetail && propertyDetail.length) {
         property = propertyDetail.filter(
@@ -464,12 +593,16 @@ export class PropertyListOption2Component
     this.ngxService.start();
     this.searchQuery = this.fixedQuery;
     this.spellCorrectedQuery = '';
-    localStorage.removeItem('searchQuery');
-    localStorage.setItem('query', this.searchQuery);
+    // localStorage.removeItem('searchQuery');
+    // localStorage.setItem('query', this.searchQuery);
     let searchObj = {
       query: this.searchQuery.name ? this.searchQuery.name : this.searchQuery,
-      category: 'direct',
+      category: this.qPropertyId ? 'propertyID' : 'direct',
       queryID: this.queryId,
+      filters: {
+        showColive: this.showColive,
+        showNonColive: this.showNonColive
+      }
     };
     //get property ids for search query
     this.searchService
@@ -539,21 +672,22 @@ export class PropertyListOption2Component
                   name: element.propertyName,
                   type: 'property',
                   query: element.propertyName,
+                  propertyId: element.propertyID,
                   propertyName: element.propertyName,
-                  propertyLink: element.propertyLink,
-                  price: element.price,
-                  locationHighlights: element.locationHighlights,
-                  city: element.city,
-                  propertyRating: element.propertyRating,
-                  subLocation: element.subLocation,
-                  tileImageUrl: element.tileImageUrl,
-                  topAmenity: element.topAmenity,
+                  // propertyLink: element.propertyLink,
+                  // price: element.price,
+                  // locationHighlights: element.locationHighlights,
+                  // city: element.city,
+                  // propertyRating: element.propertyRating,
+                  // subLocation: element.subLocation,
+                  // tileImageUrl: element.tileImageUrl,
+                  // topAmenity: element.topAmenity,
                 });
               });
-              localStorage.setItem(
-                'propertyDetailList',
-                JSON.stringify(response.response.propertiesName)
-              );
+              // localStorage.setItem(
+              //   'propertyDetailList',
+              //   JSON.stringify(response.response.propertiesName)
+              // );
             }
             if (
               response &&
@@ -592,7 +726,7 @@ export class PropertyListOption2Component
   }
 
   //tracks clicks of user
-  trackClicks(propertyId: any) {
+  trackClicks(propertyId: any, value: string) {
     let timeStamp = new Date();
     let labels = {};
     let type = '';
@@ -620,6 +754,8 @@ export class PropertyListOption2Component
     }
     this.trackClicksObj['queryID'] = this.queryId;
     this.trackClicksObj['clicks'] = this.visitedPropertyList;
+    let url = this.hostName.concat(value);
+    this.isMobile ? window.open(url, '_parent') : window.open(url, '_blank');
   }
 
   //for spellCheck
@@ -638,29 +774,33 @@ export class PropertyListOption2Component
                 String(response.response.formattedString).toLowerCase()
               ) {
                 this.spellCorrectedQuery = response.response.formattedString;
-                localStorage.setItem(
-                  'searchQuery',
-                  JSON.stringify(response.response.formattedString)
-                );
+                // localStorage.setItem(
+                //   'searchQuery',
+                //   JSON.stringify(response.response.formattedString)
+                // );
               } else {
-                localStorage.setItem('searchQuery', JSON.stringify(''));
+                // localStorage.setItem('searchQuery', JSON.stringify(''));
               }
               this.fixedQuery = response.response.fixedQuery;
-              localStorage.setItem('query', JSON.stringify(this.searchQuery));
-              localStorage.setItem(
-                'fixedQuery',
-                JSON.stringify(response.response.fixedQuery)
-              );
+              // localStorage.setItem('query', JSON.stringify(this.searchQuery));
+              // localStorage.setItem(
+              //   'fixedQuery',
+              //   JSON.stringify(response.response.fixedQuery)
+              // );
             }
             if (response) {
-              localStorage.setItem('queryId', JSON.stringify(response.queryID));
+              // localStorage.setItem('queryId', JSON.stringify(response.queryID));
               this.queryId = response.queryID;
               value['queryId'] = this.queryId;
               this.bottomQuerySuggestion(value);
               let obj = {
-                query: value['query'],
-                category: 'direct',
+                query: this.qPropertyId ? this.qPropertyId : value['query'],
+                category: this.qPropertyId ? 'propertyID' : 'direct',
                 queryID: this.queryId,
+                filters: {
+                  showColive: this.showColive,
+                  showNonColive: this.showNonColive
+                }
               };
 
               this.searchService
@@ -673,7 +813,7 @@ export class PropertyListOption2Component
                       this.tab = 'matchedProerties';
                       // this.queryId = response.queryID;
                       // localStorage.setItem('queryId', JSON.stringify(response.queryID))
-                      localStorage.removeItem('PropertyDetail');
+                      // localStorage.removeItem('PropertyDetail');
                       this.getPropertyDetails(response);
                       this.getTrendingProperties(value['query']);
                     }
@@ -694,9 +834,13 @@ export class PropertyListOption2Component
 
   getTrendingProperties(value: any) {
     let obj = {
-      query: value,
-      category: 'trending',
+      query: this.qPropertyId ? this.qPropertyId : value,
+      category: this.qPropertyId ? 'propertyID' : 'trending',
       queryID: this.queryId,
+      filters: {
+        showColive: this.showColive,
+        showNonColive: this.showNonColive
+      }
     };
     this.searchService
       .searchPropertyFormated(obj)
@@ -716,9 +860,13 @@ export class PropertyListOption2Component
 
   getSimilarProperties(value: any) {
     let obj = {
-      query: value,
-      category: 'similar',
+      query: this.qPropertyId ? this.qPropertyId : value,
+      category: this.qPropertyId ? 'propertyID' : 'similar',
       queryID: this.queryId,
+      filters: {
+        showColive: this.showColive,
+        showNonColive: this.showNonColive
+      }
     };
     this.searchService
       .searchPropertyFormated(obj)
@@ -755,6 +903,7 @@ export class PropertyListOption2Component
       this.similarPropertyList = [];
       this.allPropertyList = [];
       this.suggestionList = [];
+      this.qPropertyId = '';
       let value = {
         query: search,
         queryID: this.queryId,
@@ -776,8 +925,8 @@ export class PropertyListOption2Component
             if (response) {
               this.tab = 'matchedProerties';
               this.spellCorrectedQuery = '';
-              localStorage.setItem('query', JSON.stringify(search));
-              localStorage.removeItem('searchQuery');
+              // localStorage.setItem('query', JSON.stringify(search));
+              // localStorage.removeItem('searchQuery');
               // this.queryId = response.queryID;
               // localStorage.setItem('queryId', JSON.stringify(response.queryID))
               this.searchService.searchedPropertyList.next(response);
@@ -806,64 +955,52 @@ export class PropertyListOption2Component
       });
   }
 
+  propertyVisit(value: string) {
+    let url = this.hostName.concat(value);
+    this.isMobile ? window.open(url, '_parent') : window.open(url, '_blank');
+  }
+
   // //for speech to text
-  // startService() {
-  //   let container: any = document.getElementById('auoComplete');
-  //   window.SpeechRecognition = this.recognition || window['SpeechRecognition'];
-  //   if ('SpeechRecognition' in window) {
-  //     // speech recognition API supported
+  startService() {
+    let container: any = document.getElementById('auoComplete');
+    window.SpeechRecognition = this.recognition || window['SpeechRecognition'];
+    if ('SpeechRecognition' in window) {
+      // speech recognition API supported
 
-  //     // this.recognition = new window.SpeechRecognition();
-  //     this.recognition.continuous = true;
-  //     this.recognition.lang = 'en-US';
-  //     this.recognition.interimResults = true;
-  //     this.recognition.maxAlternatives = 3;
+      // this.recognition = new window.SpeechRecognition();
+      this.recognition.continuous = true;
+      this.recognition.lang = 'en-US';
+      this.recognition.interimResults = true;
+      this.recognition.maxAlternatives = 3;
 
-  //     this.recognition.start();
-  //     this.recognition.onresult = (event: any) => {
-  //       let isFinal = event.results[0].isFinal;
-  //       if (!isFinal) {
-  //         this.ngZone.run(() => {
-  //           this.searchQuery = event.results[0][0].transcript;
-  //           container?.classList.remove('input-search');
-  //         });
-  //       } else if (isFinal) {
-  //         this.ngZone.run(() => {
-  //           this.searchQuery = event.results[0][0].transcript;
-  //           container?.classList.remove('input-search');
-  //           this.recognition.stop();
-  //           let search = {
-  //             "query": this.searchQuery
-  //           }
-  //           this.spellCheck(search);
-  //           this.matchedPropertyList = [];
-  //           this.visitedPropertyList = [];
-  //           this.trendingPropertyList = [];
-  //           this.similarPropertyList = [];
-  //           this.searchService.searchPropertyFormated(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-  //             (response: any) => {
-  //               if (response) {
-  //                 this.queryId = response.queryID;
-  //                 localStorage.setItem('queryId', JSON.stringify(response.queryID))
-  //                 this.getPropertyDetails(response)
-  //               }
-  //               this.ngxService.stop();
-  //             }, (error: any) => {
-  //               this.ngxService.stop();
-  //             }
-  //           )
-  //         });
-  //       }
-  //     };
-  //   } else {
-  //     // speech recognition API not supported
-  //     console.log('speech recognition API not supported!!');
-  //   }
-  // }
+      this.recognition.start();
+      this.recognition.onresult = (event: any) => {
+        let isFinal = event.results[0].isFinal;
+        if (!isFinal) {
+          this.ngZone.run(() => {
+            this.searchQuery = event.results[0][0].transcript;
+            container?.classList.remove('input-search');
+          });
+        } else if (isFinal) {
+          this.ngZone.run(() => {
+            this.searchQuery = event.results[0][0].transcript;
+            container?.classList.remove('input-search');
+            this.recognition.stop();
+            let search = {
+              query: this.searchQuery,
+            };
+            this.spellCheck(search);
+          });
+        }
+      };
+    } else {
+      // speech recognition API not supported
+      console.log('speech recognition API not supported!!');
+    }
+  }
 
-  // startStopVoiceRecognition() {
-  //   this.startService();
-  // }
-
+  startStopVoiceRecognition() {
+    this.startService();
+  }
   // PG near sadhashiv nagar
 }

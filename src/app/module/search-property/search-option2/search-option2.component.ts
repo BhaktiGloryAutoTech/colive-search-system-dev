@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import {
   Component,
   OnInit,
@@ -6,11 +7,13 @@ import {
   ChangeDetectorRef,
   NgZone,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute} from '@angular/router';
 import { SearchServiceService } from '@services/search-service.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import {  Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
 }
@@ -32,33 +35,58 @@ export class SearchOption2Component implements OnInit {
   recognition: any;
   showMic = false;
 
-  domain = '';
+  domain: string = '';
+
+  //query parameters
   isMobile = false;
   isRecommendation = false;
   searchButtonValue = 'Colive Search';
   recommendationURL = 'https://www.colive.com/Trending-Categories/Most-Popular';
+
+  qPropertyId:any=''
+
+  //device and os info
+  deviceInfo: any = null;
   constructor(
     private searchService: SearchServiceService,
-    private router: Router,
     private cdr: ChangeDetectorRef,
     private ngxService: NgxUiLoaderService,
     private ngZone: NgZone,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private deviceService: DeviceDetectorService,
   ) {
-    const { webkitSpeechRecognition }: IWindow = <IWindow>(<any>window);
-    this.recognition = new webkitSpeechRecognition();
 
-    // to show mic in android
-    if (!this.iOS()) {
-      this.showMic = true;
-    } else {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    const isDesktopDevice = this.deviceService.isDesktop();
+    const isMobile = this.deviceService.isMobile();
+    console.log(this.deviceInfo)
+    console.log(isDesktopDevice || isMobile); // returns if the app is running on a Desktop or mobile browser.
+    if (isDesktopDevice) {
+      if (this.deviceInfo.browser == "Chrome") {
+        const { webkitSpeechRecognition }: IWindow = <IWindow>(<any>window);
+        this.recognition = new webkitSpeechRecognition();
+        this.showMic = true;
+      }else{
+        this.showMic = false;
+      }
+    }else{
       this.showMic = false;
     }
 
+
+    // to show mic in android
+    // if (!this.iOS()) {
+    //   this.showMic = true;
+    // } else {
+    //   this.showMic = false;
+    // }
+
+
+
     this.activatedRoute.queryParams.subscribe((res: any) => {
       console.log('Query params :-', res);
-      if (res?.sourceDomain) {
-        this.domain = res?.sourceDomain.replace(/^"|"$/g, '');
+      if (res?.redirectHost) {
+        this.domain = res?.redirectHost.replace(/^"|"$/g, '');
         console.log('Domain : -', this.domain);
       }
 
@@ -74,6 +102,7 @@ export class SearchOption2Component implements OnInit {
       if (res?.recommendationUrl) {
         this.recommendationURL = res?.recommendationUrl
       }
+
     });
   }
   iOS() {
@@ -97,6 +126,7 @@ export class SearchOption2Component implements OnInit {
   }
 
   ngOnInit(): void {
+    navigator.cookieEnabled?this.isMobile=true:this.isMobile=false;
     console.log('Window url : -', window.location);
   }
 
@@ -142,8 +172,9 @@ export class SearchOption2Component implements OnInit {
         query: event.name, //event.query,
       };
       if (event.type == 'property') {
+        this.qPropertyId=event.propertyId;
         this.spellCheck(search, 'property');
-        localStorage.setItem('PropertyDetail', JSON.stringify(event));
+        // localStorage.setItem('PropertyDetail', JSON.stringify(event));
       } else {
         this.spellCheck(search);
       }
@@ -231,15 +262,16 @@ export class SearchOption2Component implements OnInit {
                   name: element.propertyName,
                   type: 'property',
                   query: element.propertyName,
+                  propertyId:element.propertyID,
                   propertyName: element.propertyName,
-                  propertyLink: element.propertyLink,
-                  price: element.price,
-                  locationHighlights: element.locationHighlights,
-                  city: element.city,
-                  propertyRating: element.propertyRating,
-                  subLocation: element.subLocation,
-                  tileImageUrl: element.tileImageUrl,
-                  topAmenity: element.topAmenity,
+                  // propertyLink: element.propertyLink,
+                  // price: element.price,
+                  // locationHighlights: element.locationHighlights,
+                  // city: element.city,
+                  // propertyRating: element.propertyRating,
+                  // subLocation: element.subLocation,
+                  // tileImageUrl: element.tileImageUrl,
+                  // topAmenity: element.topAmenity,
                 });
               });
             }
@@ -290,8 +322,8 @@ export class SearchOption2Component implements OnInit {
   }
 
   searchFunctionFormat() {
-    this.ngxService.start();
-    if (this.searchQuery) {
+    if (this.searchQuery && this.searchQuery!='' && this.searchQuery!=' ') {
+      this.ngxService.start();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       this.propertyDetail = [];
@@ -308,7 +340,7 @@ export class SearchOption2Component implements OnInit {
     if (value) {
       this.ngxService.start();
       if (!property) {
-        localStorage.removeItem('PropertyDetail');
+        // localStorage.removeItem('PropertyDetail');
         // this.router.navigate(['/smartsearch'], {
         //   // queryParams: {
         //   //   '': this.searchQuery.name
@@ -316,20 +348,28 @@ export class SearchOption2Component implements OnInit {
         //   //     : this.searchQuery,
         //   // },
 
-        localStorage.setItem(
-          'queryString',
-          value?.query ? value?.query : this.searchQuery.name
-        );
-        localStorage.setItem(
-          'query',
-          value?.query ? value?.query : this.searchQuery.name
-        );
-
+        // localStorage.setItem(
+        //   'queryString',
+        //   value?.query ? value?.query : this.searchQuery.name
+        // );
+        // localStorage.setItem(
+        //   'query',
+        //   value?.query ? value?.query : this.searchQuery.name
+        // );
+        let qparam= '?sQuery=';
+        let host=this.domain
+        let addedParam= host.concat(qparam)
+        let final=addedParam.concat(value?.query ? value?.query : this.searchQuery.name)
+        if(this.qPropertyId){
+          let qPIdParam='&pId=';
+          let qPropertyParam=qPIdParam.concat(this.qPropertyId);
+          final=final.concat(qPropertyParam);
+          this.qPropertyId=''
+        }
         if (this.isMobile) {
-          console.log("inside Mobile");
-          window.open(this.domain, '_self');
+          window.open(final,'_parent');
         } else {
-          window.open(this.domain, '_blank');
+          window.open(final, '_blank');
         }
       } else {
         // this.disableButton = false;
@@ -341,19 +381,28 @@ export class SearchOption2Component implements OnInit {
         //   },
         // });
 
-        localStorage.setItem(
-          'queryString',
-          value?.query ? value?.query : this.searchQuery.name
-        );
-        localStorage.setItem(
-          'query',
-          value?.query ? value?.query : this.searchQuery.name
-        );
+        // localStorage.setItem(
+        //   'queryString',
+        //   value?.query ? value?.query : this.searchQuery.name
+        // );
+        // localStorage.setItem(
+        //   'query',
+        //   value?.query ? value?.query : this.searchQuery.name
+        // );
+        let qparam= '?sQuery=';
+        let host=this.domain
+        let addedParam= host.concat(qparam)
+        let final=addedParam.concat(value?.query ? value?.query : this.searchQuery.name)
+        if(this.qPropertyId){
+          let qPIdParam='&pId=';
+          let qPropertyParam=qPIdParam.concat(this.qPropertyId);
+          final=final.concat(qPropertyParam);
+          this.qPropertyId=''
+        }
         if (this.isMobile) {
-          console.log("inside Mobile");
-          window.open(this.domain, '_self');
+          window.open(final,'_parent');
         } else {
-          window.open(this.domain, '_blank');
+          window.open(final, '_blank');
         }
       }
       this.ngxService.stop();
@@ -384,10 +433,10 @@ export class SearchOption2Component implements OnInit {
     }
   }
 
-  recommendationRediret(){
+  recommendationRediret() {
     if (this.isMobile) {
       console.log("inside Mobile");
-      window.open(this.recommendationURL, '_self');
+      window.open(this.recommendationURL, '_parent');
     } else {
       window.open(this.recommendationURL, '_blank');
     }

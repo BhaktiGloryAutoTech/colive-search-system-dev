@@ -29,9 +29,9 @@ hr {
   padding: 0px;
 }
 .search {
-  margin: 3.5% 0 0 -3%;
+  margin: 4.5% 30% 0 30%;
   width: 523px;
-  height: 60px;
+  height: 300px;
   input {
     background: #ffffff 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 12px #00000029;
@@ -514,7 +514,7 @@ a:link {
       font-size: 2.2rem;
     }
     .search {
-      margin: 5.8% 0 0 -1%;
+      margin: 5.8% 30% 0 30%;
       width: 430px;
       height: 57px;
       .ng-autocomplete {
@@ -564,7 +564,7 @@ a:link {
       font-size: 2rem;
     }
     .search {
-      margin: 7.5% 0 0 4%;
+      margin: 7.5% 27% 0 27%;
       width: 380px;
       height: 57px;
       .ng-autocomplete {
@@ -997,4 +997,7 @@ a:link {
       }
     }
   }
+}
+.h-60{
+  height: 60px !important;
 }

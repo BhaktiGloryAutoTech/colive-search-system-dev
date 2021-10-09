@@ -7,7 +7,7 @@ export class CommonServiceService {
   constructor() {}
 
   envUrl() {
-    return "https://lenssmartsearch.polynomial.ai/" // prod
-    // return 'https://lenssmartsearch.polynomial.ai/testing/'; // dev
+    // return "https://lenssmartsearch.polynomial.ai/" // prod
+    return 'https://lenssmartsearch.polynomial.ai/testing/'; // dev
   }
 }
