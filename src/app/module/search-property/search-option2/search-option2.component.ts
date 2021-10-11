@@ -167,7 +167,6 @@ export class SearchOption2Component implements OnInit {
       this.ngxService.start();
       this.propertyDetail = [];
       this.suggestionList = [];
-      this.disableButton = true;
       let search = {
         query: event.name, //event.query,
       };
@@ -191,7 +190,6 @@ export class SearchOption2Component implements OnInit {
       this.ngxService.start();
       this.propertyDetail = [];
       this.suggestionList = [];
-      this.disableButton = true;
       let search = {
         query: this.searchQuery.name ? this.searchQuery.name : this.searchQuery,
       };
@@ -327,7 +325,6 @@ export class SearchOption2Component implements OnInit {
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       this.propertyDetail = [];
-      this.disableButton = true;
       let search = {
         query: this.searchQuery,
       };
