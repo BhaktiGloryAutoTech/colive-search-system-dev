@@ -126,8 +126,6 @@ export class SearchOption2Component implements OnInit {
   }
 
   ngOnInit(): void {
-    navigator.cookieEnabled?this.isMobile=true:this.isMobile=false;
-    console.log('Window url : -', window.location);
   }
 
   myFunction() { }

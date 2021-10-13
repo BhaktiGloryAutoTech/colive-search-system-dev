@@ -109,7 +109,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             if (response) {
               searchData = response;
               this.searchService.searchedPropertyList.next(searchData);
-              localStorage.setItem('list', JSON.stringify(searchData));
+              // localStorage.setItem('list', JSON.stringify(searchData));
               this.disableButton = false;
               this.router.navigate(['/propertyv1']);
             }
@@ -140,7 +140,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             if (response) {
               searchData = response;
               this.searchService.searchedPropertyList.next(searchData);
-              localStorage.setItem('list', JSON.stringify(searchData));
+              // localStorage.setItem('list', JSON.stringify(searchData));
               this.disableButton = false;
               this.router.navigate(['/propertyv1']);
             }

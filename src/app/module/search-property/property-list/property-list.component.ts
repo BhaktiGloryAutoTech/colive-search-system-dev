@@ -72,8 +72,8 @@ export class PropertyListComponent implements OnInit, OnDestroy {
           this.loading = false;
 
         } else {
-          const list: any = localStorage.getItem('list');
-          this.getPropertyDetails(JSON.parse(list));
+          // const list: any = localStorage.getItem('list');
+          // this.getPropertyDetails(JSON.parse(list));
           this.loading = false;
         }
 
