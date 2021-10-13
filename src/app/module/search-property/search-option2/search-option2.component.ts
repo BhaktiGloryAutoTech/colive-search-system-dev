@@ -24,7 +24,6 @@ export interface IWindow extends Window {
 })
 export class SearchOption2Component implements OnInit {
   searchQuery: any = '';
-  disableButton: boolean = false;
   private unsubscribe = new Subject<void>();
   propertyDetail: any = [];
   public loading = false;
