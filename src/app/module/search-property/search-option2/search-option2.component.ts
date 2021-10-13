@@ -8,11 +8,11 @@ import {
   NgZone,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SearchServiceService } from '@services/search-service.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import {  Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
@@ -42,7 +42,7 @@ export class SearchOption2Component implements OnInit {
   searchButtonValue = 'Colive Search';
   recommendationURL = 'https://www.colive.com/Trending-Categories/Most-Popular';
 
-  qPropertyId:any=''
+  qPropertyId: any = ''
 
   //device and os info
   deviceInfo: any = null;
@@ -58,48 +58,34 @@ export class SearchOption2Component implements OnInit {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     const isDesktopDevice = this.deviceService.isDesktop();
     const isMobile = this.deviceService.isMobile();
-    console.log(this.deviceInfo)
-    console.log(isDesktopDevice || isMobile); // returns if the app is running on a Desktop or mobile browser.
     if (isDesktopDevice) {
       if (this.deviceInfo.browser == "Chrome") {
         const { webkitSpeechRecognition }: IWindow = <IWindow>(<any>window);
         this.recognition = new webkitSpeechRecognition();
         this.showMic = true;
-      }else{
+      } else {
         this.showMic = false;
       }
-    }else{
+    } else {
       this.showMic = false;
     }
-
-
-    // to show mic in android
-    // if (!this.iOS()) {
-    //   this.showMic = true;
-    // } else {
-    //   this.showMic = false;
-    // }
-
-
-
+    //retriving query params
     this.activatedRoute.queryParams.subscribe((res: any) => {
-      console.log('Query params :-', res);
       if (res?.redirectHost) {
         this.domain = res?.redirectHost.replace(/^"|"$/g, '');
-        console.log('Domain : -', this.domain);
       }
 
       if (res?.isMobile) {
-        String(res?.isMobile).toString() == '1' ? this.isMobile = true : this.isMobile = false;
+        this.isMobile = res?.isMobile === '1';
       }
       if (res?.isRecommendation) {
-        String(res.isRecommendation).toString() == '1' ? this.isRecommendation = true : this.isRecommendation = false;
+        this.isRecommendation=res?.isRecommendation==='1';
       }
       if (res?.buttonText) {
-        this.searchButtonValue = res?.buttonText
+        this.searchButtonValue = res?.buttonText;
       }
       if (res?.recommendationUrl) {
-        this.recommendationURL = res?.recommendationUrl
+        this.recommendationURL = res?.recommendationUrl;
       }
 
     });
@@ -168,7 +154,7 @@ export class SearchOption2Component implements OnInit {
         query: event.name, //event.query,
       };
       if (event.type == 'property') {
-        this.qPropertyId=event.propertyId;
+        this.qPropertyId = event.propertyId;
         this.spellCheck(search, 'property');
       } else {
         this.spellCheck(search);
@@ -223,8 +209,6 @@ export class SearchOption2Component implements OnInit {
         query: event,
       };
       //suggestion list api call
-
-      console.log(searchObj);
       this.searchService
         .searchSuggestion(searchObj)
         .pipe()
@@ -254,7 +238,7 @@ export class SearchOption2Component implements OnInit {
                   name: element.propertyName,
                   type: 'property',
                   query: element.propertyName,
-                  propertyId:element.propertyID,
+                  propertyId: element.propertyID,
                   propertyName: element.propertyName,
                 });
               });
@@ -289,7 +273,6 @@ export class SearchOption2Component implements OnInit {
               }
             }, 1);
 
-            console.log('suggestion list : -', this.suggestionList);
             this.cdr.detectChanges();
           },
           (error) => {
@@ -306,7 +289,7 @@ export class SearchOption2Component implements OnInit {
   }
 
   searchFunctionFormat() {
-    if (this.searchQuery && this.searchQuery!='' && this.searchQuery!=' ') {
+    if (this.searchQuery && this.searchQuery != '' && this.searchQuery != ' ') {
       this.ngxService.start();
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
@@ -323,49 +306,43 @@ export class SearchOption2Component implements OnInit {
     if (value) {
       this.ngxService.start();
       if (!property) {
-        let qparam= '?sQuery=';
-        let host=this.domain
-        let addedParam= host.concat(qparam)
-        let final=addedParam.concat(value?.query ? value?.query : this.searchQuery.name)
-        if(this.qPropertyId){
-          let qPIdParam='&pId=';
-          let qPropertyParam=qPIdParam.concat(this.qPropertyId);
-          final=final.concat(qPropertyParam);
-          this.qPropertyId=''
+        let qparam = '?sQuery=';
+        let host = this.domain
+        let addedParam = host.concat(qparam)
+        let final = addedParam.concat(value?.query ? value?.query : this.searchQuery.name)
+        if (this.qPropertyId) {
+          let qPIdParam = '&pId=';
+          let qPropertyParam = qPIdParam.concat(this.qPropertyId);
+          final = final.concat(qPropertyParam);
+          this.qPropertyId = ''
         }
-        if (this.isMobile) {
-          window.open(final,'_parent');
-        } else {
-          window.open(final, '_blank');
-        }
+        this.isMobile ?
+        window.open(final, '_top') :
+        window.open(final, '_blank');
       } else {
-        let qparam= '?sQuery=';
-        let host=this.domain
-        let addedParam= host.concat(qparam)
-        let final=addedParam.concat(value?.query ? value?.query : this.searchQuery.name)
-        if(this.qPropertyId){
-          let qPIdParam='&pId=';
-          let qPropertyParam=qPIdParam.concat(this.qPropertyId);
-          final=final.concat(qPropertyParam);
-          this.qPropertyId=''
+        let qparam = '?sQuery=';
+        let host = this.domain
+        let addedParam = host.concat(qparam)
+        let final = addedParam.concat(value?.query ? value?.query : this.searchQuery.name)
+        if (this.qPropertyId) {
+          let qPIdParam = '&pId=';
+          let qPropertyParam = qPIdParam.concat(this.qPropertyId);
+          final = final.concat(qPropertyParam);
+          this.qPropertyId = ''
         }
-        if (this.isMobile) {
-          window.open(final,'_parent');
-        } else {
-          window.open(final, '_blank');
-        }
+        this.isMobile ?
+        window.open(final, '_top') :
+        window.open(final, '_blank');
       }
       this.ngxService.stop();
     }
   }
 
   recommendationRediret() {
-    if (this.isMobile) {
-      console.log("inside Mobile");
-      window.open(this.recommendationURL, '_parent');
-    } else {
+    this.isMobile ?
+      window.open(this.recommendationURL, '_top') :
       window.open(this.recommendationURL, '_blank');
-    }
+
   }
 
   // //for speech to text

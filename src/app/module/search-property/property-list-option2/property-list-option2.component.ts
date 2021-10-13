@@ -82,7 +82,6 @@ export class PropertyListOption2Component
     this.deviceInfo = this.deviceService.getDeviceInfo();
     const isDesktopDevice = this.deviceService.isDesktop();
     const isMobile = this.deviceService.isMobile();
-    console.log(isDesktopDevice || isMobile); // returns if the app is running on a Desktop or mobile browser.
     if (isDesktopDevice) {
       if (this.deviceInfo.browser == "Chrome") {
         const { webkitSpeechRecognition }: IWindow = <IWindow>(<any>window);
@@ -100,10 +99,8 @@ export class PropertyListOption2Component
     config.max = 5;
     config.readonly = true;
     this.activatedRoute.queryParams.subscribe((res: any) => {
-      console.log('Query params :-', res);
       if (res?.redirectHost) {
         this.hostName = res?.redirectHost.replace(/^"|"$/g, '');
-        console.log('Domain : -', this.hostName);
         let url = this.hostName;
         if (url.substr(url.length - 1) != '/') {
           this.hostName = this.hostName + '/';
@@ -111,8 +108,7 @@ export class PropertyListOption2Component
       }
 
       if (res?.isMobile) {
-        // String(res?.isMobile).toString() == '1' ? this.openType='_parent' : this.openType='_blank';
-        String(res?.isMobile).toString() == '1' ? this.isMobile = true : this.isMobile = false;
+        this.isMobile=res?.isMobile==='1';
       }
 
       if (res?.sQuery) {
@@ -129,18 +125,15 @@ export class PropertyListOption2Component
         switch (res?.propertyType) {
           case '1':
             this.showColive = true;
-            console.log(res?.propertyType);
             break;
 
           case '0':
             this.showNonColive = true;
-            console.log(res?.propertyType);
             break;
 
           case 'all':
             this.showColive = false;
             this.showNonColive = false;
-            console.log(res?.propertyType);
             break;
         }
       }
@@ -171,9 +164,6 @@ export class PropertyListOption2Component
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-    // this.trackClicksObj['queryID']
-    //   ? this.searchService.trackedClicks(this.trackClicksObj).subscribe()
-    //   : '';
     this.visitedPropertyList = [];
     this.allPropertyList = [];
     this.trackClicksObj = {};
@@ -369,12 +359,6 @@ export class PropertyListOption2Component
 
   selectEvent(event: any) {
     if (event) {
-      // let trackFlag = false;
-      // if (this.trackClicksObj['queryID']) {
-      //   this.searchService.trackedClicks(this.trackClicksObj).subscribe();
-      //   trackFlag = true;
-      // }
-      // trackFlag ? (this.trackClicksObj = {}) : '';
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border');
@@ -412,12 +396,6 @@ export class PropertyListOption2Component
   keyPress(event: any) {
     if (this.searchQuery && event.keyCode == 13) {
       this.ngxService.start();
-      // let trackFlag = false;
-      // if (this.trackClicksObj['queryID']) {
-      //   this.searchService.trackedClicks(this.trackClicksObj).subscribe();
-      //   trackFlag = true;
-      // }
-      // trackFlag ? (this.trackClicksObj = {}) : '';
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border');
@@ -611,7 +589,7 @@ export class PropertyListOption2Component
     this.trackClicksObj['queryID'] = this.queryId;
     this.trackClicksObj['clicks'] = this.visitedPropertyList;
     let url = this.hostName.concat(value);
-    this.isMobile ? window.open(url, '_parent') : window.open(url, '_blank');
+    this.isMobile ? window.open(url, '_top') : window.open(url, '_blank');
     if (this.trackClicksObj['queryID']) {
         this.searchService.trackedClicks(this.trackClicksObj).subscribe(
           (response:any)=>{
@@ -804,7 +782,7 @@ export class PropertyListOption2Component
 
   propertyVisit(value: string) {
     let url = this.hostName.concat(value);
-    this.isMobile ? window.open(url, '_parent') : window.open(url, '_blank');
+    this.isMobile ? window.open(url, '_top') : window.open(url, '_blank');
   }
 
   // //for speech to text

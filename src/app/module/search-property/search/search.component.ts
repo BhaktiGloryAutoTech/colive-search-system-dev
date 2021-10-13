@@ -26,71 +26,13 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   selectEvent(event: any) {
-    console.log('select event', event);
   }
   onChangeSearch(event: any) {
-    console.log('on change search', event);
   }
 
   onFocused(event: any) {
-    console.log('on focus', event);
   }
   myFunction() {}
-  // searchFunction() {
-  //   console.log("search query", this.searchQuery)
-  //   this.loading = true;
-  //   if (this.searchQuery) {
-  //     this.propertyDetail = [];
-  //     this.disableButton = true;
-  //     let search = {
-  //       "query": this.searchQuery
-  //     }
-  //     this.searchService.seachProperty(search).pipe(takeUntil(this.unsubscribe)).subscribe(
-  //       (response: any) => {
-  //         let searchData = []
-  //         if (response && response.data && response.data.length) {
-  //           console.log(response.data);
-  //           searchData = response.data
-  //           this.searchService.searchedPropertyList.next(searchData);
-  //           localStorage.setItem("list", JSON.stringify(searchData))
-  //           this.router.navigate(['search/property-list'])
-  //           // response.data.forEach((plist: any, i: any) => {
-  //           //   let propertyId = {
-  //           //     propertyId: plist.propertyId
-  //           //   }
-  //           //   this.loading = true;
-  //           //   this.searchService.getPropertyDetail(propertyId).pipe(takeUntil(this.unsubscribe)).subscribe(
-  //           //     (response: any) => {
-
-  //           //       if (response && response.Data) {
-  //           //         console.log(response.Data);
-  //           //         this.propertyDetail.push(response.Data.Property[0]);
-  //           //         if (searchData.length == i + 1) {
-  //           //           console.log("propertyList", this.propertyDetail)
-  //           //           this.searchService.searchedPropertyList.next(this.propertyDetail);
-  //           //           localStorage.setItem("list", JSON.stringify(this.propertyDetail))
-  //           //           this.router.navigate(['search/property-list'])
-  //           //           this.disableButton = false
-  //           //           this.loading=false;
-  //           //         }
-  //           //       } else {
-  //           //         this.loading = false
-  //           //       }
-  //           //     }, (error: any) => {
-  //           //       this.loading = false;
-  //           //     }
-  //           //   )
-  //           // }, (error: any) => {
-  //           //   this.loading = false
-  //           // });
-  //         }
-  //         this.loading = false;
-  //       }, error => {
-  //         this.disableButton = false;
-  //       }
-  //     )
-  //   }
-  // }
 
   keyPress(event: any) {
     if (this.searchQuery && event.keyCode == 13) {
