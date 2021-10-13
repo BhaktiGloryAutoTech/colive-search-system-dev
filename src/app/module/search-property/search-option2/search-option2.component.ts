@@ -173,11 +173,9 @@ export class SearchOption2Component implements OnInit {
       if (event.type == 'property') {
         this.qPropertyId=event.propertyId;
         this.spellCheck(search, 'property');
-        // localStorage.setItem('PropertyDetail', JSON.stringify(event));
       } else {
         this.spellCheck(search);
       }
-      // this.getPropertyList(search);
     }
   }
   keyPress(event: any) {
@@ -194,7 +192,6 @@ export class SearchOption2Component implements OnInit {
         query: this.searchQuery.name ? this.searchQuery.name : this.searchQuery,
       };
       this.spellCheck(search);
-      // this.getPropertyList(search);
     }
   }
 
@@ -262,14 +259,6 @@ export class SearchOption2Component implements OnInit {
                   query: element.propertyName,
                   propertyId:element.propertyID,
                   propertyName: element.propertyName,
-                  // propertyLink: element.propertyLink,
-                  // price: element.price,
-                  // locationHighlights: element.locationHighlights,
-                  // city: element.city,
-                  // propertyRating: element.propertyRating,
-                  // subLocation: element.subLocation,
-                  // tileImageUrl: element.tileImageUrl,
-                  // topAmenity: element.topAmenity,
                 });
               });
             }
@@ -337,22 +326,6 @@ export class SearchOption2Component implements OnInit {
     if (value) {
       this.ngxService.start();
       if (!property) {
-        // localStorage.removeItem('PropertyDetail');
-        // this.router.navigate(['/smartsearch'], {
-        //   // queryParams: {
-        //   //   '': this.searchQuery.name
-        //   //     ? this.searchQuery.name
-        //   //     : this.searchQuery,
-        //   // },
-
-        // localStorage.setItem(
-        //   'queryString',
-        //   value?.query ? value?.query : this.searchQuery.name
-        // );
-        // localStorage.setItem(
-        //   'query',
-        //   value?.query ? value?.query : this.searchQuery.name
-        // );
         let qparam= '?sQuery=';
         let host=this.domain
         let addedParam= host.concat(qparam)
@@ -369,23 +342,6 @@ export class SearchOption2Component implements OnInit {
           window.open(final, '_blank');
         }
       } else {
-        // this.disableButton = false;
-        // this.router.navigate(['/smartsearch'], {
-        //   queryParams: {
-        //     '': this.searchQuery.name
-        //       ? this.searchQuery.name
-        //       : this.searchQuery,
-        //   },
-        // });
-
-        // localStorage.setItem(
-        //   'queryString',
-        //   value?.query ? value?.query : this.searchQuery.name
-        // );
-        // localStorage.setItem(
-        //   'query',
-        //   value?.query ? value?.query : this.searchQuery.name
-        // );
         let qparam= '?sQuery=';
         let host=this.domain
         let addedParam= host.concat(qparam)
@@ -403,30 +359,6 @@ export class SearchOption2Component implements OnInit {
         }
       }
       this.ngxService.stop();
-      // this.searchService.spellCheck(value).pipe(takeUntil(this.unsubscribe)).subscribe(
-      //   (response: any) => {
-      //     if (response && response.response) {
-      //       if (String(response.response.originalQuery).toLowerCase() != String(response.response.formattedString).toLowerCase()) {
-      //         this.searchService.searchQuerySpell.next(response.response.formattedString);
-      //         localStorage.setItem('searchQuery', JSON.stringify(response.response.formattedString))
-      //       } else {
-      //         this.searchService.searchQuerySpell.next('');
-      //         localStorage.setItem('searchQuery', JSON.stringify(''))
-      //       }
-      //       this.searchService.searchQuery.next(this.searchQuery.name ? this.searchQuery.name : this.searchQuery);
-      //       this.searchService.fixedQuery.next(response.response.fixedQuery)
-      //       localStorage.setItem("query", JSON.stringify(this.searchQuery.name ? this.searchQuery.name : this.searchQuery))
-      //       localStorage.setItem("fixedQuery", JSON.stringify(response.response.fixedQuery))
-      //       localStorage.setItem("queryId",JSON.stringify(response.queryID))
-
-      //     } else {
-      //       this.ngxService.stop();
-      //     }
-      //   },
-      //   error => {
-      //     this.ngxService.stop();
-      //   }
-      // )
     }
   }
 

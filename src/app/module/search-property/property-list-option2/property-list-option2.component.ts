@@ -146,35 +146,6 @@ export class PropertyListOption2Component
       }
 
     });
-
-
-    // let queryString = localStorage.getItem('query');
-
-
-    // if (!this.searchQuery) {
-    //   let queryString = localStorage.getItem('queryString');
-    //   console.log('QuerySTring in constructor : - ', queryString);
-    //   if (queryString) {
-    //     this.searchQuery = queryString;
-    //   } else {
-    //     this.searchQuery = 'pgs in marathalli';
-    //     localStorage.setItem('queryString', this.searchQuery);
-    //     localStorage.setItem('query', this.searchQuery);
-    //   }
-    // }
-
-
-    // else {
-    //   this.searchQuery = null;
-    // }
-
-    // this.activatedRoute?.queryParams.subscribe((res: any) => {
-    //   console.log(res);
-    //   console.log('Window location', window.location);
-    //   if (res?.q) {
-    //     this.searchQuery = res?.q;
-    //   }
-    // });
   }
 
 
@@ -182,70 +153,6 @@ export class PropertyListOption2Component
   ngAfterViewInit(): void {
     let container: any = document.getElementById('auoComplete');
     container?.classList.remove('input-search');
-
-    // this.searchQuery = this.activatedRoute.snapshot.paramMap.get('id');
-    // let queryString = localStorage.getItem('query');
-    // if (!this.searchQuery) {
-    //   this.ngxService.start();
-    //   let queryString = localStorage.getItem('queryString');
-    //   console.log('QuerySTring in afterViewInit : - ', queryString);
-    //   if (queryString) {
-    //     this.searchQuery = queryString;
-    //   } else {
-    //     this.searchQuery = 'pgs in marathalli';
-    //     localStorage.setItem('queryString', this.searchQuery);
-    //     localStorage.setItem('query', this.searchQuery);
-    //   }
-    //   console.log('Search String : -- ', this.searchQuery);
-    //   if (!this.searchQuery) {
-    //     this.searchService.searchQuery.subscribe((response: any) => {
-    //       if (response) {
-    //         this.searchQuery = response;
-    //       } else {
-    //         if (localStorage.getItem('query')) {
-    //           const queery: any = localStorage.getItem('query');
-    //           if (JSON.parse(queery)) {
-    //             this.searchQuery = JSON.parse(queery);
-    //           }
-    //         }
-    //       }
-    //     });
-    //   }
-    //   // if (localStorage.getItem('queryId')) {
-    //   //   let qId: any = localStorage.getItem('queryId');
-    //   //   let QID: any = JSON.parse(qId);
-    //   //   if (QID) {
-    //   //     this.queryId = QID
-    //   //   }
-    //   // }
-    //   if (localStorage.getItem('PropertyDetail')) {
-    //     let obj: any = {};
-    //     this.matchedPropertyList = [];
-    //     let propertyDetail: any = localStorage.getItem('PropertyDetail');
-    //     let propertyDetails: any = JSON.parse(propertyDetail);
-    //     obj['metaData'] = propertyDetails;
-    //     obj['propertyDetails'] = propertyDetails;
-    //     this.matchedPropertyList[0] = obj;
-    //     let ele = document.getElementById('auoComplete');
-    //     ele?.classList.remove('input-search');
-    //     ele?.classList.remove('suggest-border');
-    //     this.ngxService.stop();
-    //   } else {
-    //     let ele = document.getElementById('auoComplete');
-    //     ele?.classList.remove('input-search');
-    //     ele?.classList.remove('suggest-border');
-    //     this.matchedPropertyList = [];
-    //     this.visitedPropertyList = [];
-    //     this.trendingPropertyList = [];
-    //     this.similarPropertyList = [];
-    //     this.suggestionList = [];
-    //     let search = {
-    //       query: this.searchQuery.name ? this.searchQuery.name : this.searchQuery,
-    //     };
-    //     //for spell check
-    //     this.spellCheck(search);
-    //   }}
-
     let ele = document.getElementById('auoComplete');
     ele?.classList.remove('input-search');
     ele?.classList.remove('suggest-border');
@@ -259,17 +166,6 @@ export class PropertyListOption2Component
     };
     //for spell check
     this.spellCheck(search);
-
-    // } else {
-    //   this.searchQuery = null;
-    // }
-    //get QueryId
-    // if (localStorage.getItem('queryId')) {
-    //   let qid: any = localStorage.getItem('queryId');
-    //   if (qid) {
-    //     this.queryId = JSON.parse(qid);
-    //   }
-    // }
   }
 
   ngOnDestroy(): void {
@@ -284,20 +180,6 @@ export class PropertyListOption2Component
   }
 
   ngOnInit(): void {
-    // if (!this.isMobile) {
-    // let queryString = localStorage.getItem('query');
-    // // let queryString = localStorage.getItem('queryString');
-    // console.log('QuerySTring in onInit : - ', queryString);
-    // if (queryString) {
-    //   this.searchQuery = queryString;
-    // } else {
-    //   this.searchQuery = 'pgs in marathalli';
-    //   // localStorage.setItem('queryString', this.searchQuery);
-    //   localStorage.setItem('query', this.searchQuery);
-    // }
-    // } else {
-    //   this.searchQuery = null;
-    // }
   }
 
   @HostListener('click', ['$event.target'])
@@ -508,11 +390,9 @@ export class PropertyListOption2Component
         let search = {
           query: event.name,
         };
-        // localStorage.setItem('query', event.name);
         //for spell check
         this.spellCheck(search);
       } else {
-        // localStorage.setItem('PropertyDetail', JSON.stringify(event));
         this.qPropertyId = event.propertyId;
         this.matchedPropertyList.push({ metaData: event });
         this.ngxService.stop();
@@ -548,17 +428,8 @@ export class PropertyListOption2Component
       this.similarPropertyList = [];
       this.suggestionList = [];
       this.trackClicksObj;
-      this.qPropertyId = ''
-      // localStorage.setItem(
-      //   'query',
-      //   this.searchQuery.name ? this.searchQuery.name : this.searchQuery
-      // );
-      let propertyList: any;
+      this.qPropertyId = '';
       let propertyDetail: any;
-      // if (localStorage.getItem('propertyDetailList')) {
-      //   propertyList = localStorage.getItem('propertyDetailList');
-      //   propertyDetail = JSON.parse(propertyList);
-      // }
       let property;
       if (propertyDetail && propertyDetail.length) {
         property = propertyDetail.filter(
@@ -593,8 +464,6 @@ export class PropertyListOption2Component
     this.ngxService.start();
     this.searchQuery = this.fixedQuery;
     this.spellCorrectedQuery = '';
-    // localStorage.removeItem('searchQuery');
-    // localStorage.setItem('query', this.searchQuery);
     let searchObj = {
       query: this.searchQuery.name ? this.searchQuery.name : this.searchQuery,
       category: this.qPropertyId ? 'propertyID' : 'direct',
@@ -674,20 +543,8 @@ export class PropertyListOption2Component
                   query: element.propertyName,
                   propertyId: element.propertyID,
                   propertyName: element.propertyName,
-                  // propertyLink: element.propertyLink,
-                  // price: element.price,
-                  // locationHighlights: element.locationHighlights,
-                  // city: element.city,
-                  // propertyRating: element.propertyRating,
-                  // subLocation: element.subLocation,
-                  // tileImageUrl: element.tileImageUrl,
-                  // topAmenity: element.topAmenity,
                 });
               });
-              // localStorage.setItem(
-              //   'propertyDetailList',
-              //   JSON.stringify(response.response.propertiesName)
-              // );
             }
             if (
               response &&
@@ -707,7 +564,6 @@ export class PropertyListOption2Component
               : container?.classList.remove('input-search');
           },
           (error) => {
-            // suggest ? container.classList.add('input-search') : container.classList.remove('input-search');
           }
         );
 
@@ -774,22 +630,11 @@ export class PropertyListOption2Component
                 String(response.response.formattedString).toLowerCase()
               ) {
                 this.spellCorrectedQuery = response.response.formattedString;
-                // localStorage.setItem(
-                //   'searchQuery',
-                //   JSON.stringify(response.response.formattedString)
-                // );
               } else {
-                // localStorage.setItem('searchQuery', JSON.stringify(''));
               }
               this.fixedQuery = response.response.fixedQuery;
-              // localStorage.setItem('query', JSON.stringify(this.searchQuery));
-              // localStorage.setItem(
-              //   'fixedQuery',
-              //   JSON.stringify(response.response.fixedQuery)
-              // );
             }
             if (response) {
-              // localStorage.setItem('queryId', JSON.stringify(response.queryID));
               this.queryId = response.queryID;
               value['queryId'] = this.queryId;
               this.bottomQuerySuggestion(value);
@@ -811,9 +656,6 @@ export class PropertyListOption2Component
                     if (response) {
                       this.allPropertyList = [];
                       this.tab = 'matchedProerties';
-                      // this.queryId = response.queryID;
-                      // localStorage.setItem('queryId', JSON.stringify(response.queryID))
-                      // localStorage.removeItem('PropertyDetail');
                       this.getPropertyDetails(response);
                       this.getTrendingProperties(value['query']);
                     }
@@ -925,10 +767,6 @@ export class PropertyListOption2Component
             if (response) {
               this.tab = 'matchedProerties';
               this.spellCorrectedQuery = '';
-              // localStorage.setItem('query', JSON.stringify(search));
-              // localStorage.removeItem('searchQuery');
-              // this.queryId = response.queryID;
-              // localStorage.setItem('queryId', JSON.stringify(response.queryID))
               this.searchService.searchedPropertyList.next(response);
               this.getPropertyDetails(response);
               this.getTrendingProperties(obj['query']);
@@ -1002,5 +840,4 @@ export class PropertyListOption2Component
   startStopVoiceRecognition() {
     this.startService();
   }
-  // PG near sadhashiv nagar
 }
