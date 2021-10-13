@@ -9,8 +9,12 @@
 </ngx-loading>
 <div class="container-div" id="search">
   <div class="row col-md-12 search-body">
-    <div class="body-container text-center">
-      <img class="logo-text" alt="Colive" src="./../../../../assets/Colive Product Sans HDPI Logo.png">
+    <div *ngIf="domain" class="body-container text-center">
+      <!-- <img
+        class="logo-text"
+        alt="Colive"
+        src="./../../../../assets/Colive Product Sans HDPI Logo.png"
+      /> -->
       <div
         class="flex-width"
         id="auoComplete"
@@ -20,13 +24,14 @@
         }"
       >
         <ng-autocomplete
+          appendTo="body"
           class="ng-autocomplete"
           placeholder="Search property or location"
           id="auto-searchbar"
           (selected)="selectEvent($event)"
           (keypress)="keyPress($event)"
           [searchKeyword]="'name'"
-          (inputChanged)="onChangeSearch($event)"
+          (inputChanged)="onFilterTextChanged($event)"
           [data]="suggestionList"
           [itemTemplate]="itemTemplate"
           [(ngModel)]="searchQuery"
@@ -55,30 +60,42 @@
         </ng-template>
 
         <span id="search-span" class="material-icons search-icon">search</span>
-        <!-- <span
+        <span
+          *ngIf="showMic"
           id="mic-span"
           class="material-icons mic-icon"
           (click)="startStopVoiceRecognition()"
           >mic_none</span
-        > -->
+        >
       </div>
       <div class="search-btn d-flex justify-content-center" id="search-button">
         <button
           type="submit"
           class="searchButton colive-search mr-3"
-          [disabled]="disableButton"
           (click)="searchFunctionFormat()"
         >
-         Colive Search
+          {{searchButtonValue}}
         </button>
+        <ng-container *ngIf="isRecommendation">
         <button
           type="submit"
           class="searchButton recommened"
-          [disabled]="disableButton"
-          (click)="searchFunctionFormat()"
+          (click)="recommendationRediret()"
         >
-         Recommened
+          Recommened
         </button>
+      </ng-container>
+      </div>
+    </div>
+
+    <div *ngIf="!domain">
+      <div>Source domain is missing from embed url:</div>
+
+      <div>Expected Template :- https://url?sourceDomain="your URL)"</div>
+
+      <div>
+        Ex:-
+        https://search.colive.com/dev/colive-search?sourceDomain="https://qa.colive.com/smartsearch"
       </div>
     </div>
   </div>

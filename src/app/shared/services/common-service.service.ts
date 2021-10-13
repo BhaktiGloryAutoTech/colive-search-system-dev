@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommonServiceService {
+  constructor() {}
 
-  constructor() { }
-
-  envUrl(){
-    // return "https://lenssmartsearch.polynomial.ai/"
-    return "https://lenssmartsearch.polynomial.ai/nodejs/"
+  envUrl() {
+    // return "https://lenssmartsearch.polynomial.ai/" // prod
+    return 'https://lenssmartsearch.polynomial.ai/testing/'; // dev
   }
 }
