@@ -171,9 +171,9 @@ export class PropertyListOption2Component
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-    this.trackClicksObj['queryID']
-      ? this.searchService.trackedClicks(this.trackClicksObj).subscribe()
-      : '';
+    // this.trackClicksObj['queryID']
+    //   ? this.searchService.trackedClicks(this.trackClicksObj).subscribe()
+    //   : '';
     this.visitedPropertyList = [];
     this.allPropertyList = [];
     this.trackClicksObj = {};
@@ -369,12 +369,12 @@ export class PropertyListOption2Component
 
   selectEvent(event: any) {
     if (event) {
-      let trackFlag = false;
-      if (this.trackClicksObj['queryID']) {
-        this.searchService.trackedClicks(this.trackClicksObj).subscribe();
-        trackFlag = true;
-      }
-      trackFlag ? (this.trackClicksObj = {}) : '';
+      // let trackFlag = false;
+      // if (this.trackClicksObj['queryID']) {
+      //   this.searchService.trackedClicks(this.trackClicksObj).subscribe();
+      //   trackFlag = true;
+      // }
+      // trackFlag ? (this.trackClicksObj = {}) : '';
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border');
@@ -412,12 +412,12 @@ export class PropertyListOption2Component
   keyPress(event: any) {
     if (this.searchQuery && event.keyCode == 13) {
       this.ngxService.start();
-      let trackFlag = false;
-      if (this.trackClicksObj['queryID']) {
-        this.searchService.trackedClicks(this.trackClicksObj).subscribe();
-        trackFlag = true;
-      }
-      trackFlag ? (this.trackClicksObj = {}) : '';
+      // let trackFlag = false;
+      // if (this.trackClicksObj['queryID']) {
+      //   this.searchService.trackedClicks(this.trackClicksObj).subscribe();
+      //   trackFlag = true;
+      // }
+      // trackFlag ? (this.trackClicksObj = {}) : '';
       let ele = document.getElementById('auoComplete');
       ele?.classList.remove('input-search');
       ele?.classList.remove('suggest-border');
@@ -612,6 +612,15 @@ export class PropertyListOption2Component
     this.trackClicksObj['clicks'] = this.visitedPropertyList;
     let url = this.hostName.concat(value);
     this.isMobile ? window.open(url, '_parent') : window.open(url, '_blank');
+    if (this.trackClicksObj['queryID']) {
+        this.searchService.trackedClicks(this.trackClicksObj).subscribe(
+          (response:any)=>{
+            if(response['status']==200){
+              this.visitedPropertyList = [];
+            }
+          }
+        );
+      }
   }
 
   //for spellCheck
