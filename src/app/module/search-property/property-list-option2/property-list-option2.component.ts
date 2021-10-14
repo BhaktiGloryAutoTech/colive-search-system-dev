@@ -66,8 +66,8 @@ export class PropertyListOption2Component
   isMobile = false
 
   qPropertyId = '';
-  showColive = false;
-  showNonColive = false;
+  showColive = true;
+  showNonColive = true;
 
 
   constructor(
@@ -125,15 +125,17 @@ export class PropertyListOption2Component
         switch (res?.propertyType) {
           case '1':
             this.showColive = true;
+            this.showNonColive = false;
             break;
 
           case '0':
             this.showNonColive = true;
+            this.showColive = false;
             break;
 
           case 'all':
-            this.showColive = false;
-            this.showNonColive = false;
+            this.showColive = true;
+            this.showNonColive = true;
             break;
         }
       }
